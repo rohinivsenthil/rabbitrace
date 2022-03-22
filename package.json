@@ -19,10 +19,6 @@
 				{
 					"id": "rabbitmq.connections",
 					"name": "Connections"
-				},
-				{
-					"id": "rabbitmq.newConnection",
-					"name": "New Connection"
 				}
 			]
 		},
@@ -39,8 +35,23 @@
 			{
 				"command": "rabbitmq.helloWorld",
 				"title": "Hello World"
-			}
-		]
+			},
+			{
+				"command": "rabbitmq.newConnection",
+				"title": "New Connection",
+				"icon": "$(plus)",
+				"category": "Connections"
+			  }
+		],
+		"menus": {
+			"view/title": [
+			  {
+				"command": "rabbitmq.newConnection",
+				"when": "view == rabbitmq.connections",
+				"group": "navigation"
+			  }
+			]
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",
