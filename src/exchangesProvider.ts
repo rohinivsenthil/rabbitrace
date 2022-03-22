@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import axios from "axios";
+import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "./constants";
 
 interface Exchange {
   name: string;
@@ -11,11 +12,8 @@ export default class ExchangesProvider
   async getChildren(): Promise<vscode.TreeItem[]> {
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:15672/api/exchanges?page=1&page_size=50",
-      auth: {
-        username: "guest",
-        password: "guest",
-      },
+      url: `${BASE_URL}${LIST_EXCHANEGS}`,
+      auth: AUTH,
     });
 
     const children = data.items.map((exchange: Exchange) => {
@@ -23,12 +21,7 @@ export default class ExchangesProvider
         exchange.name === "" ? "(AMQP default)" : `${exchange.name}`,
         vscode.TreeItemCollapsibleState.None
       );
-
-      item.iconPath = new vscode.ThemeIcon(
-        "remote",
-        new vscode.ThemeColor("terminal.ansiBrightCyan")
-      );
-
+      item.iconPath = EXCHANGE;
       return item;
     });
 
