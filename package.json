@@ -14,6 +14,27 @@
 	],
 	"main": "./extension.js",
 	"contributes": {
+		"views": {
+			"rabbitmq": [
+				{
+					"id": "rabbitmq.connections",
+					"name": "Connections"
+				},
+				{
+					"id": "rabbitmq.newConnection",
+					"name": "New Connection"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "rabbitmq",
+					"title": "RabbitMQ",
+					"icon": "icon.png"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "rabbitmq.helloWorld",
