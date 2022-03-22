@@ -1,13 +1,15 @@
 import * as vscode from "vscode";
 import axios from "axios";
 
+interface Exchange {
+  name: string;
+}
+
 export default class ExchangesProvider
   implements vscode.TreeDataProvider<vscode.TreeItem>
 {
   async getChildren(): Promise<vscode.TreeItem[]> {
-    const children: any = [];
-
-    const res = await axios({
+    const { data } = await axios({
       method: "get",
       url: "http://localhost:15672/api/exchanges?page=1&page_size=50",
       auth: {
@@ -16,19 +18,19 @@ export default class ExchangesProvider
       },
     });
 
-    res.data.items.map((exchange: any) => {
+    const children = data.items.map((exchange: Exchange) => {
       const item = new vscode.TreeItem(
         exchange.name === "" ? "(AMQP default)" : `${exchange.name}`,
         vscode.TreeItemCollapsibleState.None
       );
+
       item.iconPath = new vscode.ThemeIcon(
         "remote",
         new vscode.ThemeColor("terminal.ansiBrightBlue")
       );
-      children.push(item);
-    });
 
-    console.log(children);
+      return item;
+    });
 
     return children;
   }
