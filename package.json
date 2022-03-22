@@ -60,9 +60,21 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.refreshExchanges",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.newQueue",
         "title": "New Queue",
         "icon": "$(plus)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.refreshQueues",
+        "title": "Refresh",
+        "icon": "$(refresh)",
         "category": "RabbitMQ"
       }
     ],
@@ -79,7 +91,17 @@
           "group": "navigation"
         },
         {
+          "command": "rabbitmq.refreshExchanges",
+          "when": "view == rabbitmq.exchanges",
+          "group": "navigation"
+        },
+        {
           "command": "rabbitmq.newQueue",
+          "when": "view == rabbitmq.queues",
+          "group": "navigation"
+        },
+        {
+          "command": "rabbitmq.refreshQueues",
           "when": "view == rabbitmq.queues",
           "group": "navigation"
         }

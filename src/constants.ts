@@ -28,10 +28,7 @@ const CONNECTED_CONNECTION = new vscode.ThemeIcon(
   new vscode.ThemeColor("terminal.ansiBrightGreen")
 );
 
-const IDLE_CONNECTION = new vscode.ThemeIcon(
-  "debug-disconnect",
-  new vscode.ThemeIcon("plug")
-);
+const IDLE_CONNECTION = new vscode.ThemeIcon("plug");
 
 export {
   EXCHANGE,
