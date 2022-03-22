@@ -1,123 +1,128 @@
 {
   "name": "rabbitmq",
-	"displayName": "RabbitMQ",
-	"description": "A developer/management tool to help monitor RabbitMQ queues and exchanges",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.65.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onView:rabbitmq.connections",
-		"onCommand:rabbitmq.newConnection"
-	],
-	"main": "./dist/extension.js",
-	"contributes": {
-		"views": {
-			"rabbitmq": [
-				{
-					"id": "rabbitmq.connections",
-					"name": "Connections"
-				},
-				{
-					"id": "rabbitmq.exchanges",
-					"name": "Exchanges"
-				},
-				{
-					"id": "rabbitmq.queues",
-					"name": "Queues"
-				}
-			]
-		},
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "rabbitmq",
-					"title": "RabbitMQ",
-					"icon": "icon.png"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "rabbitmq.newConnection",
-				"title": "New Connection",
-				"icon": "$(plus)",
-				"category": "RabbitMQ"
-			},
-			{
-				"command": "rabbitmq.makeConnection",
-				"title": "Connect",
-				"icon": "$(debug-disconnect)",
-				"category": "RabbitMQ"
-			},
-			{
-				"command": "rabbitmq.newExchange",
-				"title": "New Exchange",
-				"icon": "$(plus)",
-				"category": "RabbitMQ"
-			},
-			{
-				"command": "rabbitmq.newQueue",
-				"title": "New Queue",
-				"icon": "$(plus)",
-				"category": "RabbitMQ"
-			}	
-		],
-		"menus": {
-			"view/title": [
-			  {
-				"command": "rabbitmq.newConnection",
-				"when": "view == rabbitmq.connections",
-				"group": "navigation"
-			  },
-			  {
-				"command": "rabbitmq.newExchange",
-				"when": "view == rabbitmq.exchanges",
-				"group": "navigation"
-			  },
-			  {
-				"command": "rabbitmq.newQueue",
-				"when": "view == rabbitmq.queues",
-				"group": "navigation"
-			  }
-			],
-			"view/item/context": [
-				{
-					"command": "rabbitmq.makeConnection",
-					"when": "view == rabbitmq.connections",
-					"group": "inline"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run package",
-		"compile": "webpack",
-		"watch": "webpack --watch",
-		"package": "webpack --mode production --devtool hidden-source-map",
-		"compile-tests": "tsc -p . --outDir out",
-		"watch-tests": "tsc -p . -w --outDir out",
-		"pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/vscode": "^1.65.0",
-		"@types/glob": "^7.2.0",
-		"@types/mocha": "^9.1.0",
-		"@types/node": "14.x",
-		"@typescript-eslint/eslint-plugin": "^5.12.1",
-		"@typescript-eslint/parser": "^5.12.1",
-		"eslint": "^8.9.0",
-		"glob": "^7.2.0",
-		"mocha": "^9.2.1",
-		"typescript": "^4.5.5",
-		"ts-loader": "^9.2.6",
-		"webpack": "^5.69.1",
-		"webpack-cli": "^4.9.2",
-		"@vscode/test-electron": "^2.1.2"
-	}
+  "displayName": "RabbitMQ",
+  "description": "A developer/management tool to help monitor RabbitMQ queues and exchanges",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.65.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:rabbitmq.connections",
+    "onCommand:rabbitmq.newConnection"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "views": {
+      "rabbitmq": [
+        {
+          "id": "rabbitmq.connections",
+          "name": "Connections"
+        },
+        {
+          "id": "rabbitmq.exchanges",
+          "name": "Exchanges"
+        },
+        {
+          "id": "rabbitmq.queues",
+          "name": "Queues"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "rabbitmq",
+          "title": "RabbitMQ",
+          "icon": "icon.png"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "rabbitmq.newConnection",
+        "title": "New Connection",
+        "icon": "$(plus)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.makeConnection",
+        "title": "Connect",
+        "icon": "$(debug-disconnect)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.newExchange",
+        "title": "New Exchange",
+        "icon": "$(plus)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.newQueue",
+        "title": "New Queue",
+        "icon": "$(plus)",
+        "category": "RabbitMQ"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "rabbitmq.newConnection",
+          "when": "view == rabbitmq.connections",
+          "group": "navigation"
+        },
+        {
+          "command": "rabbitmq.newExchange",
+          "when": "view == rabbitmq.exchanges",
+          "group": "navigation"
+        },
+        {
+          "command": "rabbitmq.newQueue",
+          "when": "view == rabbitmq.queues",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "rabbitmq.makeConnection",
+          "when": "view == rabbitmq.connections",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts && prettier -c .",
+    "lint:fix": "eslint src --fix --ext ts; prettier -w .",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.65.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "@vscode/test-electron": "^2.1.2",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.1",
+    "prettier": "^2.6.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2"
+  }
 }
