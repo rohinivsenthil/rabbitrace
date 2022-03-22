@@ -10,15 +10,24 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onView:rabbitmq.connections",
 		"onCommand:rabbitmq.newConnection"
 	],
-	"main": "./extension.js",
+	"main": "./src/extension.js",
 	"contributes": {
 		"views": {
 			"rabbitmq": [
 				{
 					"id": "rabbitmq.connections",
 					"name": "Connections"
+				},
+				{
+					"id": "rabbitmq.exchanges",
+					"name": "Exchanges"
+				},
+				{
+					"id": "rabbitmq.queues",
+					"name": "Queues"
 				}
 			]
 		},
@@ -37,13 +46,36 @@
 				"title": "New Connection",
 				"icon": "$(plus)",
 				"category": "RabbitMQ"
-			  }
+			},
+			{
+				"command": "rabbitmq.newExchange",
+				"title": "New Exchange",
+				"icon": "$(plus)",
+				"category": "RabbitMQ"
+			},
+			{
+				"command": "rabbitmq.newQueue",
+				"title": "New Queue",
+				"icon": "$(plus)",
+				"category": "RabbitMQ"
+			}
+			
 		],
 		"menus": {
 			"view/title": [
 			  {
 				"command": "rabbitmq.newConnection",
 				"when": "view == rabbitmq.connections",
+				"group": "navigation"
+			  },
+			  {
+				"command": "rabbitmq.newExchange",
+				"when": "view == rabbitmq.exchanges",
+				"group": "navigation"
+			  },
+			  {
+				"command": "rabbitmq.newQueue",
+				"when": "view == rabbitmq.queues",
 				"group": "navigation"
 			  }
 			]
