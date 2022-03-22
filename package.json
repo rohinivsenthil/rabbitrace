@@ -48,6 +48,12 @@
 				"category": "RabbitMQ"
 			},
 			{
+				"command": "rabbitmq.makeConnection",
+				"title": "Connect",
+				"icon": "$(debug-disconnect)",
+				"category": "RabbitMQ"
+			},
+			{
 				"command": "rabbitmq.newExchange",
 				"title": "New Exchange",
 				"icon": "$(plus)",
@@ -58,8 +64,7 @@
 				"title": "New Queue",
 				"icon": "$(plus)",
 				"category": "RabbitMQ"
-			}
-			
+			}	
 		],
 		"menus": {
 			"view/title": [
@@ -78,6 +83,13 @@
 				"when": "view == rabbitmq.queues",
 				"group": "navigation"
 			  }
+			],
+			"view/item/context": [
+				{
+					"command": "rabbitmq.makeConnection",
+					"when": "view == rabbitmq.connections",
+					"group": "inline"
+				}
 			]
 		}
 	},
