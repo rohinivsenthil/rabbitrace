@@ -3,6 +3,7 @@
 import * as vscode from "vscode";
 import ConnectionsProvider from "./connectionsProvider";
 import ExchangesProvider from "./exchangesProvider";
+import QueuesProvider from "./queuesProvider";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -13,6 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   const connectionsProvider = new ConnectionsProvider();
   const exchangesProvider = new ExchangesProvider();
+  const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider(
@@ -26,6 +28,10 @@ export function activate(context: vscode.ExtensionContext) {
       "rabbitmq.exchanges",
       exchangesProvider
     )
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerTreeDataProvider("rabbitmq.queues", queuesProvider)
   );
 }
 

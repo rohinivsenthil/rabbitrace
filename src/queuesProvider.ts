@@ -1,32 +1,32 @@
 import * as vscode from "vscode";
 import axios from "axios";
 
-interface Exchange {
+interface Queue {
   name: string;
 }
 
-export default class ExchangesProvider
+export default class QueuesProvider
   implements vscode.TreeDataProvider<vscode.TreeItem>
 {
   async getChildren(): Promise<vscode.TreeItem[]> {
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:15672/api/exchanges?page=1&page_size=50",
+      url: "http://localhost:15672/api/queues?page=1&page_size=50",
       auth: {
         username: "guest",
         password: "guest",
       },
     });
 
-    const children = data.items.map((exchange: Exchange) => {
+    const children = data.items.map((queue: Queue) => {
       const item = new vscode.TreeItem(
-        exchange.name === "" ? "(AMQP default)" : `${exchange.name}`,
+        `${queue.name}`,
         vscode.TreeItemCollapsibleState.None
       );
 
       item.iconPath = new vscode.ThemeIcon(
-        "remote",
-        new vscode.ThemeColor("terminal.ansiBrightCyan")
+        "database",
+        new vscode.ThemeColor("terminal.ansiBrightBlue")
       );
 
       return item;
