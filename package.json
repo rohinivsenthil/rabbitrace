@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:rabbitmq.helloWorld"
+		"onCommand:rabbitmq.newConnection"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -33,14 +33,10 @@
 		},
 		"commands": [
 			{
-				"command": "rabbitmq.helloWorld",
-				"title": "Hello World"
-			},
-			{
 				"command": "rabbitmq.newConnection",
 				"title": "New Connection",
 				"icon": "$(plus)",
-				"category": "Connections"
+				"category": "RabbitMQ"
 			  }
 		],
 		"menus": {
