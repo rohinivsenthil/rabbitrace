@@ -35,7 +35,7 @@ export default class ConnectionsProvider
 
   async newConnection() {
     const panel = vscode.window.createWebviewPanel(
-      "rabbitmq.newConnectionTab",
+      "rabbitmq.connections.new",
       "New Connection",
       vscode.ViewColumn.One,
       {}

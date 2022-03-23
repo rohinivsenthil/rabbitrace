@@ -42,37 +42,43 @@
     },
     "commands": [
       {
-        "command": "rabbitmq.newConnection",
+        "command": "rabbitmq.connections.new",
         "title": "New Connection",
         "icon": "$(plus)",
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.makeConnection",
+        "command": "rabbitmq.connections.connect",
         "title": "Connect",
         "icon": "$(debug-disconnect)",
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.newExchange",
+        "command": "rabbitmq.exchanges.new",
         "title": "New Exchange",
         "icon": "$(plus)",
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.refreshExchanges",
+        "command": "rabbitmq.exchange.details",
+        "title": "Details",
+        "icon": "$(debug-disconnect)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.exchanges.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.newQueue",
+        "command": "rabbitmq.queues.new",
         "title": "New Queue",
         "icon": "$(plus)",
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.refreshQueues",
+        "command": "rabbitmq.queues.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
         "category": "RabbitMQ"
@@ -81,34 +87,34 @@
     "menus": {
       "view/title": [
         {
-          "command": "rabbitmq.newConnection",
+          "command": "rabbitmq.connections.new",
           "when": "view == rabbitmq.connections",
           "group": "navigation"
         },
         {
-          "command": "rabbitmq.newExchange",
+          "command": "rabbitmq.exchanges.new",
           "when": "view == rabbitmq.exchanges",
           "group": "navigation"
         },
         {
-          "command": "rabbitmq.refreshExchanges",
+          "command": "rabbitmq.exchanges.refresh",
           "when": "view == rabbitmq.exchanges",
           "group": "navigation"
         },
         {
-          "command": "rabbitmq.newQueue",
+          "command": "rabbitmq.queues.new",
           "when": "view == rabbitmq.queues",
           "group": "navigation"
         },
         {
-          "command": "rabbitmq.refreshQueues",
+          "command": "rabbitmq.queues.refresh",
           "when": "view == rabbitmq.queues",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "rabbitmq.makeConnection",
+          "command": "rabbitmq.connections.connect",
           "when": "view == rabbitmq.connections",
           "group": "inline"
         }

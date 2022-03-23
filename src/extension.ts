@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import ConnectionsProvider from "./connectionsProvider";
-import ExchangesProvider from "./exchangesProvider";
+import { ExchangesProvider, viewExchangeDetails } from "./exchanges";
+import Exchange from "./exchanges/exchange";
 import QueuesProvider from "./queuesProvider";
 
 // this method is called when your extension is activated
@@ -18,10 +19,17 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "rabbitmq.newConnection",
+      "rabbitmq.connections.new",
       connectionsProvider.newConnection.bind(connectionsProvider)
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rabbitmq.exchanges.details",
+      (exchange: Exchange) => viewExchangeDetails(context, exchange),
+    )
+  )
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider(

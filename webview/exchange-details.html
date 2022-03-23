@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .connection-container {
+        margin: 50px;
+        width: 50%;
+      }
+      .connection-header {
+        text-decoration-line: underline;
+        margin: 10px 0 50px 0;
+      }
+      .connection-entry {
+        margin: 20px 0 10px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+      .connection-input {
+        margin-left: 10px;
+      }
+      .connection-action-btns {
+        margin-top: 50px;
+      }
+      .connection-btn {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="connection-container">
+      <div>
+        <h1 class="connection-header">Add a new connection</h1>
+      </div>
+      <div class="connection-entry">
+        <label for="connection-name">Connection name:</label>
+        <input type="text" id="connection-name" class="connection-input" />
+      </div>
+      <div class="connection-entry">
+        <label for="amqp-url">AMQP URL:</label>
+        <input type="text" id="amqp-url" class="connection-input" />
+      </div>
+      <div class="connection-entry">
+        <label for="mapi-url">Management API URL:</label>
+        <input type="text" id="mapi-url" class="connection-input" />
+      </div>
+      <div class="connection-entry">
+        <label for="mapi-username">Management API Username:</label>
+        <input type="text" id="mapi-username" class="connection-input" />
+      </div>
+      <div class="connection-entry">
+        <label for="mapi-password">Management API Password:</label>
+        <input type="text" id="mapi-password" class="connection-input" />
+      </div>
+      <div class="connection-action-btns">
+        <button type="button" class="connection-btn">Test Connection</button>
+        <button type="button" class="connection-btn">Save Connection</button>
+      </div>
+    </div>
+  </body>
+</html>
