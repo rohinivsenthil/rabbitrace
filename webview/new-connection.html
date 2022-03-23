@@ -70,24 +70,28 @@
       function saveConnection() {
         const vscode = acquireVsCodeApi();
         vscode.postMessage({
-          command: "saveConnection",
-          connectionName: connectionNameElement.value,
-          amqpURL: amqpURLElement.value,
-          mapiURL: mapiURLElement.value,
-          mapiUsername: mapiUsernameElement.value,
-          mapiPassword: mapiPasswordElement.value,
+          action: "save-connection",
+          connection: {
+            name: connectionNameElement.value,
+            amqpURL: amqpURLElement.value,
+            mapiURL: mapiURLElement.value,
+            mapiUsername: mapiUsernameElement.value,
+            mapiPassword: mapiPasswordElement.value,
+          },
         });
       }
 
       function testConnection() {
         const vscode = acquireVsCodeApi();
         vscode.postMessage({
-          command: "testConnection",
-          connectionName: connectionNameElement.value,
-          amqpURL: amqpURLElement.value,
-          mapiURL: mapiURLElement.value,
-          mapiUsername: mapiUsernameElement.value,
-          mapiPassword: mapiPasswordElement.value,
+          action: "test-connection",
+          connection: {
+            name: connectionNameElement.value,
+            amqpURL: amqpURLElement.value,
+            mapiURL: mapiURLElement.value,
+            mapiUsername: mapiUsernameElement.value,
+            mapiPassword: mapiPasswordElement.value,
+          },
         });
       }
     </script>
