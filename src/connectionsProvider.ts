@@ -1,9 +1,17 @@
+import * as path from "path";
+import * as fs from "fs/promises";
 import * as vscode from "vscode";
 import { CONNECTED_CONNECTION, IDLE_CONNECTION } from "./constants";
 
 export default class ConnectionsProvider
   implements vscode.TreeDataProvider<vscode.TreeItem>
 {
+  context: vscode.ExtensionContext;
+
+  constructor(context: vscode.ExtensionContext) {
+    this.context = context;
+  }
+
   getChildren(): vscode.TreeItem[] {
     const item1 = new vscode.TreeItem(
       "localhost:15672",
@@ -25,7 +33,7 @@ export default class ConnectionsProvider
     return element;
   }
 
-  newConnection() {
+  async newConnection() {
     const panel = vscode.window.createWebviewPanel(
       "rabbitmq.newConnectionTab",
       "New Connection",
@@ -33,71 +41,10 @@ export default class ConnectionsProvider
       {}
     );
 
-    panel.webview.html = getNewConnectionWebview();
+    panel.webview.html = (
+      await fs.readFile(
+        path.join(this.context.extensionPath, "webview", "new-connection.html")
+      )
+    ).toString();
   }
-}
-
-function getNewConnectionWebview() {
-  return `
-  <!DOCTYPE html>
-  <html>
-    <head>
-    <style>
-      .connection-container {
-        margin: 50px;
-        width: 50%;
-      }
-      .connection-header {
-        text-decoration-line: underline;
-        margin: 10px 0 50px 0;
-      }
-      .connection-entry {
-        margin: 20px 0 10px 0;
-        display: flex;
-        justify-content: space-between;
-      }
-      .connection-input {
-        margin-left: 10px;
-      }
-      .connection-action-btns {
-        margin-top: 50px;
-      }
-      .connection-btn {
-        margin-right: 10px;
-      }
-    </style>
-    </head>
-    <body>
-      <div class="connection-container">
-        <div>
-          <h1 class="connection-header">Add a new connection</h1>
-        </div>
-        <div class="connection-entry">
-          <label for="connection-name">Connection name:</label>
-          <input type="text" id="connection-name" class="connection-input">
-        </div>
-        <div class="connection-entry">
-          <label for="amqp-url">AMQP URL:</label>
-          <input type="text" id="amqp-url" class="connection-input">
-        </div>
-        <div class="connection-entry">
-          <label for="mapi-url">Management API URL:</label>
-          <input type="text" id="mapi-url" class="connection-input">
-        </div>
-        <div class="connection-entry">
-          <label for="mapi-username">Management API Username:</label>
-          <input type="text" id="mapi-username" class="connection-input">
-        </div>
-        <div class="connection-entry">
-          <label for="mapi-password">Management API Password:</label>
-          <input type="text" id="mapi-password" class="connection-input">
-        </div>
-        <div class="connection-action-btns"> 
-          <button type="button" class="connection-btn">Test Connection</button>
-          <button type="button" class="connection-btn">Save Connection</button>
-        </div>
-      </div>
-    </body>
-  </html>
-  `;
 }

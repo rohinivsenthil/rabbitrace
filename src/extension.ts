@@ -12,14 +12,14 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "rabbitmq" is now active!');
 
-  const connectionsProvider = new ConnectionsProvider();
+  const connectionsProvider = new ConnectionsProvider(context);
   const exchangesProvider = new ExchangesProvider();
   const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "rabbitmq.newConnection",
-      connectionsProvider.newConnection.bind(connectionsProvider),
+      connectionsProvider.newConnection.bind(connectionsProvider)
     )
   );
 
