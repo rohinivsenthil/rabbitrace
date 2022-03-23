@@ -38,7 +38,7 @@ export default class ConnectionsProvider
       "rabbitmq.connections.new",
       "New Connection",
       vscode.ViewColumn.One,
-      {}
+      { enableScripts: true }
     );
 
     panel.webview.html = (

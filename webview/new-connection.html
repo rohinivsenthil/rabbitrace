@@ -52,9 +52,44 @@
         <input type="text" id="mapi-password" class="connection-input" />
       </div>
       <div class="connection-action-btns">
-        <button type="button" class="connection-btn">Test Connection</button>
-        <button type="button" class="connection-btn">Save Connection</button>
+        <button type="button" class="connection-btn" onclick="testConnection()">
+          Test Connection
+        </button>
+        <button type="button" class="connection-btn" onclick="saveConnection()">
+          Save Connection
+        </button>
       </div>
     </div>
+    <script>
+      const connectionNameElement = document.getElementById("connection-name");
+      const amqpURLElement = document.getElementById("amqp-url");
+      const mapiURLElement = document.getElementById("mapi-url");
+      const mapiUsernameElement = document.getElementById("mapi-username");
+      const mapiPasswordElement = document.getElementById("mapi-password");
+
+      function saveConnection() {
+        const vscode = acquireVsCodeApi();
+        vscode.postMessage({
+          command: "saveConnection",
+          connectionName: connectionNameElement.value,
+          amqpURL: amqpURLElement.value,
+          mapiURL: mapiURLElement.value,
+          mapiUsername: mapiUsernameElement.value,
+          mapiPassword: mapiPasswordElement.value,
+        });
+      }
+
+      function testConnection() {
+        const vscode = acquireVsCodeApi();
+        vscode.postMessage({
+          command: "testConnection",
+          connectionName: connectionNameElement.value,
+          amqpURL: amqpURLElement.value,
+          mapiURL: mapiURLElement.value,
+          mapiUsername: mapiUsernameElement.value,
+          mapiPassword: mapiPasswordElement.value,
+        });
+      }
+    </script>
   </body>
 </html>

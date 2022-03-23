@@ -3,7 +3,6 @@ import axios from "axios";
 import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "../constants";
 import Exchange from "./exchange";
 
-
 function exchangeToTreeItem(exchange: Exchange): vscode.TreeItem {
   const item = new vscode.TreeItem(
     exchange.name || "(AMQP default)",
@@ -14,7 +13,7 @@ function exchangeToTreeItem(exchange: Exchange): vscode.TreeItem {
 
   item.command = {
     arguments: [exchange],
-    command: 'rabbitmq.exchanges.details',
+    command: "rabbitmq.exchanges.details",
     title: "Exchange Details",
   };
 

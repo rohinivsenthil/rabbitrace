@@ -1,5 +1,5 @@
 import ExchangesProvider from "./exchangesProvider";
-import viewExchangeDetails from "./viewExchangeDetails";
+import showExchangeDetails from "./viewExchangeDetails";
 
 export { ExchangesProvider };
-export { viewExchangeDetails };
+export { showExchangeDetails };
