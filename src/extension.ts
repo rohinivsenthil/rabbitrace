@@ -17,6 +17,13 @@ export function activate(context: vscode.ExtensionContext) {
   const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rabbitmq.newConnection",
+      connectionsProvider.newConnection.bind(connectionsProvider),
+    )
+  );
+
+  context.subscriptions.push(
     vscode.window.registerTreeDataProvider(
       "rabbitmq.connections",
       connectionsProvider

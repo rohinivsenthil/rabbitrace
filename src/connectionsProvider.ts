@@ -24,4 +24,28 @@ export default class ConnectionsProvider
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
     return element;
   }
+
+  newConnection() {
+    const panel = vscode.window.createWebviewPanel(
+      'rabbitmq.newConnectionTab',
+      'New Connection',
+      vscode.ViewColumn.One,
+      {},
+    );
+
+    panel.webview.html = getNewConnectionWebview();
+  }
+}
+
+function getNewConnectionWebview() {
+  return `
+  <!DOCTYPE html>
+  <html>
+    <head>
+    </head>
+    <body>
+      Hello World
+    </body>
+  </html>
+  `
 }
