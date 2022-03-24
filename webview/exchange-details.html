@@ -9,7 +9,7 @@
         display: flex;
         align-items: center;
         font-size: 20px;
-        padding: 0 0 20px 0;
+        padding: 0 0 16px 0;
         border-bottom: 1px solid;
       }
       .exchange-title {
@@ -39,6 +39,29 @@
       .add-binding-title {
         padding: 0 0 5px 0;
         border-bottom: 0.1px solid;
+        margin-bottom: 20px;
+      }
+      .add-binding {
+        display: flex;
+        align-items: center;
+      }
+      .add-binding-fields {
+        display: flex;
+        flex-direction: column;
+      }
+      .add-binding-key {
+        margin: 5px 10px 5px 0;
+      }
+      .add-binding-input {
+        margin: 5px 10px;
+      }
+      .add-binding-args {
+        display: flex;
+        align-items: center;
+      }
+      .bind-btn {
+        cursor: pointer;
+        margin-top: 10px;
       }
       th,
       td {
@@ -98,6 +121,39 @@
         </tr>
       </table>
       <div class="add-binding-title">Add Binding from this exchange</div>
+      <div class="add-binding">
+        <div class="add-binding-fields">
+          <select name="add-binding" id="add-binding" class="add-binding-key">
+            <option value="queue">To Queue</option>
+            <option value="exchange">To Exchange</option>
+          </select>
+          <div class="add-binding-key">Routing Key</div>
+          <div class="add-binding-key">Arguements</div>
+        </div>
+        <div class="add-binding-fields">
+          <input
+            type="text"
+            id="queue-exchange-name"
+            class="add-binding-input"
+          />
+          <input type="text" id="routing-key" class="add-binding-input" />
+          <div class="add-binding-args">
+            <input type="text" id="arguments-key" class="add-binding-input" />
+            <div>=</div>
+            <input type="text" id="arguments-value" class="add-binding-input" />
+            <select name="arg-type" id="arg-type" class="add-binding-input">
+              <option value="string">String</option>
+              <option value="number">Number</option>
+              <option value="boolean">Boolean</option>
+              <option value="number">Number</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="bind-btn">Bind</button>
+      <div class="exchange-section">
+        <div class="exchange-section-title">‣ Publish message</div>
+      </div>
     </div>
     <script>
       const exchangeName = "exchange.tagging_restriction_service";
