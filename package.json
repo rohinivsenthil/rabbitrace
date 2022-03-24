@@ -96,6 +96,12 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.queues.details",
+        "title": "Details",
+        "icon": "$(debug-disconnect)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.queues.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",

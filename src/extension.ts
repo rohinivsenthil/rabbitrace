@@ -8,7 +8,7 @@ import {
   Connection,
 } from "./connections";
 import { Exchange, ExchangesProvider, showExchangeDetails } from "./exchanges";
-import { QueuesProvider } from "./queues";
+import { Queue, QueuesProvider, showQueueDetails } from "./queues";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -44,6 +44,12 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "rabbitmq.exchanges.details",
       (exchange: Exchange) => showExchangeDetails(context, exchange)
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.queues.details", (queue: Queue) =>
+      showQueueDetails(context, queue)
     )
   );
 
