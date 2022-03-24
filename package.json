@@ -48,6 +48,12 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.connections.remove",
+        "title": "Remove Connection",
+        "icon": "$(trash)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.connections.connect",
         "title": "Connect",
         "icon": "$(debug-disconnect)",
@@ -121,6 +127,11 @@
       "view/item/context": [
         {
           "command": "rabbitmq.connections.connect",
+          "when": "view == rabbitmq.connections",
+          "group": "inline"
+        },
+        {
+          "command": "rabbitmq.connections.remove",
           "when": "view == rabbitmq.connections",
           "group": "inline"
         }
