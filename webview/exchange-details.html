@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="codicon.css" rel="stylesheet" />
     <style>
       input {
         color: var(--vscode-input-foreground);
@@ -27,22 +28,35 @@
         display: flex;
         align-items: center;
         font-size: 20px;
-        padding: 0 0 16px 0;
-        border-bottom: 1px solid;
+        margin-bottom: 24px;
+      }
+      .exchange-icon {
+        color: var(--vscode-terminal-ansiCyan);
       }
       .exchange-title {
         font-weight: bold;
       }
       .exchange-section {
-        margin: 24px 0 12px 0;
+        margin: 36px 0 18px 0;
       }
       .exchange-section-title {
         font-size: 16px;
         font-weight: bold;
       }
+      .overview-table {
+        /* background-color: var(--vscode-dropdown-background); */
+        border-collapse: collapse;
+      }
+      .overview-value {
+        text-align: center;
+        font-family: monospace;
+        background-color: var(--vscode-button-secondaryBackground);
+      }
       .bindings-table,
-      .bindings-th {
-        border: 1px solid;
+      .bindings-th,
+      .bindings-td {
+        background-color: var(--vscode-dropdown-background);
+        border: 1px solid var(--vscode-button-secondaryBackground);
         border-collapse: collapse;
       }
       .bindings-table {
@@ -51,12 +65,24 @@
       .bindings-th {
         padding: 10px;
       }
+      .bindings-td {
+        padding: 10px;
+        /* font-family: monospace; */
+      }
+      .test {
+        color: var(--vscode-terminal-ansiBlue);
+        display: flex;
+        align-items: center;
+      }
+      .icon {
+        margin: 0 5px 0 0;
+      }
       .unbind-btn {
         cursor: pointer;
       }
       .add-binding-title {
         padding: 0 0 5px 0;
-        border-bottom: 0.1px solid;
+        border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground);
         margin-bottom: 20px;
       }
       .add-binding {
@@ -68,9 +94,11 @@
         flex-direction: column;
       }
       .add-binding-key {
+        padding: 5px;
         margin: 5px 10px 5px 0;
       }
       .add-binding-input {
+        padding: 5px;
         margin: 5px 10px;
       }
       .add-binding-args {
@@ -91,24 +119,25 @@
   <body>
     <div class="exchange-container">
       <div class="exchange-name">
-        <div class="exchange-title">Exchange:&nbsp;</div>
+        <i class="codicon codicon-remote icon exchange-icon"></i>
+        <!-- <div class="exchange-title">Exchange:&nbsp;</div> -->
         <div id="exchange-name"></div>
       </div>
       <div class="exchange-section">
         <div class="exchange-section-title">‣ Overview</div>
       </div>
-      <table>
+      <table class="overview-table">
         <tr>
-          <th>Type</th>
-          <td>direct</td>
+          <td>Type</td>
+          <td><div class="overview-value">direct</div></td>
         </tr>
         <tr>
-          <th>Features</th>
-          <td>{durable: true}</td>
+          <td>Features</td>
+          <td><div class="overview-value">{durable: true}</div></td>
         </tr>
         <tr>
-          <th>Policy</th>
-          <td></td>
+          <td>Policy</td>
+          <td><div class="overview-value"></div></td>
         </tr>
       </table>
       <div class="exchange-section">
@@ -122,18 +151,28 @@
           <th class="bindings-th"></th>
         </tr>
         <tr>
-          <td class="bindings-th">queue.bind_accounts_to_sto_rules.dlx</td>
-          <td class="bindings-th">queue.tagging_restriction_event</td>
-          <td class="bindings-th"></td>
-          <td class="bindings-th">
+          <td class="bindings-td">
+            <div class="test">
+              <i class="codicon codicon-database icon"></i
+              >queue.bind_accounts_to_sto_rules.dlx
+            </div>
+          </td>
+          <td class="bindings-td">queue.tagging_restriction_event</td>
+          <td class="bindings-td"></td>
+          <td class="bindings-td">
             <button type="button" class="unbind-btn">Unbind</button>
           </td>
         </tr>
         <tr>
-          <td class="bindings-th">queue.tagging_restriction_event.dlx</td>
-          <td class="bindings-th">queue.tagging_restriction_event</td>
-          <td class="bindings-th"></td>
-          <td class="bindings-th">
+          <td class="bindings-td">
+            <div class="test">
+              <i class="codicon codicon-database icon"></i
+              >queue.tagging_restriction_event.dlx
+            </div>
+          </td>
+          <td class="bindings-td">queue.tagging_restriction_event</td>
+          <td class="bindings-td"></td>
+          <td class="bindings-td">
             <button type="button" class="unbind-btn">Unbind</button>
           </td>
         </tr>
@@ -172,6 +211,43 @@
       <div class="exchange-section">
         <div class="exchange-section-title">‣ Publish message</div>
       </div>
+      <div class="add-binding">
+        <div class="add-binding-fields">
+          <div class="add-binding-key">Routing Key</div>
+          <div class="add-binding-key">Headers</div>
+          <div class="add-binding-key">Properties</div>
+          <div class="add-binding-key">Payload</div>
+        </div>
+        <div class="add-binding-fields">
+          <input type="text" id="msg-routing-key" class="add-binding-input" />
+          <div class="add-binding-args">
+            <input type="text" id="msg-headers-key" class="add-binding-input" />
+            <div>=</div>
+            <input
+              type="text"
+              id="msg-headers-value"
+              class="add-binding-input"
+            />
+            <select
+              name="msg-header-type"
+              id="msg-header-type"
+              class="add-binding-input"
+            >
+              <option value="string">String</option>
+              <option value="number">Number</option>
+              <option value="boolean">Boolean</option>
+              <option value="number">Number</option>
+            </select>
+          </div>
+          <div class="add-binding-args">
+            <input type="text" id="msg-props-key" class="add-binding-input" />
+            <div>=</div>
+            <input type="text" id="msg-props-value" class="add-binding-input" />
+          </div>
+          <input type="text" id="msg-payload" class="add-binding-input" />
+        </div>
+      </div>
+      <button type="button" class="bind-btn">Publish</button>
     </div>
     <script>
       const exchangeName = "exchange.tagging_restriction_service";

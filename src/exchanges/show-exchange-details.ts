@@ -18,5 +18,17 @@ export default async function showExchangeDetails(
     await fs.readFile(
       path.join(context.extensionPath, "webview", "exchange-details.html")
     )
-  ).toString();
+  )
+    .toString()
+    .replace(
+      "codicon.css",
+      panel.webview
+        .asWebviewUri(
+          vscode.Uri.joinPath(
+            context.extensionUri,
+            "node_modules/@vscode/codicons/dist/codicon.css"
+          )
+        )
+        .toString()
+    );
 }
