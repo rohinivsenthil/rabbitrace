@@ -54,6 +54,12 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.connections.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.exchanges.new",
         "title": "New Exchange",
         "icon": "$(plus)",

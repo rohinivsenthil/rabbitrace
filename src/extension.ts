@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { ConnectionsProvider } from "./connections";
+import { ConnectionsProvider, newConnection } from "./connections";
 import { Exchange, ExchangesProvider, showExchangeDetails } from "./exchanges";
 import { QueuesProvider } from "./queues";
 
@@ -17,9 +17,14 @@ export function activate(context: vscode.ExtensionContext) {
   const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "rabbitmq.connections.new",
-      connectionsProvider.newConnection.bind(connectionsProvider)
+    vscode.commands.registerCommand("rabbitmq.connections.new", () =>
+      newConnection(context)
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.connections.refresh", () =>
+      connectionsProvider.refresh()
     )
   );
 

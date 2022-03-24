@@ -1,33 +1,19 @@
-import * as path from "path";
-import * as fs from "fs/promises";
 import * as vscode from "vscode";
 import { IDLE_CONNECTION } from "../constants";
-
-interface Connection {
-  name: string;
-  amqpURL: string;
-  mapiURL: string;
-  mapiUsername: string;
-  mapiPassword: string;
-}
-
-interface NewConnectionMessage {
-  action: string;
-  connection: Connection;
-}
+import Connection from "./connection";
 
 export default class ConnectionsProvider
-  implements vscode.TreeDataProvider<vscode.TreeItem>
+  implements vscode.TreeDataProvider<Connection>
 {
   private _onDidChangeTreeData: vscode.EventEmitter<
-    vscode.TreeItem | undefined | null | void
-  > = new vscode.EventEmitter<vscode.TreeItem | undefined | null | void>();
+    Connection | undefined | null | void
+  > = new vscode.EventEmitter<Connection | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<
-    vscode.TreeItem | undefined | null | void
+    Connection | undefined | null | void
   > = this._onDidChangeTreeData.event;
 
   context: vscode.ExtensionContext;
-  connections: vscode.TreeItem[];
+  connections: Connection[];
 
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
@@ -35,58 +21,27 @@ export default class ConnectionsProvider
     this.refresh();
   }
 
-  getChildren(): vscode.TreeItem[] {
+  getChildren(): Connection[] {
     return this.connections;
   }
 
-  getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
-    return element;
-  }
-
-  async newConnection() {
-    const panel = vscode.window.createWebviewPanel(
-      "rabbitmq.connections.new",
-      "New Connection",
-      vscode.ViewColumn.One,
-      { enableScripts: true }
-    );
-
-    panel.webview.onDidReceiveMessage(async (message: NewConnectionMessage) => {
-      switch (message.action) {
-        case "save-connection":
-          panel.dispose();
-          await this.context.workspaceState.update(
-            message.connection.name,
-            message.connection
-          );
-          this.refresh();
-          break;
-        case "test-connection":
-          break;
-      }
-    });
-
-    panel.webview.html = (
-      await fs.readFile(
-        path.join(this.context.extensionPath, "webview", "new-connection.html")
-      )
-    ).toString();
+  getTreeItem(connection: Connection): vscode.TreeItem {
+    const item = new vscode.TreeItem(connection.name);
+    item.description = connection.amqpURL;
+    item.iconPath = IDLE_CONNECTION;
+    return item;
   }
 
   refresh() {
     this.connections = this.context.workspaceState
       .keys()
-      .map((connectionName) => {
-        const connectionDetails =
-          this.context.workspaceState.get<Connection>(connectionName);
-        const item = new vscode.TreeItem(
-          connectionName,
-          vscode.TreeItemCollapsibleState.None
-        );
-        item.iconPath = IDLE_CONNECTION;
-        item.description = connectionDetails?.amqpURL;
-        return item;
-      });
+      .map((connectionName) =>
+        this.context.workspaceState.get<Connection>(connectionName)
+      )
+      .filter(
+        (connection): connection is Connection => connection !== undefined
+      );
+
     this._onDidChangeTreeData.fire();
   }
 }
