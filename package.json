@@ -78,6 +78,12 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.exchange.delete",
+        "title": "Delete",
+        "icon": "$(trash)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.exchanges.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
@@ -133,6 +139,11 @@
         {
           "command": "rabbitmq.connections.remove",
           "when": "view == rabbitmq.connections",
+          "group": "inline"
+        },
+        {
+          "command": "rabbitmq.exchange.delete",
+          "when": "view == rabbitmq.exchanges",
           "group": "inline"
         }
       ]
