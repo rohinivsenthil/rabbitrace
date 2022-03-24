@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as fs from "fs/promises";
 import * as vscode from "vscode";
-import { IDLE_CONNECTION } from "./constants";
+import { IDLE_CONNECTION } from "../constants";
 
 interface Connection {
   name: string;

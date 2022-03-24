@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import axios from "axios";
-import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "./constants";
+import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
 
 interface Queue {
   name: string;
