@@ -71,6 +71,8 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  context.subscriptions.push(exchangesProvider);
+
   // Queues
 
   const queuesProvider = new QueuesProvider();
@@ -90,6 +92,8 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider("rabbitmq.queues", queuesProvider)
   );
+
+  context.subscriptions.push(queuesProvider);
 }
 
 // this method is called when your extension is deactivated

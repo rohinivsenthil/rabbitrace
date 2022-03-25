@@ -4,7 +4,7 @@ import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "../constants";
 import Exchange from "./exchange";
 
 export default class ExchangesProvider
-  implements vscode.TreeDataProvider<Exchange>
+  implements vscode.TreeDataProvider<Exchange>, vscode.Disposable
 {
   private _onDidChangeTreeData: vscode.EventEmitter<
     Exchange | undefined | null | void
@@ -12,6 +12,13 @@ export default class ExchangesProvider
   readonly onDidChangeTreeData: vscode.Event<
     Exchange | undefined | null | void
   > = this._onDidChangeTreeData.event;
+
+  refreshInterval: NodeJS.Timeout
+
+  constructor() {
+    this.refreshInterval = setInterval(() => this.refresh(), 5000);
+  }
+
 
   async getChildren(): Promise<Exchange[]> {
     const {
@@ -44,5 +51,9 @@ export default class ExchangesProvider
 
   refresh() {
     this._onDidChangeTreeData.fire();
+  }
+
+  dispose() {
+    clearInterval(this.refreshInterval);
   }
 }
