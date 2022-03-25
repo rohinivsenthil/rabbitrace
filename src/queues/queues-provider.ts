@@ -4,6 +4,12 @@ import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
 import Queue from "./queue";
 
 export default class QueuesProvider implements vscode.TreeDataProvider<Queue> {
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    Queue | undefined | null | void
+  > = new vscode.EventEmitter<Queue | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<Queue | undefined | null | void> =
+    this._onDidChangeTreeData.event;
+
   async getChildren(): Promise<Queue[]> {
     const {
       data: { items },
@@ -31,5 +37,9 @@ export default class QueuesProvider implements vscode.TreeDataProvider<Queue> {
     };
 
     return item;
+  }
+
+  refresh() {
+    this._onDidChangeTreeData.fire();
   }
 }

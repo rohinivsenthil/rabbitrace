@@ -17,9 +17,9 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "rabbitmq" is now active!');
 
+  // Connections
+
   const connectionsProvider = new ConnectionsProvider(context);
-  const exchangesProvider = new ExchangesProvider();
-  const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.connections.new", () =>
@@ -41,11 +41,39 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
+    vscode.window.registerTreeDataProvider(
+      "rabbitmq.connections",
+      connectionsProvider
+    )
+  );
+
+  // Exchanges
+
+  const exchangesProvider = new ExchangesProvider();
+
+  context.subscriptions.push(
     vscode.commands.registerCommand(
       "rabbitmq.exchanges.details",
       (exchange: Exchange) => showExchangeDetails(context, exchange)
     )
   );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.exchanges.refresh", () =>
+      exchangesProvider.refresh()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerTreeDataProvider(
+      "rabbitmq.exchanges",
+      exchangesProvider
+    )
+  );
+
+  // Queues
+
+  const queuesProvider = new QueuesProvider();
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.details", (queue: Queue) =>
@@ -54,16 +82,8 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider(
-      "rabbitmq.connections",
-      connectionsProvider
-    )
-  );
-
-  context.subscriptions.push(
-    vscode.window.registerTreeDataProvider(
-      "rabbitmq.exchanges",
-      exchangesProvider
+    vscode.commands.registerCommand("rabbitmq.queues.refresh", () =>
+      queuesProvider.refresh()
     )
   );
 

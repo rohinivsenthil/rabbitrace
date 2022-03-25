@@ -6,6 +6,13 @@ import Exchange from "./exchange";
 export default class ExchangesProvider
   implements vscode.TreeDataProvider<Exchange>
 {
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    Exchange | undefined | null | void
+  > = new vscode.EventEmitter<Exchange | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<
+    Exchange | undefined | null | void
+  > = this._onDidChangeTreeData.event;
+
   async getChildren(): Promise<Exchange[]> {
     const {
       data: { items },
@@ -33,5 +40,9 @@ export default class ExchangesProvider
     };
 
     return item;
+  }
+
+  refresh() {
+    this._onDidChangeTreeData.fire();
   }
 }
