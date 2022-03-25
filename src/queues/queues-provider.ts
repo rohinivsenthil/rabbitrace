@@ -3,14 +3,16 @@ import axios from "axios";
 import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
 import Queue from "./queue";
 
-export default class QueuesProvider implements vscode.TreeDataProvider<Queue>, vscode.Disposable {
+export default class QueuesProvider
+  implements vscode.TreeDataProvider<Queue>, vscode.Disposable
+{
   private _onDidChangeTreeData: vscode.EventEmitter<
     Queue | undefined | null | void
   > = new vscode.EventEmitter<Queue | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<Queue | undefined | null | void> =
     this._onDidChangeTreeData.event;
 
-  refreshInterval: NodeJS.Timeout
+  refreshInterval: NodeJS.Timeout;
 
   constructor() {
     this.refreshInterval = setInterval(() => this.refresh(), 5000);

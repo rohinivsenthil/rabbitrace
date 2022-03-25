@@ -13,12 +13,11 @@ export default class ExchangesProvider
     Exchange | undefined | null | void
   > = this._onDidChangeTreeData.event;
 
-  refreshInterval: NodeJS.Timeout
+  refreshInterval: NodeJS.Timeout;
 
   constructor() {
     this.refreshInterval = setInterval(() => this.refresh(), 5000);
   }
-
 
   async getChildren(): Promise<Exchange[]> {
     const {
