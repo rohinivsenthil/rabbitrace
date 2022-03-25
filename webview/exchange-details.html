@@ -14,12 +14,12 @@
         border-color: var(--vscode-dropdown-border);
       }
       button {
-        color: var(--vscode-button-secondaryForeground);
-        background-color: var(--vscode-button-secondaryBackground);
+        color: var(--vscode-button-foreground);
+        background-color: var(--vscode-button-background);
         border: none;
       }
       button:hover {
-        background-color: var(--vscode-button-secondaryHoverBackground);
+        background-color: var(--vscode-button-hoverBackground);
       }
       .exchange-container {
         margin: 50px;
@@ -37,7 +37,7 @@
         font-weight: bold;
       }
       .exchange-section {
-        border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground);
+        border-bottom: 0.1px solid var(--vscode-tree-tableColumnsBorder);
         padding-bottom: 15px;
         margin: 36px 0 18px 0;
       }
@@ -49,15 +49,12 @@
         border-collapse: collapse;
       }
       .overview-value {
-        text-align: center;
         font-family: monospace;
-        background-color: var(--vscode-button-secondaryBackground);
       }
       .bindings-table,
       .bindings-th,
       .bindings-td {
-        background-color: var(--vscode-dropdown-background);
-        border: 1px solid var(--vscode-button-secondaryBackground);
+        border: 1px solid var(--vscode-tree-tableColumnsBorder);
         border-collapse: collapse;
       }
       .bindings-table {
@@ -65,9 +62,11 @@
       }
       .bindings-th {
         padding: 10px;
+        background-color: var(--vscode-keybindingTable-headerBackground);
       }
       .bindings-td {
         padding: 10px;
+        background-color: var(--vscode-keybindingTable-rowsBackground);
         /* font-family: monospace; */
       }
       .test {
