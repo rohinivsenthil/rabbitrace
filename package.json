@@ -15,6 +15,17 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "customEditors": [
+      {
+        "viewType": "rabbitmq.exchange",
+        "displayName": "RabbitMQ Exchange",
+        "selector": [
+          {
+            "filenamePattern": "rabbitmq-exchange:**"
+          }
+        ]
+      }
+    ],
     "views": {
       "rabbitmq": [
         {
@@ -69,12 +80,6 @@
         "command": "rabbitmq.exchanges.new",
         "title": "New Exchange",
         "icon": "$(plus)",
-        "category": "RabbitMQ"
-      },
-      {
-        "command": "rabbitmq.exchange.details",
-        "title": "Details",
-        "icon": "$(debug-disconnect)",
         "category": "RabbitMQ"
       },
       {

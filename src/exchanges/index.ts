@@ -1,5 +1,5 @@
 import Exchange from "./exchange";
+import ExchangeEditor from "./exchange-editor";
 import ExchangesProvider from "./exchanges-provider";
-import showExchangeDetails from "./show-exchange-details";
 
-export { Exchange, ExchangesProvider, showExchangeDetails };
+export { Exchange, ExchangeEditor, ExchangesProvider };

@@ -7,7 +7,7 @@ import {
   removeConnection,
   Connection,
 } from "./connections";
-import { Exchange, ExchangesProvider, showExchangeDetails } from "./exchanges";
+import { ExchangeEditor, ExchangesProvider } from "./exchanges";
 import { Queue, QueuesProvider, showQueueDetails } from "./queues";
 
 // this method is called when your extension is activated
@@ -49,18 +49,20 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Exchanges
 
+  const exchangeEditor = new ExchangeEditor(context);
   const exchangesProvider = new ExchangesProvider();
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "rabbitmq.exchanges.details",
-      (exchange: Exchange) => showExchangeDetails(context, exchange)
-    )
-  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.exchanges.refresh", () =>
       exchangesProvider.refresh()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerCustomEditorProvider(
+      "rabbitmq.exchange",
+      exchangeEditor,
+      { supportsMultipleEditorsPerDocument: true }
     )
   );
 

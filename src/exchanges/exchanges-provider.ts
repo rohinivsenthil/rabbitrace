@@ -40,8 +40,16 @@ export default class ExchangesProvider
     item.iconPath = EXCHANGE;
 
     item.command = {
-      arguments: [exchange],
-      command: "rabbitmq.exchanges.details",
+      arguments: [
+        vscode.Uri.from({
+          scheme: "rabbitmq-exchange",
+          fragment: BASE_URL,
+          path: exchange.name,
+        }),
+        "rabbitmq.exchange",
+        vscode.ViewColumn.Active,
+      ],
+      command: "vscode.openWith",
       title: "Exchange Details",
     };
 
