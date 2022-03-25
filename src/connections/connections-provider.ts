@@ -13,16 +13,21 @@ export default class ConnectionsProvider
   > = this._onDidChangeTreeData.event;
 
   context: vscode.ExtensionContext;
-  connections: Connection[];
 
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
-    this.connections = [];
     this.refresh();
   }
 
   getChildren(): Connection[] {
-    return this.connections;
+    return this.context.workspaceState
+      .keys()
+      .map((connectionName) =>
+        this.context.workspaceState.get<Connection>(connectionName)
+      )
+      .filter(
+        (connection): connection is Connection => connection !== undefined
+      );
   }
 
   getTreeItem(connection: Connection): vscode.TreeItem {
@@ -33,15 +38,6 @@ export default class ConnectionsProvider
   }
 
   refresh() {
-    this.connections = this.context.workspaceState
-      .keys()
-      .map((connectionName) =>
-        this.context.workspaceState.get<Connection>(connectionName)
-      )
-      .filter(
-        (connection): connection is Connection => connection !== undefined
-      );
-
     this._onDidChangeTreeData.fire();
   }
 }

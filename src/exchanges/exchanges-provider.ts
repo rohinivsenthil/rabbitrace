@@ -3,27 +3,10 @@ import axios from "axios";
 import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "../constants";
 import Exchange from "./exchange";
 
-function exchangeToTreeItem(exchange: Exchange): vscode.TreeItem {
-  const item = new vscode.TreeItem(
-    exchange.name || "(AMQP default)",
-    vscode.TreeItemCollapsibleState.None
-  );
-
-  item.iconPath = EXCHANGE;
-
-  item.command = {
-    arguments: [exchange],
-    command: "rabbitmq.exchanges.details",
-    title: "Exchange Details",
-  };
-
-  return item;
-}
-
 export default class ExchangesProvider
-  implements vscode.TreeDataProvider<vscode.TreeItem>
+  implements vscode.TreeDataProvider<Exchange>
 {
-  async getChildren(): Promise<vscode.TreeItem[]> {
+  async getChildren(): Promise<Exchange[]> {
     const {
       data: { items },
     } = await axios({
@@ -32,10 +15,23 @@ export default class ExchangesProvider
       auth: AUTH,
     });
 
-    return items.map(exchangeToTreeItem);
+    return items;
   }
 
-  getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
-    return element;
+  getTreeItem(exchange: Exchange): vscode.TreeItem {
+    const item = new vscode.TreeItem(
+      exchange.name || "(AMQP default)",
+      vscode.TreeItemCollapsibleState.None
+    );
+
+    item.iconPath = EXCHANGE;
+
+    item.command = {
+      arguments: [exchange],
+      command: "rabbitmq.exchanges.details",
+      title: "Exchange Details",
+    };
+
+    return item;
   }
 }

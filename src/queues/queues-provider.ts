@@ -3,27 +3,8 @@ import axios from "axios";
 import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
 import Queue from "./queue";
 
-function queueToTreeItem(queue: Queue): vscode.TreeItem {
-  const item = new vscode.TreeItem(
-    `${queue.name}`,
-    vscode.TreeItemCollapsibleState.None
-  );
-
-  item.iconPath = QUEUE;
-
-  item.command = {
-    arguments: [queue],
-    command: "rabbitmq.queues.details",
-    title: "Queue Details",
-  };
-
-  return item;
-}
-
-export default class QueuesProvider
-  implements vscode.TreeDataProvider<vscode.TreeItem>
-{
-  async getChildren(): Promise<vscode.TreeItem[]> {
+export default class QueuesProvider implements vscode.TreeDataProvider<Queue> {
+  async getChildren(): Promise<Queue[]> {
     const {
       data: { items },
     } = await axios({
@@ -32,10 +13,23 @@ export default class QueuesProvider
       auth: AUTH,
     });
 
-    return items.map(queueToTreeItem);
+    return items;
   }
 
-  getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
-    return element;
+  getTreeItem(queue: Queue): vscode.TreeItem {
+    const item = new vscode.TreeItem(
+      `${queue.name}`,
+      vscode.TreeItemCollapsibleState.None
+    );
+
+    item.iconPath = QUEUE;
+
+    item.command = {
+      arguments: [queue],
+      command: "rabbitmq.queues.details",
+      title: "Queue Details",
+    };
+
+    return item;
   }
 }
