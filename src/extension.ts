@@ -8,7 +8,7 @@ import {
   Connection,
 } from "./connections";
 import { ExchangeEditor, ExchangesProvider } from "./exchanges";
-import { Queue, QueuesProvider, showQueueDetails } from "./queues";
+import { QueueEditor, QueuesProvider } from "./queues";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -77,17 +77,20 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Queues
 
+  const queueEditor = new QueueEditor(context);
   const queuesProvider = new QueuesProvider();
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("rabbitmq.queues.details", (queue: Queue) =>
-      showQueueDetails(context, queue)
-    )
-  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.refresh", () =>
       queuesProvider.refresh()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerCustomEditorProvider(
+      "rabbitmq.queue",
+      queueEditor,
+      { supportsMultipleEditorsPerDocument: true }
     )
   );
 

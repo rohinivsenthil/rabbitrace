@@ -1,5 +1,5 @@
-import QueuesProvider from "./queues-provider";
-import showQueueDetails from "./show-queue-details";
 import Queue from "./queue";
+import QueueEditor from "./queue-editor";
+import QueuesProvider from "./queues-provider";
 
-export { Queue, QueuesProvider, showQueueDetails };
+export { Queue, QueueEditor, QueuesProvider };

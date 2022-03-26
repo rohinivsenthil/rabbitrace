@@ -24,6 +24,15 @@
             "filenamePattern": "rabbitmq-exchange:**"
           }
         ]
+      },
+      {
+        "viewType": "rabbitmq.queue",
+        "displayName": "RabbitMQ Queue",
+        "selector": [
+          {
+            "filenamePattern": "rabbitmq-queue:**"
+          }
+        ]
       }
     ],
     "views": {

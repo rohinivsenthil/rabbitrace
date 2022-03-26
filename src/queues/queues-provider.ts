@@ -39,8 +39,16 @@ export default class QueuesProvider
     item.iconPath = QUEUE;
 
     item.command = {
-      arguments: [queue],
-      command: "rabbitmq.queues.details",
+      arguments: [
+        vscode.Uri.from({
+          scheme: "rabbitmq-queue",
+          fragment: BASE_URL,
+          path: queue.name,
+        }),
+        "rabbitmq.queue",
+        vscode.ViewColumn.Active,
+      ],
+      command: "vscode.openWith",
       title: "Queue Details",
     };
 
