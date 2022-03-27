@@ -176,7 +176,7 @@
       <div class="add-binding-title">Add binding to this queue</div>
       <div class="add-binding">
         <div class="add-binding-fields">
-          <div class="add-binding-key">From exchange:</div>
+          <div class="add-binding-key">From exchange</div>
           <div class="add-binding-key">Routing Key</div>
           <div class="add-binding-key">Arguements</div>
         </div>
@@ -200,16 +200,23 @@
       <div class="queue-section">
         <div class="queue-section-title">‣ Publish message</div>
       </div>
+      <div class="add-binding-title">Message will be published to the default exchange with routing key <b>queue.bind_accounts_to_sto_rules</b>, routing it to this queue.</div>
       <div class="add-binding">
         <div class="add-binding-fields">
-          <div class="add-binding-key">Routing Key</div>
+          <div class="add-binding-key">Delivery mode</div>
           <div class="add-binding-key">Headers</div>
           <div class="add-binding-key">Properties</div>
           <div class="add-binding-key">Payload</div>
         </div>
         <div class="add-binding-fields">
-          <input type="text" id="msg-routing-key" class="add-binding-input" />
-          <div class="add-binding-args">
+          <select
+          name="msg-delivery-type"
+          id="msg-delivery-type"
+          class="add-binding-input"
+        >
+          <option value="string">Non-Persistent</option>
+          <option value="number">Persistent</option>
+        </select>          <div class="add-binding-args">
             <input type="text" id="msg-headers-key" class="add-binding-input" />
             <div>=</div>
             <input
