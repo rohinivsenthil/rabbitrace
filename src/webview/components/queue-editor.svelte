@@ -1,22 +1,18 @@
 <script>
-  export const name = "exchange.tagging_restriction_service";
+  export const name = "queue.bind_accounts_to_sto_rules";
   console.log("hello", window.location);
 </script>
 
 <main>
-  <div class="exchange-container">
-    <div class="exchange-name">
-      <i class="codicon codicon-remote icon exchange-icon" />
-      <div id="exchange-name">{name}</div>
+  <div class="queue-container">
+    <div class="queue-name">
+      <i class="codicon codicon-database icon queue-icon" />
+      <div id="queue-name">{name}</div>
     </div>
-    <div class="exchange-section">
-      <div class="exchange-section-title">‣ Overview</div>
+    <div class="queue-section">
+      <div class="queue-section-title">‣ Overview</div>
     </div>
     <table class="overview-table">
-      <tr>
-        <td>Type</td>
-        <td><div class="overview-value">direct</div></td>
-      </tr>
       <tr>
         <td>Features</td>
         <td><div class="overview-value">durable: true</div></td>
@@ -25,58 +21,48 @@
         <td>Policy</td>
         <td><div class="overview-value" /></td>
       </tr>
+      <tr>
+        <td>Consumers</td>
+        <td><div class="overview-value">1</div></td>
+      </tr>
     </table>
-    <div class="exchange-section">
-      <div class="exchange-section-title">‣ Bindings</div>
+    <div class="queue-section">
+      <div class="queue-section-title">‣ Bindings</div>
     </div>
     <table class="bindings-table">
       <tr>
-        <th class="bindings-th">To</th>
+        <th class="bindings-th">From</th>
         <th class="bindings-th">Routing Key</th>
         <th class="bindings-th">Arguements</th>
         <th class="bindings-th" />
       </tr>
       <tr>
-        <td class="bindings-td">
-          <div class="test">
-            <i
-              class="codicon codicon-database icon"
-            />queue.bind_accounts_to_sto_rules.dlx
-          </div>
-        </td>
-        <td class="bindings-td">queue.tagging_restriction_event</td>
-        <td class="bindings-td" />
-        <td class="bindings-td">
-          <button type="button" class="unbind-btn">Unbind</button>
-        </td>
+        <td colspan="4" class="merged-td">(Default exchange binding)</td>
       </tr>
       <tr>
         <td class="bindings-td">
           <div class="test">
             <i
-              class="codicon codicon-database icon"
-            />queue.tagging_restriction_event.dlx
+              class="codicon codicon-remote icon"
+            />exchange.tagging_restriction_service
           </div>
         </td>
-        <td class="bindings-td">queue.tagging_restriction_event</td>
+        <td class="bindings-td">bind_accounts_to_sto_rules</td>
         <td class="bindings-td" />
         <td class="bindings-td">
           <button type="button" class="unbind-btn">Unbind</button>
         </td>
       </tr>
     </table>
-    <div class="add-binding-title">Add binding from this exchange</div>
+    <div class="add-binding-title">Add binding to this queue</div>
     <div class="add-binding">
       <div class="add-binding-fields">
-        <select name="add-binding" id="add-binding" class="add-binding-key">
-          <option value="queue">To Queue</option>
-          <option value="exchange">To Exchange</option>
-        </select>
+        <div class="add-binding-key">From exchange</div>
         <div class="add-binding-key">Routing Key</div>
         <div class="add-binding-key">Arguements</div>
       </div>
       <div class="add-binding-fields">
-        <input type="text" id="queue-exchange-name" class="add-binding-input" />
+        <input type="text" id="queue-queue-name" class="add-binding-input" />
         <input type="text" id="routing-key" class="add-binding-input" />
         <div class="add-binding-args">
           <input type="text" id="arguments-key" class="add-binding-input" />
@@ -92,18 +78,29 @@
       </div>
     </div>
     <button type="button" class="bind-btn">Bind</button>
-    <div class="exchange-section">
-      <div class="exchange-section-title">‣ Publish message</div>
+    <div class="queue-section">
+      <div class="queue-section-title">‣ Publish message</div>
+    </div>
+    <div class="add-binding-title">
+      Message will be published to the default exchange with routing key
+      <b>queue.bind_accounts_to_sto_rules</b>, routing it to this queue.
     </div>
     <div class="add-binding">
       <div class="add-binding-fields">
-        <div class="add-binding-key">Routing Key</div>
+        <div class="add-binding-key">Delivery mode</div>
         <div class="add-binding-key">Headers</div>
         <div class="add-binding-key">Properties</div>
         <div class="add-binding-key">Payload</div>
       </div>
       <div class="add-binding-fields">
-        <input type="text" id="msg-routing-key" class="add-binding-input" />
+        <select
+          name="msg-delivery-type"
+          id="msg-delivery-type"
+          class="add-binding-input"
+        >
+          <option value="string">Non-Persistent</option>
+          <option value="number">Persistent</option>
+        </select>
         <div class="add-binding-args">
           <input type="text" id="msg-headers-key" class="add-binding-input" />
           <div>=</div>
@@ -144,47 +141,50 @@
     border-color: var(--vscode-dropdown-border);
   }
   button {
-    color: var(--vscode-button-foreground);
-    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-secondaryForeground);
+    background-color: var(--vscode-button-secondaryBackground);
     border: none;
   }
   button:hover {
-    background-color: var(--vscode-button-hoverBackground);
+    background-color: var(--vscode-button-secondaryHoverBackground);
   }
-  .exchange-container {
+  .queue-container {
     margin: 50px;
   }
-  .exchange-name {
+  .queue-name {
     display: flex;
     align-items: center;
     font-size: 20px;
     margin-bottom: 24px;
   }
-  .exchange-icon {
-    color: var(--vscode-terminal-ansiCyan);
+  .queue-icon {
+    color: var(--vscode-terminal-ansiBlue);
   }
-  .exchange-title {
+  .queue-title {
     font-weight: bold;
   }
-  .exchange-section {
-    border-bottom: 0.1px solid var(--vscode-tree-tableColumnsBorder);
+  .queue-section {
+    border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground);
     padding-bottom: 15px;
     margin: 36px 0 18px 0;
   }
-  .exchange-section-title {
+  .queue-section-title {
     font-size: 16px;
     font-weight: bold;
   }
   .overview-table {
+    /* background-color: var(--vscode-dropdown-background); */
     border-collapse: collapse;
   }
   .overview-value {
+    text-align: center;
     font-family: monospace;
   }
   .bindings-table,
   .bindings-th,
   .bindings-td {
-    border: 1px solid var(--vscode-tree-tableColumnsBorder);
+    background-color: var(--vscode-dropdown-background);
+    border: 1px solid var(--vscode-button-secondaryBackground);
     border-collapse: collapse;
   }
   .bindings-table {
@@ -192,15 +192,18 @@
   }
   .bindings-th {
     padding: 10px;
-    background-color: var(--vscode-keybindingTable-headerBackground);
   }
   .bindings-td {
     padding: 10px;
-    background-color: var(--vscode-keybindingTable-rowsBackground);
     /* font-family: monospace; */
   }
+  .merged-td {
+    background-color: var(--vscode-dropdown-background);
+    border: 1px solid var(--vscode-button-secondaryBackground);
+    border-collapse: collapse;
+  }
   .test {
-    color: var(--vscode-terminal-ansiBlue);
+    color: var(--vscode-terminal-ansiCyan);
     display: flex;
     align-items: center;
   }

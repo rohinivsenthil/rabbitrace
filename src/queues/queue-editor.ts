@@ -1,5 +1,3 @@
-import * as path from "path";
-import * as fs from "fs/promises";
 import * as vscode from "vscode";
 
 export default class QueueEditor
@@ -26,21 +24,30 @@ export default class QueueEditor
       enableScripts: true,
     };
 
-    webviewPanel.webview.html = (
-      await fs.readFile(
-        path.join(this.context.extensionPath, "webview", "queue-details.html"),
-        "utf-8"
+    const stylesheetPath = webviewPanel.webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this.context.extensionUri,
+        "dist/pages/queue-editor.css"
       )
-    ).replace(
-      "codicon.css",
-      webviewPanel.webview
-        .asWebviewUri(
-          vscode.Uri.joinPath(
-            this.context.extensionUri,
-            "node_modules/@vscode/codicons/dist/codicon.css"
-          )
-        )
-        .toString()
     );
+
+    const scriptPath = webviewPanel.webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this.context.extensionUri,
+        "dist/pages/queue-editor.js"
+      )
+    );
+
+    webviewPanel.webview.html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <link rel="stylesheet" href="${stylesheetPath}">
+        <script defer src="${scriptPath}"></script>
+      </head>
+      <body>
+      </body>
+    </html>
+    `;
   }
 }
