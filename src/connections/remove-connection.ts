@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import Connection from "./connection";
+import type Connection from "./connection";
 
 export default async function removeConnection(
   context: vscode.ExtensionContext,

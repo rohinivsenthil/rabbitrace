@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import axios from "axios";
 import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "../constants";
-import Exchange from "./exchange";
+import type Exchange from "./exchange";
 
 export default class ExchangesProvider
   implements vscode.TreeDataProvider<Exchange>, vscode.Disposable

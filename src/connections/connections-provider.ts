@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { IDLE_CONNECTION } from "../constants";
-import Connection from "./connection";
+import type Connection from "./connection";
 
 export default class ConnectionsProvider
   implements vscode.TreeDataProvider<Connection>

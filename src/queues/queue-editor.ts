@@ -28,11 +28,7 @@ export default class QueueEditor
 
     webviewPanel.webview.html = (
       await fs.readFile(
-        path.join(
-          this.context.extensionPath,
-          "webview",
-          "queue-details.html"
-        ),
+        path.join(this.context.extensionPath, "webview", "queue-details.html"),
         "utf-8"
       )
     ).replace(

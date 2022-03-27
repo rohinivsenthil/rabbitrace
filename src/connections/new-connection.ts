@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as fs from "fs/promises";
 import * as vscode from "vscode";
-import Connection from "./connection";
+import type Connection from "./connection";
 
 interface NewConnectionMessage {
   action: string;

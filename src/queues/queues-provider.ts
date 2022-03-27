@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import axios from "axios";
 import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
-import Queue from "./queue";
+import type Queue from "./queue";
 
 export default class QueuesProvider
   implements vscode.TreeDataProvider<Queue>, vscode.Disposable
