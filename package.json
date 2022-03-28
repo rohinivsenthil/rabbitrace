@@ -11,6 +11,8 @@
   ],
   "activationEvents": [
     "onView:rabbitmq.connections",
+    "onCustomEditor:rabbitmq.exchange",
+    "onCustomEditor:rabbitmq.queue",
     "onCommand:rabbitmq.newConnection"
   ],
   "main": "./dist/extension.js",
