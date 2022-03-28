@@ -1,0 +1,31 @@
+.vscode-button {
+	/* background-color: var(--vscode-button-background); */
+	background-color: transparent;
+	border: 1px solid var(--vscode-button-border);
+	color: var(--vscode-button-foreground);
+	cursor: pointer;
+}
+
+.vscode-button:hover {
+	background-color: var(--vscode-button-hoverBackground);
+}
+
+.vscode-dropdown {
+	background-color: var(--vscode-dropdown-background);
+	border: 1px solid var(--vscode-dropdown-border);
+    color: var(--vscode-dropdown-foreground);
+}
+
+.vscode-dropdown option {
+	background-color: var(--vscode-dropdown-listBackground);
+}
+
+.vscode-input {
+	background-color: var(--vscode-input-background);
+	border: 1px solid var(--vscode-input-border);
+	color: var(--vscode-input-foreground);
+}
+
+.vscode-input::placeholder {
+	color: var(--vscode-input-placeholderForeground);
+}

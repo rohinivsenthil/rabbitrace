@@ -47,7 +47,7 @@
         <td class="bindings-td">queue.tagging_restriction_event</td>
         <td class="bindings-td" />
         <td class="bindings-td">
-          <button type="button" class="unbind-btn">Unbind</button>
+          <button type="button" class="vscode-button"><i class="codicon codicon-trash"/></button>
         </td>
       </tr>
       <tr>
@@ -61,14 +61,14 @@
         <td class="bindings-td">queue.tagging_restriction_event</td>
         <td class="bindings-td" />
         <td class="bindings-td">
-          <button type="button" class="unbind-btn">Unbind</button>
+          <button type="button" class="vscode-button"><i class="codicon codicon-trash"/></button>
         </td>
       </tr>
     </table>
     <div class="add-binding-title">Add binding from this exchange</div>
     <div class="add-binding">
       <div class="add-binding-fields">
-        <select name="add-binding" id="add-binding" class="add-binding-key">
+        <select name="add-binding" id="add-binding" class="vscode-dropdown add-binding-key">
           <option value="queue">To Queue</option>
           <option value="exchange">To Exchange</option>
         </select>
@@ -76,13 +76,13 @@
         <div class="add-binding-key">Arguements</div>
       </div>
       <div class="add-binding-fields">
-        <input type="text" id="queue-exchange-name" class="add-binding-input" />
-        <input type="text" id="routing-key" class="add-binding-input" />
+        <input type="text" id="queue-exchange-name" class="vscode-input add-binding-input" />
+        <input type="text" id="routing-key" class="vscode-input add-binding-input" />
         <div class="add-binding-args">
-          <input type="text" id="arguments-key" class="add-binding-input" />
+          <input type="text" id="arguments-key" class="vscode-input add-binding-input" />
           <div>=</div>
-          <input type="text" id="arguments-value" class="add-binding-input" />
-          <select name="arg-type" id="arg-type" class="add-binding-input">
+          <input type="text" id="arguments-value" class="vscode-input add-binding-input" />
+          <select name="arg-type" id="arg-type" class="vscode-dropdown add-binding-input">
             <option value="string">String</option>
             <option value="number">Number</option>
             <option value="boolean">Boolean</option>
@@ -91,7 +91,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="bind-btn">Bind</button>
+    <button type="button" class="bind-btn vscode-button">Bind</button>
     <div class="exchange-section">
       <div class="exchange-section-title">‣ Publish message</div>
     </div>
@@ -103,15 +103,15 @@
         <div class="add-binding-key">Payload</div>
       </div>
       <div class="add-binding-fields">
-        <input type="text" id="msg-routing-key" class="add-binding-input" />
+        <input type="text" id="msg-routing-key" class="vscode-input add-binding-input" />
         <div class="add-binding-args">
-          <input type="text" id="msg-headers-key" class="add-binding-input" />
+          <input type="text" id="msg-headers-key" class="vscode-input add-binding-input" />
           <div>=</div>
-          <input type="text" id="msg-headers-value" class="add-binding-input" />
+          <input type="text" id="msg-headers-value" class="vscode-input add-binding-input" />
           <select
             name="msg-header-type"
             id="msg-header-type"
-            class="add-binding-input"
+            class="vscode-dropdown add-binding-input"
           >
             <option value="string">String</option>
             <option value="number">Number</option>
@@ -120,37 +120,21 @@
           </select>
         </div>
         <div class="add-binding-args">
-          <input type="text" id="msg-props-key" class="add-binding-input" />
+          <input type="text" id="msg-props-key" class="vscode-input add-binding-input" />
           <div>=</div>
-          <input type="text" id="msg-props-value" class="add-binding-input" />
+          <input type="text" id="msg-props-value" class="vscode-input add-binding-input" />
         </div>
-        <input type="text" id="msg-payload" class="add-binding-input" />
+        <input type="text" id="msg-payload" class="vscode-input add-binding-input" />
       </div>
     </div>
-    <button type="button" class="bind-btn">Publish</button>
+    <button type="button" class="bind-btn vscode-button">Publish</button>
   </div>
 </main>
 
 <style>
   @import "@vscode/codicons/dist/codicon.css";
-  input {
-    color: var(--vscode-input-foreground);
-    background-color: var(--vscode-input-background);
-    border: 1px solid var(--vscode-input-border);
-  }
-  select {
-    color: var(--vscode-dropdown-foreground);
-    background-color: var(--vscode-dropdown-background);
-    border-color: var(--vscode-dropdown-border);
-  }
-  button {
-    color: var(--vscode-button-foreground);
-    background-color: var(--vscode-button-background);
-    border: none;
-  }
-  button:hover {
-    background-color: var(--vscode-button-hoverBackground);
-  }
+  @import "./vscode.css";
+
   .exchange-container {
     margin: 50px;
   }
@@ -207,9 +191,6 @@
   .icon {
     margin: 0 5px 0 0;
   }
-  .unbind-btn {
-    cursor: pointer;
-  }
   .add-binding-title {
     padding: 0 0 5px 0;
     /* border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground); */
@@ -236,7 +217,6 @@
     align-items: center;
   }
   .bind-btn {
-    cursor: pointer;
     margin-top: 10px;
   }
   th,
