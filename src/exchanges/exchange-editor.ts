@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import axios from "axios";
 
 export default class ExchangeEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -10,7 +11,12 @@ export default class ExchangeEditor
   }
 
   openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
-    return { uri, dispose: () => { /* */ } };
+    return {
+      uri,
+      dispose: () => {
+        /* */
+      },
+    };
   }
 
   async resolveCustomEditor(
@@ -24,16 +30,25 @@ export default class ExchangeEditor
     };
 
     // TODO: use single interval for queries to all webviews
-    const updateFunction = () => {
-      webviewPanel.webview.postMessage({ message: 'hello' })
-    };
+    async function updateFunction() {
+      const path = document.uri.path;
+      const { data } = await axios({
+        method: "get",
+        url: `http://localhost:15672/api/exchanges/%2F/${path}/bindings/source`,
+        auth: {
+          username: "guest",
+          password: "guest",
+        },
+      });
+      webviewPanel.webview.postMessage({ message: data });
+    }
 
-    updateFunction()
-    const interval = setInterval(updateFunction, 5000)
+    await updateFunction();
+    // const interval = setInterval(await updateFunction, 5000);
 
-    webviewPanel.onDidDispose(() => {
-      clearInterval(interval);
-    });
+    // webviewPanel.onDidDispose(() => {
+    //   clearInterval(interval);
+    // });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
       vscode.Uri.joinPath(
