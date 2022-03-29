@@ -10,8 +10,7 @@ export default class ExchangeEditor
   }
 
   openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return { uri, dispose: () => {} };
+    return { uri, dispose: () => { /* */ } };
   }
 
   async resolveCustomEditor(
@@ -23,6 +22,18 @@ export default class ExchangeEditor
     webviewPanel.webview.options = {
       enableScripts: true,
     };
+
+    // TODO: use single interval for queries to all webviews
+    const updateFunction = () => {
+      webviewPanel.webview.postMessage({ message: 'hello' })
+    };
+
+    updateFunction()
+    const interval = setInterval(updateFunction, 5000)
+
+    webviewPanel.onDidDispose(() => {
+      clearInterval(interval);
+    });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
       vscode.Uri.joinPath(

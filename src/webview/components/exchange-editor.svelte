@@ -1,6 +1,9 @@
 <script>
+  window.addEventListener("message", (event) => {
+    console.log(event.data);
+  });
+
   export const name = "exchange.tagging_restriction_service";
-  console.log("hello", window.location);
 </script>
 
 <main>
