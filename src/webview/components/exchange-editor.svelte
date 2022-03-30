@@ -8,7 +8,9 @@
     const overview = event.data.overview;
     name = event.data.name;
 
-    console.log("overview", overview);
+    const formattedArguments = Object.entries(overview.arguments)
+      .map(([key, value]) => `${key} = ${value}`)
+      .join("\n");
 
     overviewDetails = [
       {
@@ -17,14 +19,12 @@
       },
       {
         key: "Features",
-        value: {
-          durable: overview.durable,
-          internal: overview.durable,
-        },
+        value: `durable = ${overview.durable}
+internal = ${overview.internal}`,
       },
       {
         key: "Arguments",
-        value: overview.arguments,
+        value: formattedArguments,
       },
     ];
   });
@@ -45,7 +45,7 @@
           <td>{overview.key}</td>
           <td
             ><div class="overview-value">
-              {JSON.stringify(overview.value, null, 2)}
+              {overview.value}
             </div></td
           >
         </tr>
@@ -222,9 +222,6 @@
   .exchange-icon {
     color: var(--vscode-terminal-ansiCyan);
   }
-  .exchange-title {
-    font-weight: bold;
-  }
   .exchange-section {
     border-bottom: 0.1px solid var(--vscode-tree-tableColumnsBorder);
     padding-bottom: 15px;
@@ -238,6 +235,7 @@
     border-collapse: collapse;
   }
   .overview-value {
+    white-space: pre;
     font-family: var(--vscode-editor-font-family);
   }
   .bindings-table,
@@ -274,7 +272,6 @@
   }
   .add-binding-title {
     padding: 0 0 5px 0;
-    /* border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground); */
     margin-bottom: 20px;
   }
   .add-binding {

@@ -1,4 +1,12 @@
 import * as vscode from "vscode";
+import axios from "axios";
+import {
+  BASE_URL,
+  QUEUES,
+  LIST_BINDINGS_QUEUE,
+  AUTH,
+  REFRESH_TIME,
+} from "../constants";
 
 export default class QueueEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -10,8 +18,12 @@ export default class QueueEditor
   }
 
   openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return { uri, dispose: () => {} };
+    return {
+      uri,
+      dispose: () => {
+        /* */
+      },
+    };
   }
 
   async resolveCustomEditor(
@@ -23,6 +35,39 @@ export default class QueueEditor
     webviewPanel.webview.options = {
       enableScripts: true,
     };
+
+    // TODO: use single interval for queries to all webviews
+    async function updateFunction() {
+      const path = document.uri.path;
+
+      const { data: overview } = await axios({
+        method: "get",
+        baseURL: BASE_URL,
+        url: `${QUEUES}/${path}`,
+        auth: AUTH,
+      });
+
+      const { data: bindings } = await axios({
+        method: "get",
+        baseURL: BASE_URL,
+        url: `${QUEUES}/${path}${LIST_BINDINGS_QUEUE}`,
+        auth: AUTH,
+      });
+
+      webviewPanel.webview.postMessage({ name: path, bindings, overview });
+    }
+
+    await updateFunction();
+    webviewPanel.onDidChangeViewState(async () => {
+      if (webviewPanel.visible) {
+        await updateFunction();
+      }
+    });
+    const interval = setInterval(updateFunction, REFRESH_TIME);
+
+    webviewPanel.onDidDispose(() => {
+      clearInterval(interval);
+    });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
       vscode.Uri.joinPath(

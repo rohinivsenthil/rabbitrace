@@ -1,6 +1,38 @@
 <script>
-  export const name = "queue.bind_accounts_to_sto_rules";
-  console.log("hello", window.location);
+  export let bindings = [];
+  export let name;
+  export let overviewDetails = [];
+
+  $: window.addEventListener("message", (event) => {
+    bindings = event.data.bindings;
+    const overview = event.data.overview;
+    name = event.data.name;
+
+    const formattedArguments = Object.entries(overview.arguments)
+      .map(([key, value]) => `${key} = ${value}`)
+      .join("\n");
+
+    overviewDetails = [
+      {
+        key: "Type",
+        value: overview.type,
+      },
+      {
+        key: "Features",
+        value: `durable = ${overview.durable}
+exclusive = ${overview.exclusive}
+policy = ${overview.policy}`,
+      },
+      {
+        key: "Arguments",
+        value: formattedArguments,
+      },
+      {
+        key: "Consumers",
+        value: overview.consumers,
+      },
+    ];
+  });
 </script>
 
 <main>
@@ -13,18 +45,16 @@
       <div class="queue-section-title">‣ Overview</div>
     </div>
     <table class="overview-table">
-      <tr>
-        <td>Features</td>
-        <td><div class="overview-value">durable: true</div></td>
-      </tr>
-      <tr>
-        <td>Policy</td>
-        <td><div class="overview-value" /></td>
-      </tr>
-      <tr>
-        <td>Consumers</td>
-        <td><div class="overview-value">1</div></td>
-      </tr>
+      {#each overviewDetails as overview}
+        <tr>
+          <td>{overview.key}</td>
+          <td
+            ><div class="overview-value">
+              {overview.value}
+            </div></td
+          >
+        </tr>
+      {/each}
     </table>
     <div class="queue-section">
       <div class="queue-section-title">‣ Bindings</div>
@@ -36,23 +66,30 @@
         <th class="bindings-th">Arguements</th>
         <th class="bindings-th" />
       </tr>
-      <tr>
-        <td colspan="4" class="merged-td">(Default exchange binding)</td>
-      </tr>
-      <tr>
-        <td class="bindings-td">
-          <div class="test">
-            <i
-              class="codicon codicon-remote icon"
-            />exchange.tagging_restriction_service
-          </div>
-        </td>
-        <td class="bindings-td">bind_accounts_to_sto_rules</td>
-        <td class="bindings-td" />
-        <td class="bindings-td">
-          <button type="button" class="unbind-btn">Unbind</button>
-        </td>
-      </tr>
+      {#each bindings as binding}
+        {#if binding.source !== ""}
+          <tr>
+            <td class="bindings-td">
+              <div class="exchange-binding">
+                <i class="codicon codicon-remote icon" />{binding.source}
+              </div>
+            </td>
+            <td class="bindings-td">{binding.routing_key}</td>
+            <td class="bindings-td"
+              >{JSON.stringify(binding.arguments, null, 2)}</td
+            >
+            <td class="bindings-td">
+              <button type="button" class="vscode-button unbind-btn"
+                ><i class="codicon codicon-trash" /></button
+              >
+            </td>
+          </tr>
+        {:else}
+          <tr>
+            <td colspan="4" class="merged-td">(Default exchange binding)</td>
+          </tr>
+        {/if}
+      {/each}
     </table>
     <div class="add-binding-title">Add binding to this queue</div>
     <div class="add-binding">
@@ -160,9 +197,6 @@
   .queue-icon {
     color: var(--vscode-terminal-ansiBlue);
   }
-  .queue-title {
-    font-weight: bold;
-  }
   .queue-section {
     border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground);
     padding-bottom: 15px;
@@ -173,18 +207,16 @@
     font-weight: bold;
   }
   .overview-table {
-    /* background-color: var(--vscode-dropdown-background); */
     border-collapse: collapse;
   }
   .overview-value {
-    text-align: center;
+    white-space: pre;
     font-family: var(--vscode-editor-font-family);
   }
   .bindings-table,
   .bindings-th,
   .bindings-td {
-    background-color: var(--vscode-dropdown-background);
-    border: 1px solid var(--vscode-button-secondaryBackground);
+    border: 1px solid var(--vscode-tree-tableColumnsBorder);
     border-collapse: collapse;
   }
   .bindings-table {
@@ -192,17 +224,20 @@
   }
   .bindings-th {
     padding: 10px;
+    background-color: var(--vscode-keybindingTable-headerBackground);
   }
   .bindings-td {
     padding: 10px;
-    /* font-family: var(--vscode-editor-font-family);; */
+    background-color: var(--vscode-keybindingTable-rowsBackground);
+    font-family: var(--vscode-editor-font-family);
+    font-size: var(--vscode-editor-font-size);
   }
   .merged-td {
-    background-color: var(--vscode-dropdown-background);
-    border: 1px solid var(--vscode-button-secondaryBackground);
+    background-color: var(--vscode-keybindingTable-rowsBackground);
+    border: 1px solid var(--vscode-tree-tableColumnsBorder);
     border-collapse: collapse;
   }
-  .test {
+  .exchange-binding {
     color: var(--vscode-terminal-ansiCyan);
     display: flex;
     align-items: center;

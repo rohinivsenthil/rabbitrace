@@ -1,6 +1,12 @@
 import * as vscode from "vscode";
 import axios from "axios";
-import { BASE_URL, EXCHANGES, LIST_BINDINGS, AUTH } from "../constants";
+import {
+  BASE_URL,
+  EXCHANGES,
+  LIST_BINDINGS_EXCHANGE,
+  AUTH,
+  REFRESH_TIME,
+} from "../constants";
 
 export default class ExchangeEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -44,11 +50,9 @@ export default class ExchangeEditor
       const { data: bindings } = await axios({
         method: "get",
         baseURL: BASE_URL,
-        url: `${EXCHANGES}/${path}${LIST_BINDINGS}`,
+        url: `${EXCHANGES}/${path}${LIST_BINDINGS_EXCHANGE}`,
         auth: AUTH,
       });
-
-      console.log("overview in editor", overview);
 
       webviewPanel.webview.postMessage({ name: path, bindings, overview });
     }
@@ -59,11 +63,11 @@ export default class ExchangeEditor
         await updateFunction();
       }
     });
-    // const interval = setInterval(updateFunction, 5000);
+    const interval = setInterval(updateFunction, REFRESH_TIME);
 
-    // webviewPanel.onDidDispose(() => {
-    //   clearInterval(interval);
-    // });
+    webviewPanel.onDidDispose(() => {
+      clearInterval(interval);
+    });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
       vscode.Uri.joinPath(
