@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import axios from "axios";
+import { BASE_URL, EXCHANGES, LIST_BINDINGS, AUTH } from "../constants";
 
 export default class ExchangeEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -32,15 +33,24 @@ export default class ExchangeEditor
     // TODO: use single interval for queries to all webviews
     async function updateFunction() {
       const path = document.uri.path;
-      const { data } = await axios({
+
+      const { data: overview } = await axios({
         method: "get",
-        url: `http://localhost:15672/api/exchanges/%2F/${path}/bindings/source`,
-        auth: {
-          username: "guest",
-          password: "guest",
-        },
+        baseURL: BASE_URL,
+        url: `${EXCHANGES}/${path}`,
+        auth: AUTH,
       });
-      webviewPanel.webview.postMessage({ message: data });
+
+      const { data: bindings } = await axios({
+        method: "get",
+        baseURL: BASE_URL,
+        url: `${EXCHANGES}/${path}${LIST_BINDINGS}`,
+        auth: AUTH,
+      });
+
+      console.log("overview in editor", overview);
+
+      webviewPanel.webview.postMessage({ name: path, bindings, overview });
     }
 
     await updateFunction();

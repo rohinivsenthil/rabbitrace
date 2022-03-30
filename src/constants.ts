@@ -2,9 +2,11 @@ import * as vscode from "vscode";
 
 // endpoints
 
-const BASE_URL = "http://localhost:15672";
-const LIST_EXCHANEGS = "/api/exchanges?page=1&page_size=50";
-const LIST_QUEUES = "/api/queues?page=1&page_size=50";
+const BASE_URL = "http://localhost:15672/api";
+const EXCHANGES = "/exchanges/%2F";
+const LIST_BINDINGS = "/bindings/source";
+const LIST_EXCHANEGS = "/exchanges?page=1&page_size=50";
+const LIST_QUEUES = "/queues?page=1&page_size=50";
 
 const AUTH = {
   username: "guest",
@@ -32,6 +34,8 @@ const IDLE_CONNECTION = new vscode.ThemeIcon("plug");
 
 export {
   EXCHANGE,
+  EXCHANGES,
+  LIST_BINDINGS,
   QUEUE,
   CONNECTED_CONNECTION,
   IDLE_CONNECTION,

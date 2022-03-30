@@ -1,10 +1,33 @@
 <script>
   export let bindings = [];
-  $: window.addEventListener("message", (event) => {
-    bindings = event.data.message;
-  });
+  export let name;
+  export let overviewDetails = [];
 
-  export const name = "exchange.tagging_restriction_service";
+  $: window.addEventListener("message", (event) => {
+    bindings = event.data.bindings;
+    const overview = event.data.overview;
+    name = event.data.name;
+
+    console.log("overview", overview);
+
+    overviewDetails = [
+      {
+        key: "Type",
+        value: overview.type,
+      },
+      {
+        key: "Features",
+        value: {
+          durable: overview.durable,
+          internal: overview.durable,
+        },
+      },
+      {
+        key: "Arguments",
+        value: overview.arguments,
+      },
+    ];
+  });
 </script>
 
 <main>
@@ -17,18 +40,16 @@
       <div class="exchange-section-title">‣ Overview</div>
     </div>
     <table class="overview-table">
-      <tr>
-        <td>Type</td>
-        <td><div class="overview-value">direct</div></td>
-      </tr>
-      <tr>
-        <td>Features</td>
-        <td><div class="overview-value">durable: true</div></td>
-      </tr>
-      <tr>
-        <td>Policy</td>
-        <td><div class="overview-value" /></td>
-      </tr>
+      {#each overviewDetails as overview}
+        <tr>
+          <td>{overview.key}</td>
+          <td
+            ><div class="overview-value">
+              {JSON.stringify(overview.value, null, 2)}
+            </div></td
+          >
+        </tr>
+      {/each}
     </table>
     <div class="exchange-section">
       <div class="exchange-section-title">‣ Bindings</div>
@@ -56,7 +77,9 @@
             </div>
           </td>
           <td class="bindings-td">{binding.routing_key}</td>
-          <td class="bindings-td">{JSON.stringify(binding.arguments)}</td>
+          <td class="bindings-td"
+            >{JSON.stringify(binding.arguments, null, 2)}</td
+          >
           <td class="bindings-td">
             <button type="button" class="vscode-button"
               ><i class="codicon codicon-trash" /></button
