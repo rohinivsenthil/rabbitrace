@@ -178,7 +178,7 @@
   }
   .overview-value {
     text-align: center;
-    font-family: monospace;
+    font-family: var(--vscode-editor-font-family);
   }
   .bindings-table,
   .bindings-th,
@@ -195,7 +195,7 @@
   }
   .bindings-td {
     padding: 10px;
-    /* font-family: monospace; */
+    /* font-family: var(--vscode-editor-font-family);; */
   }
   .merged-td {
     background-color: var(--vscode-dropdown-background);

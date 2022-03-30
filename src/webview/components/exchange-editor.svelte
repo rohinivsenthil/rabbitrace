@@ -43,8 +43,16 @@
       {#each bindings as binding}
         <tr>
           <td class="bindings-td">
-            <div class="test">
-              <i class="codicon codicon-database icon" />{binding.destination}
+            <div
+              class={binding.destination_type === "queue"
+                ? "queue-binding"
+                : "exchange-binding"}
+            >
+              <i
+                class={binding.destination_type === "queue"
+                  ? "codicon codicon-database icon"
+                  : "codicon codicon-remote icon"}
+              />{binding.destination}
             </div>
           </td>
           <td class="bindings-td">{binding.routing_key}</td>
@@ -54,6 +62,10 @@
               ><i class="codicon codicon-trash" /></button
             >
           </td>
+        </tr>
+      {:else}
+        <tr>
+          <td colspan="4" class="merged-td">(No bindings present currenlty)</td>
         </tr>
       {/each}
     </table>
@@ -203,7 +215,7 @@
     border-collapse: collapse;
   }
   .overview-value {
-    font-family: monospace;
+    font-family: var(--vscode-editor-font-family);
   }
   .bindings-table,
   .bindings-th,
@@ -221,10 +233,16 @@
   .bindings-td {
     padding: 10px;
     background-color: var(--vscode-keybindingTable-rowsBackground);
-    /* font-family: monospace; */
+    font-family: var(--vscode-editor-font-family);
+    font-size: var(--vscode-editor-font-size);
   }
-  .test {
+  .queue-binding {
     color: var(--vscode-terminal-ansiBlue);
+    display: flex;
+    align-items: center;
+  }
+  .exchange-binding {
+    color: var(--vscode-terminal-ansiCyan);
     display: flex;
     align-items: center;
   }
