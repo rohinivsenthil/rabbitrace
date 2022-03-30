@@ -1,6 +1,5 @@
 .vscode-button {
-  /* background-color: var(--vscode-button-background); */
-  background-color: transparent;
+  background-color: var(--vscode-button-background);
   border: 1px solid var(--vscode-button-border);
   color: var(--vscode-button-foreground);
   cursor: pointer;

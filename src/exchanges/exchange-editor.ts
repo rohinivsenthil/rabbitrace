@@ -44,7 +44,12 @@ export default class ExchangeEditor
     }
 
     await updateFunction();
-    // const interval = setInterval(await updateFunction, 5000);
+    webviewPanel.onDidChangeViewState(async () => {
+      if (webviewPanel.visible) {
+        await updateFunction();
+      }
+    });
+    // const interval = setInterval(updateFunction, 5000);
 
     // webviewPanel.onDidDispose(() => {
     //   clearInterval(interval);

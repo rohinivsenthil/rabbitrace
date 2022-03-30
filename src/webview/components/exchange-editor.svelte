@@ -1,9 +1,7 @@
 <script>
   export let bindings = [];
   $: window.addEventListener("message", (event) => {
-    if (event) {
-      bindings = event.data.message;
-    }
+    bindings = event.data.message;
   });
 
   export const name = "exchange.tagging_restriction_service";
