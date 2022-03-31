@@ -6,7 +6,7 @@ import {
   newConnection,
   removeConnection,
 } from "./connections";
-import { ExchangeEditor, ExchangesProvider } from "./exchanges";
+import { ExchangeEditor, ExchangesProvider, newExchange } from "./exchanges";
 import { QueueEditor, QueuesProvider } from "./queues";
 import type { Connection } from "./connections";
 
@@ -51,6 +51,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   const exchangeEditor = new ExchangeEditor(context);
   const exchangesProvider = new ExchangesProvider();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.exchanges.new", () => {
+      newExchange(context);
+    })
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.exchanges.refresh", () =>
