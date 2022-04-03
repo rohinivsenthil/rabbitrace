@@ -19,9 +19,7 @@
       },
       {
         key: "Features",
-        value: `durable = ${overview.durable}
-exclusive = ${overview.exclusive}
-policy = ${overview.policy}`,
+        value: `durable = ${overview.durable}\nexclusive = ${overview.exclusive}\npolicy = ${overview.policy}`,
       },
       {
         key: "Arguments",

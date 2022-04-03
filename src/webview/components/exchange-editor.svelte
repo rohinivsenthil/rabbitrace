@@ -3,6 +3,14 @@
   export let name;
   export let overviewDetails = [];
 
+  function newBinding(someArg) {
+    const vscode = acquireVsCodeApi();
+    vscode.postMessage({
+      type: 'new-binding',
+      someArg,
+    })
+  }
+
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
@@ -19,8 +27,7 @@
       },
       {
         key: "Features",
-        value: `durable = ${overview.durable}
-internal = ${overview.internal}`,
+        value: `durable = ${overview.durable}\ninternal = ${overview.internal}`,
       },
       {
         key: "Arguments",
