@@ -2,7 +2,7 @@
   //   function newExchange(someArg) {
   //     const vscode = acquireVsCodeApi();
   //     vscode.postMessage({
-  //       type: 'new-exchnage',
+  //       type: 'new-exchange',
   //       someArg,
   //     })
 </script>
@@ -11,7 +11,7 @@
   <div class="add-exchange-container">
     <div class="add-exchange-title">
       <i class="codicon codicon-remote icon exchange-icon" />
-      <div>Add a new exachange</div>
+      <div>Add a new exchange</div>
     </div>
     <div class="add-exchange">
       <div class="add-exchange-fields">
@@ -33,10 +33,10 @@
           id="exchange-type"
           class="vscode-dropdown add-exchange-input"
         >
-          <option value="string">Direct</option>
-          <option value="number">Fanout</option>
-          <option value="boolean">Headers</option>
-          <option value="number">Topic</option>
+          <option value="direct">Direct</option>
+          <option value="fanout">Fanout</option>
+          <option value="headers">Headers</option>
+          <option value="topic">Topic</option>
         </select>
         <select
           name="exchange-durability"
@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="add-btn vscode-button">Add Exchange</button>
+    <button type="button" class="add-btn vscode-button">Add exchange</button>
   </div>
 </main>
 
