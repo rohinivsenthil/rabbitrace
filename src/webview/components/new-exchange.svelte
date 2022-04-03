@@ -28,26 +28,40 @@
           id="exchange-name"
           class="vscode-input add-exchange-input"
         />
-        <input
-          type="text"
+        <select
+          name="exchange-type"
           id="exchange-type"
-          class="vscode-input add-exchange-input"
-        />
-        <input
-          type="text"
+          class="vscode-dropdown add-exchange-input"
+        >
+          <option value="string">Direct</option>
+          <option value="number">Fanout</option>
+          <option value="boolean">Headers</option>
+          <option value="number">Topic</option>
+        </select>
+        <select
+          name="exchange-durability"
           id="exchange-durability"
-          class="vscode-input add-exchange-input"
-        />
-        <input
-          type="text"
+          class="vscode-dropdown add-exchange-input"
+        >
+          <option value="string">Durable</option>
+          <option value="number">Transient</option>
+        </select>
+        <select
+          name="exchange-auto-delete"
           id="exchange-auto-delete"
-          class="vscode-input add-exchange-input"
-        />
-        <input
-          type="text"
+          class="vscode-dropdown add-exchange-input"
+        >
+          <option value="string">No</option>
+          <option value="number">Yes</option>
+        </select>
+        <select
+          name="exchange-internal"
           id="exchange-internal"
-          class="vscode-input add-exchange-input"
-        />
+          class="vscode-dropdown add-exchange-input"
+        >
+          <option value="string">No</option>
+          <option value="number">Yes</option>
+        </select>
         <div class="add-exchange-args">
           <input
             type="text"
