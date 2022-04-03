@@ -1,5 +1,3 @@
-import * as path from "path";
-import * as fs from "fs/promises";
 import * as vscode from "vscode";
 import type Connection from "./connection";
 
@@ -9,17 +7,17 @@ interface NewConnectionMessage {
 }
 
 export default async function newConnection(context: vscode.ExtensionContext) {
-  const panel = vscode.window.createWebviewPanel(
+  const webviewPanel = vscode.window.createWebviewPanel(
     "rabbitmq.connections.new",
     "New Connection",
     vscode.ViewColumn.One,
     { enableScripts: true }
   );
 
-  panel.webview.onDidReceiveMessage(async (message: NewConnectionMessage) => {
+  webviewPanel.webview.onDidReceiveMessage(async (message: NewConnectionMessage) => {
     switch (message.action) {
       case "save-connection":
-        panel.dispose();
+        webviewPanel.dispose();
         await context.workspaceState.update(
           message.connection.name,
           message.connection
@@ -31,9 +29,24 @@ export default async function newConnection(context: vscode.ExtensionContext) {
     }
   });
 
-  panel.webview.html = (
-    await fs.readFile(
-      path.join(context.extensionPath, "webview", "new-connection.html")
-    )
-  ).toString();
+  const stylesheetPath = webviewPanel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-connection.css")
+  );
+
+  const scriptPath = webviewPanel.webview.asWebviewUri(
+    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-connection.js")
+  );
+
+  webviewPanel.webview.html = `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="${stylesheetPath}">
+      <script defer src="${scriptPath}"></script>
+    </head>
+    <body>
+    </body>
+  </html>
+  `;
+
 }
