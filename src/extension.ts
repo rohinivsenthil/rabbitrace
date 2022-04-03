@@ -7,7 +7,7 @@ import {
   removeConnection,
 } from "./connections";
 import { ExchangeEditor, ExchangesProvider, newExchange } from "./exchanges";
-import { QueueEditor, QueuesProvider } from "./queues";
+import { QueueEditor, QueuesProvider, newQueue } from "./queues";
 import type { Connection } from "./connections";
 
 // this method is called when your extension is activated
@@ -85,6 +85,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   const queueEditor = new QueueEditor(context);
   const queuesProvider = new QueuesProvider();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.queues.new", () => {
+      newQueue(context);
+    })
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.refresh", () =>

@@ -1,24 +1,24 @@
 import * as vscode from "vscode";
-import type Exchange from "./exchange";
+import type Queue from "./queue";
 
-export default async function newExchange(context: vscode.ExtensionContext) {
+export default async function newQueue(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.window.createWebviewPanel(
-    "rabbitmq.exchanges.new",
-    "New Exchange",
+    "rabbitmq.queues.new",
+    "New Queue",
     vscode.ViewColumn.One,
     { enableScripts: true }
   );
 
-  webviewPanel.webview.onDidReceiveMessage(async (exchange: Exchange) => {
-    // TODO: write code to create exchange (if successfully created call webviewPanel.dispose())
+  webviewPanel.webview.onDidReceiveMessage(async (queue: Queue) => {
+    // TODO: write code to create queue (if successfully created call webviewPanel.dispose())
   });
 
   const stylesheetPath = webviewPanel.webview.asWebviewUri(
-    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-exchange.css")
+    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-queue.css")
   );
 
   const scriptPath = webviewPanel.webview.asWebviewUri(
-    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-exchange.js")
+    vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-queue.js")
   );
 
   webviewPanel.webview.html = `
