@@ -112,6 +112,12 @@
         "category": "RabbitMQ"
       },
       {
+        "command": "rabbitmq.queues.delete",
+        "title": "Delete",
+        "icon": "$(trash)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.queues.details",
         "title": "Details",
         "icon": "$(debug-disconnect)",
@@ -166,6 +172,11 @@
         {
           "command": "rabbitmq.exchanges.delete",
           "when": "view == rabbitmq.exchanges",
+          "group": "inline"
+        },
+        {
+          "command": "rabbitmq.queues.delete",
+          "when": "view == rabbitmq.queues",
           "group": "inline"
         }
       ]

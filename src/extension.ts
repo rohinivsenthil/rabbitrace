@@ -12,7 +12,7 @@ import {
   newExchange,
   deleteExchange,
 } from "./exchanges";
-import { QueueEditor, QueuesProvider, newQueue } from "./queues";
+import { QueueEditor, QueuesProvider, newQueue, deleteQueue } from "./queues";
 import type { Connection } from "./connections";
 import type Exchange from "./exchanges/exchange";
 import type Queue from "./queues/queue";
@@ -118,7 +118,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "rabbitmq.queues.delete",
       (queue: Queue) => {
-        deleteExchange(queue);
+        deleteQueue(queue);
       }
     )
   );
