@@ -94,7 +94,7 @@
         "category": "RabbitMQ"
       },
       {
-        "command": "rabbitmq.exchange.delete",
+        "command": "rabbitmq.exchanges.delete",
         "title": "Delete",
         "icon": "$(trash)",
         "category": "RabbitMQ"
@@ -164,7 +164,7 @@
           "group": "inline"
         },
         {
-          "command": "rabbitmq.exchange.delete",
+          "command": "rabbitmq.exchanges.delete",
           "when": "view == rabbitmq.exchanges",
           "group": "inline"
         }

@@ -15,6 +15,7 @@ import {
 import { QueueEditor, QueuesProvider, newQueue } from "./queues";
 import type { Connection } from "./connections";
 import type Exchange from "./exchanges/exchange";
+import type Queue from "./queues/queue";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -72,7 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "rabbitmq.exchange.delete",
+      "rabbitmq.exchanges.delete",
       (exchange: Exchange) => {
         deleteExchange(exchange);
       }
@@ -110,6 +111,15 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.refresh", () =>
       queuesProvider.refresh()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rabbitmq.queues.delete",
+      (queue: Queue) => {
+        deleteExchange(queue);
+      }
     )
   );
 

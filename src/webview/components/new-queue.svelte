@@ -1,10 +1,21 @@
 <script>
-  //   function newQueue(someArg) {
-  //     const vscode = acquireVsCodeApi();
-  //     vscode.postMessage({
-  //       type: 'new-queue',
-  //       someArg,
-  //     })
+  let data = {
+    name: "",
+    durable: "true",
+    auto_delete: "false",
+    internal: "false",
+    arguments: {
+      "x-queue-type": "classic",
+    },
+  };
+
+  function newQueue() {
+    const vscode = acquireVsCodeApi();
+    vscode.postMessage({
+      type: "new-queue",
+      data,
+    });
+  }
 </script>
 
 <main>
@@ -26,11 +37,13 @@
           type="text"
           id="queue-name"
           class="vscode-input add-queue-input"
+          bind:value={data.name}
         />
         <select
           name="queue-type"
           id="queue-type"
           class="vscode-dropdown add-queue-input"
+          bind:value={data.arguments["x-queue-type"]}
         >
           <option value="classic">Classic</option>
           <option value="quorum">Quorum</option>
@@ -40,17 +53,19 @@
           name="queue-durability"
           id="queue-durability"
           class="vscode-dropdown add-queue-input"
+          bind:value={data.durable}
         >
-          <option value="string">Durable</option>
-          <option value="number">Transient</option>
+          <option value="true">Durable</option>
+          <option value="false">Transient</option>
         </select>
         <select
           name="queue-auto-delete"
           id="queue-auto-delete"
           class="vscode-dropdown add-queue-input"
+          bind:value={data.auto_delete}
         >
-          <option value="string">No</option>
-          <option value="number">Yes</option>
+          <option value="false">No</option>
+          <option value="true">Yes</option>
         </select>
         <div class="add-queue-args">
           <input
@@ -77,7 +92,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="add-btn vscode-button">Add queue</button>
+    <button type="button" class="add-btn vscode-button" on:click={newQueue}
+      >Add queue</button
+    >
   </div>
 </main>
 

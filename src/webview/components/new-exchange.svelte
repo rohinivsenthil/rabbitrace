@@ -2,6 +2,7 @@
   let data = {
     name: "",
     type: "direct",
+    durable: "true",
     auto_delete: "false",
     internal: "false",
     arguments: {},
