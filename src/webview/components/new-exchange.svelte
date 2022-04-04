@@ -1,10 +1,19 @@
 <script>
-  //   function newExchange(someArg) {
-  //     const vscode = acquireVsCodeApi();
-  //     vscode.postMessage({
-  //       type: 'new-exchange',
-  //       someArg,
-  //     })
+  let data = {
+    name: "",
+    type: "direct",
+    auto_delete: "false",
+    internal: "false",
+    arguments: {},
+  };
+
+  function newExchange() {
+    const vscode = acquireVsCodeApi();
+    vscode.postMessage({
+      type: "new-exchange",
+      data,
+    });
+  }
 </script>
 
 <main>
@@ -27,11 +36,13 @@
           type="text"
           id="exchange-name"
           class="vscode-input add-exchange-input"
+          bind:value={data.name}
         />
         <select
           name="exchange-type"
           id="exchange-type"
           class="vscode-dropdown add-exchange-input"
+          bind:value={data.type}
         >
           <option value="direct">Direct</option>
           <option value="fanout">Fanout</option>
@@ -42,25 +53,28 @@
           name="exchange-durability"
           id="exchange-durability"
           class="vscode-dropdown add-exchange-input"
+          bind:value={data.durable}
         >
-          <option value="string">Durable</option>
-          <option value="number">Transient</option>
+          <option value="true">Durable</option>
+          <option value="false">Transient</option>
         </select>
         <select
           name="exchange-auto-delete"
           id="exchange-auto-delete"
           class="vscode-dropdown add-exchange-input"
+          bind:value={data.auto_delete}
         >
-          <option value="string">No</option>
-          <option value="number">Yes</option>
+          <option value="false">No</option>
+          <option value="true">Yes</option>
         </select>
         <select
           name="exchange-internal"
           id="exchange-internal"
           class="vscode-dropdown add-exchange-input"
+          bind:value={data.internal}
         >
-          <option value="string">No</option>
-          <option value="number">Yes</option>
+          <option value="false">No</option>
+          <option value="true">Yes</option>
         </select>
         <div class="add-exchange-args">
           <input
@@ -87,7 +101,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="add-btn vscode-button">Add exchange</button>
+    <button type="button" class="add-btn vscode-button" on:click={newExchange}
+      >Add exchange</button
+    >
   </div>
 </main>
 

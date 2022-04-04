@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import type Exchange from "./exchange";
+import axios from "axios";
+import { BASE_URL, EXCHANGES, AUTH } from "../constants";
 
 export default async function newExchange(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.window.createWebviewPanel(
@@ -9,8 +10,20 @@ export default async function newExchange(context: vscode.ExtensionContext) {
     { enableScripts: true }
   );
 
-  webviewPanel.webview.onDidReceiveMessage(async (exchange: Exchange) => {
-    // TODO: write code to create exchange (if successfully created call webviewPanel.dispose())
+  webviewPanel.webview.onDidReceiveMessage(async (message) => {
+    if (message.type === "new-exchange") {
+      console.log(message.name);
+      await axios({
+        method: "put",
+        baseURL: BASE_URL,
+        url: `${EXCHANGES}/${message.data.name}`,
+        auth: AUTH,
+        data: { ...message.data, vhost: "/" },
+      });
+
+      webviewPanel.dispose();
+      await vscode.commands.executeCommand("rabbitmq.exchanges.refresh");
+    }
   });
 
   const stylesheetPath = webviewPanel.webview.asWebviewUri(
