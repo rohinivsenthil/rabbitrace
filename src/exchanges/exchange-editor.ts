@@ -4,8 +4,10 @@ import {
   BASE_URL,
   EXCHANGES,
   LIST_BINDINGS_EXCHANGE,
+  LIST_BINDINGS_QUEUE,
   AUTH,
   REFRESH_TIME,
+  VHOST,
 } from "../constants";
 
 export default class ExchangeEditor
@@ -65,9 +67,17 @@ export default class ExchangeEditor
       }
     });
 
-    webviewPanel.webview.onDidReceiveMessage((message) => {
-      if (message.type === "new-binding") {
-        // TODO: do stuff
+    webviewPanel.webview.onDidReceiveMessage(async (message) => {
+      if (message.type === "add-binding") {
+        await axios({
+          method: "post",
+          baseURL: BASE_URL,
+          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
+          auth: AUTH,
+          data: { ...message.data, vhost: "/" },
+        });
+
+        await updateFunction();
       }
     });
 

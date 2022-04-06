@@ -1,20 +1,30 @@
 <script>
+  const vscode = acquireVsCodeApi();
+
   export let bindings = [];
   export let name;
   export let overviewDetails = [];
 
-  function newBinding(someArg) {
-    const vscode = acquireVsCodeApi();
+  let addBindingData = {
+    destination: "",
+    destination_type: "q",
+    source: "",
+    routing_key: "",
+    arguments: {},
+  };
+
+  function addBinding() {
     vscode.postMessage({
-      type: 'new-binding',
-      someArg,
-    })
+      type: "add-binding",
+      data: addBindingData,
+    });
   }
 
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
     name = event.data.name;
+    addBindingData.source = event.data.name;
 
     const formattedArguments = Object.entries(overview.arguments)
       .map(([key, value]) => `${key} = ${value}`)
@@ -106,9 +116,10 @@
           name="add-binding"
           id="add-binding"
           class="vscode-dropdown add-binding-key"
+          bind:value={addBindingData.destination_type}
         >
-          <option value="queue">To Queue</option>
-          <option value="exchange">To Exchange</option>
+          <option value="q">To Queue</option>
+          <option value="e">To Exchange</option>
         </select>
         <div class="add-binding-key">Routing Key</div>
         <div class="add-binding-key">Arguements</div>
@@ -118,11 +129,13 @@
           type="text"
           id="queue-exchange-name"
           class="vscode-input add-binding-input"
+          bind:value={addBindingData.destination}
         />
         <input
           type="text"
           id="routing-key"
           class="vscode-input add-binding-input"
+          bind:value={addBindingData.routing_key}
         />
         <div class="add-binding-args">
           <input
@@ -149,7 +162,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="bind-btn vscode-button">Bind</button>
+    <button type="button" class="bind-btn vscode-button" on:click={addBinding}
+      >Bind</button
+    >
     <div class="exchange-section">
       <div class="exchange-section-title">‣ Publish message</div>
     </div>
