@@ -3,10 +3,27 @@
   export let name;
   export let overviewDetails = [];
 
+  let addBindingData = {
+    destination: "",
+    destination_type: "q",
+    source: "",
+    routing_key: "",
+    arguments: {},
+  };
+
+  function addBinding() {
+    const vscode = acquireVsCodeApi();
+    vscode.postMessage({
+      type: "add-binding",
+      data: addBindingData,
+    });
+  }
+
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
     name = event.data.name;
+    addBindingData.destination = event.data.name;
 
     const formattedArguments = Object.entries(overview.arguments)
       .map(([key, value]) => `${key} = ${value}`)
@@ -97,8 +114,18 @@
         <div class="add-binding-key">Arguements</div>
       </div>
       <div class="add-binding-fields">
-        <input type="text" id="queue-queue-name" class="add-binding-input" />
-        <input type="text" id="routing-key" class="add-binding-input" />
+        <input
+          type="text"
+          id="queue-queue-name"
+          class="add-binding-input"
+          bind:value={addBindingData.source}
+        />
+        <input
+          type="text"
+          id="routing-key"
+          class="add-binding-input"
+          bind:value={addBindingData.routing_key}
+        />
         <div class="add-binding-args">
           <input type="text" id="arguments-key" class="add-binding-input" />
           <div>=</div>
@@ -112,7 +139,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="bind-btn">Bind</button>
+    <button type="button" class="bind-btn" on:click={addBinding}>Bind</button>
     <div class="queue-section">
       <div class="queue-section-title">‣ Publish message</div>
     </div>

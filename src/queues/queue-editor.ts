@@ -6,6 +6,7 @@ import {
   LIST_BINDINGS_QUEUE,
   AUTH,
   REFRESH_TIME,
+  VHOST,
 } from "../constants";
 
 export default class QueueEditor
@@ -67,6 +68,20 @@ export default class QueueEditor
 
     webviewPanel.onDidDispose(() => {
       clearInterval(interval);
+    });
+
+    webviewPanel.webview.onDidReceiveMessage(async (message) => {
+      if (message.type === "add-binding") {
+        await axios({
+          method: "post",
+          baseURL: BASE_URL,
+          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}`,
+          auth: AUTH,
+          data: { ...message.data, vhost: "/" },
+        });
+
+        await updateFunction();
+      }
     });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(

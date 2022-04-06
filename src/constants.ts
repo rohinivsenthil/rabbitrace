@@ -9,6 +9,7 @@ const LIST_BINDINGS_EXCHANGE = "/bindings/source";
 const LIST_BINDINGS_QUEUE = "/bindings";
 const LIST_EXCHANEGS = "/exchanges?page=1&page_size=50";
 const LIST_QUEUES = "/queues?page=1&page_size=50";
+const VHOST = "/%2F";
 
 const AUTH = {
   username: "guest",
@@ -50,4 +51,5 @@ export {
   AUTH,
   REFRESH_TIME,
   LIST_BINDINGS_QUEUE,
+  VHOST,
 };

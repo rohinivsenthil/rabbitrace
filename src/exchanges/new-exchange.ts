@@ -12,7 +12,6 @@ export default async function newExchange(context: vscode.ExtensionContext) {
 
   webviewPanel.webview.onDidReceiveMessage(async (message) => {
     if (message.type === "new-exchange") {
-      console.log(message.name);
       await axios({
         method: "put",
         baseURL: BASE_URL,
