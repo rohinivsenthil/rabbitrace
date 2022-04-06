@@ -79,6 +79,18 @@ export default class ExchangeEditor
 
         await updateFunction();
       }
+
+      if (message.type === "remove-binding") {
+        await axios({
+          method: "delete",
+          baseURL: BASE_URL,
+          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
+          auth: AUTH,
+          data: message.data,
+        });
+
+        await updateFunction();
+      }
     });
 
     webviewPanel.onDidDispose(() => {

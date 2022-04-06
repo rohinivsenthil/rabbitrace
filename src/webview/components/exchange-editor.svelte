@@ -19,6 +19,19 @@
       data: addBindingData,
     });
   }
+  function removeBinding(binding) {
+    console.log();
+    vscode.postMessage({
+      type: "remove-binding",
+      data: {
+        vhost: binding.vhost,
+        source: binding.source,
+        destination: binding.destination,
+        properties_key: binding.properties_key,
+        destination_type: binding.destination_type == "queue" ? "q" : "e",
+      },
+    });
+  }
 
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
@@ -98,7 +111,10 @@
             >{JSON.stringify(binding.arguments, null, 2)}</td
           >
           <td class="bindings-td">
-            <button type="button" class="vscode-button"
+            <button
+              type="button"
+              class="vscode-button"
+              on:click={() => removeBinding(binding)}
               ><i class="codicon codicon-trash" /></button
             >
           </td>
