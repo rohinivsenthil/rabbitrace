@@ -1,4 +1,6 @@
 <script>
+  const vscode = acquireVsCodeApi();
+
   export let bindings = [];
   export let name;
   export let overviewDetails = [];
@@ -12,10 +14,22 @@
   };
 
   function addBinding() {
-    const vscode = acquireVsCodeApi();
     vscode.postMessage({
       type: "add-binding",
       data: addBindingData,
+    });
+  }
+
+  function removeBinding(binding) {
+    vscode.postMessage({
+      type: "remove-binding",
+      data: {
+        vhost: binding.vhost,
+        source: binding.source,
+        destination: binding.destination,
+        properties_key: binding.properties_key,
+        destination_type: "q",
+      },
     });
   }
 
@@ -94,7 +108,10 @@
               >{JSON.stringify(binding.arguments, null, 2)}</td
             >
             <td class="bindings-td">
-              <button type="button" class="vscode-button unbind-btn"
+              <button
+                type="button"
+                class="vscode-button unbind-btn"
+                on:click={() => removeBinding(binding)}
                 ><i class="codicon codicon-trash" /></button
               >
             </td>

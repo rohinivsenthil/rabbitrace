@@ -82,6 +82,18 @@ export default class QueueEditor
 
         await updateFunction();
       }
+
+      if (message.type === "remove-binding") {
+        await axios({
+          method: "delete",
+          baseURL: BASE_URL,
+          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
+          auth: AUTH,
+          data: message.data,
+        });
+
+        await updateFunction();
+      }
     });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
