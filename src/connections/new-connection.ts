@@ -14,20 +14,22 @@ export default async function newConnection(context: vscode.ExtensionContext) {
     { enableScripts: true }
   );
 
-  webviewPanel.webview.onDidReceiveMessage(async (message: NewConnectionMessage) => {
-    switch (message.action) {
-      case "save-connection":
-        webviewPanel.dispose();
-        await context.workspaceState.update(
-          message.connection.name,
-          message.connection
-        );
-        await vscode.commands.executeCommand("rabbitmq.connections.refresh");
-        break;
-      case "test-connection":
-        break;
+  webviewPanel.webview.onDidReceiveMessage(
+    async (message: NewConnectionMessage) => {
+      switch (message.action) {
+        case "save-connection":
+          webviewPanel.dispose();
+          await context.workspaceState.update(
+            message.connection.name,
+            message.connection
+          );
+          await vscode.commands.executeCommand("rabbitmq.connections.refresh");
+          break;
+        case "test-connection":
+          break;
+      }
     }
-  });
+  );
 
   const stylesheetPath = webviewPanel.webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, "dist/pages/new-connection.css")
@@ -48,5 +50,4 @@ export default async function newConnection(context: vscode.ExtensionContext) {
     </body>
   </html>
   `;
-
 }
