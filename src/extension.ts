@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import axios from "axios";
 import {
   ConnectionsProvider,
   newConnection,
@@ -20,6 +21,26 @@ import type Queue from "./queues/queue";
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  const managementAPI = axios.create();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rabbitmq.connect",
+      (connectionName: string) => {
+        const connection =
+          context.workspaceState.get<Connection>(connectionName);
+
+        managementAPI.defaults.baseURL = `${connection?.mapiURL}/api`;
+        managementAPI.defaults.auth = connection
+          ? {
+              username: connection.mapiUsername,
+              password: connection.mapiPassword,
+            }
+          : undefined;
+      }
+    )
+  );
+
   // Connections
 
   const connectionsProvider = new ConnectionsProvider(context);
@@ -53,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Exchanges
 
   const exchangeEditor = new ExchangeEditor(context);
-  const exchangesProvider = new ExchangesProvider();
+  const exchangesProvider = new ExchangesProvider(managementAPI);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.exchanges.new", () => {
@@ -96,7 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Queues
 
   const queueEditor = new QueueEditor(context);
-  const queuesProvider = new QueuesProvider();
+  const queuesProvider = new QueuesProvider(managementAPI);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.new", () => {

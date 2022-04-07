@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import axios from "axios";
-import { BASE_URL, LIST_QUEUES, QUEUE, AUTH } from "../constants";
+import { Axios } from "axios";
+import { BASE_URL, LIST_QUEUES, QUEUE } from "../constants";
 import type Queue from "./queue";
 
 export default class QueuesProvider
@@ -13,28 +13,19 @@ export default class QueuesProvider
     this._onDidChangeTreeData.event;
 
   refreshInterval: NodeJS.Timeout;
+  managementAPI: Axios;
 
-  constructor() {
+  constructor(managementAPI: Axios) {
     this.refreshInterval = setInterval(() => this.refresh(), 5000);
+    this.managementAPI = managementAPI;
   }
 
   async getChildren(): Promise<Queue[]> {
-    const {
-      data: { items },
-    } = await axios({
-      method: "get",
-      url: `${BASE_URL}${LIST_QUEUES}`,
-      auth: AUTH,
-    });
-
-    return items;
+    return (await this.managementAPI.get(LIST_QUEUES)).data.items;
   }
 
   getTreeItem(queue: Queue): vscode.TreeItem {
-    const item = new vscode.TreeItem(
-      `${queue.name}`,
-      vscode.TreeItemCollapsibleState.None
-    );
+    const item = new vscode.TreeItem(queue.name);
 
     item.iconPath = QUEUE;
 

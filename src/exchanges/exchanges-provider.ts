@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import axios from "axios";
-import { BASE_URL, LIST_EXCHANEGS, EXCHANGE, AUTH } from "../constants";
+import { Axios } from "axios";
+import { BASE_URL, LIST_EXCHANEGS, EXCHANGE } from "../constants";
 import type Exchange from "./exchange";
 
 export default class ExchangesProvider
@@ -14,28 +14,19 @@ export default class ExchangesProvider
   > = this._onDidChangeTreeData.event;
 
   refreshInterval: NodeJS.Timeout;
+  managementAPI: Axios;
 
-  constructor() {
+  constructor(managementAPI: Axios) {
     this.refreshInterval = setInterval(() => this.refresh(), 5000);
+    this.managementAPI = managementAPI;
   }
 
   async getChildren(): Promise<Exchange[]> {
-    const {
-      data: { items },
-    } = await axios({
-      method: "get",
-      url: `${BASE_URL}${LIST_EXCHANEGS}`,
-      auth: AUTH,
-    });
-
-    return items;
+    return (await this.managementAPI.get(LIST_EXCHANEGS)).data.items;
   }
 
   getTreeItem(exchange: Exchange): vscode.TreeItem {
-    const item = new vscode.TreeItem(
-      exchange.name || "(AMQP default)",
-      vscode.TreeItemCollapsibleState.None
-    );
+    const item = new vscode.TreeItem(exchange.name || "(AMQP default)");
 
     item.iconPath = EXCHANGE;
 

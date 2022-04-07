@@ -64,6 +64,12 @@
     },
     "commands": [
       {
+        "command": "rabbitmq.connect",
+        "title": "Connect",
+        "icon": "$(connect)",
+        "category": "RabbitMQ"
+      },
+      {
         "command": "rabbitmq.connections.new",
         "title": "New Connection",
         "icon": "$(plus)",

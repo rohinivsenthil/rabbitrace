@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { IDLE_CONNECTION } from "../constants";
+import { CONNECTED_CONNECTION, IDLE_CONNECTION } from "../constants";
 import type Connection from "./connection";
 
 export default class ConnectionsProvider
@@ -13,6 +13,7 @@ export default class ConnectionsProvider
   > = this._onDidChangeTreeData.event;
 
   context: vscode.ExtensionContext;
+  selected?: string;
 
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
@@ -25,15 +26,23 @@ export default class ConnectionsProvider
       .map((connectionName) =>
         this.context.workspaceState.get<Connection>(connectionName)
       )
-      .filter(
-        (connection): connection is Connection => connection !== undefined
-      );
+      .filter((connection): connection is Connection => !!connection);
   }
 
   getTreeItem(connection: Connection): vscode.TreeItem {
     const item = new vscode.TreeItem(connection.name);
+
     item.description = connection.amqpURL;
-    item.iconPath = IDLE_CONNECTION;
+
+    item.iconPath =
+      connection.name == this.selected ? CONNECTED_CONNECTION : IDLE_CONNECTION;
+
+    item.command = {
+      arguments: [connection.name],
+      command: "rabbitmq.connect",
+      title: "Connect",
+    };
+
     return item;
   }
 

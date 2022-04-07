@@ -44,7 +44,7 @@ export default class ExchangeEditor
 
       const { data: overview } = await axios({
         method: "get",
-        baseURL: BASE_URL,
+        baseURL: document.uri.fragment,
         url: `${EXCHANGES}/${path}`,
         auth: AUTH,
       });
@@ -76,8 +76,6 @@ export default class ExchangeEditor
           auth: AUTH,
           data: { ...message.data, vhost: "/" },
         });
-
-        await updateFunction();
       }
 
       if (message.type === "remove-binding") {
@@ -88,9 +86,9 @@ export default class ExchangeEditor
           auth: AUTH,
           data: message.data,
         });
-
-        await updateFunction();
       }
+
+      await updateFunction();
     });
 
     webviewPanel.onDidDispose(() => {
