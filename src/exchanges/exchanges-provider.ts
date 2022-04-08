@@ -22,7 +22,10 @@ export default class ExchangesProvider
   }
 
   async getChildren(): Promise<Exchange[]> {
-    return (await this.managementAPI.get(LIST_EXCHANEGS)).data.items;
+    if (this.managementAPI.defaults.baseURL) {
+      return (await this.managementAPI.get(LIST_EXCHANEGS)).data.items;
+    }
+    return [];
   }
 
   getTreeItem(exchange: Exchange): vscode.TreeItem {

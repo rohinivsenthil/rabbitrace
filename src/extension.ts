@@ -22,6 +22,13 @@ import type Queue from "./queues/queue";
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   const managementAPI = axios.create();
+  const connectionsProvider = new ConnectionsProvider(context);
+  const exchangeEditor = new ExchangeEditor(context);
+  const exchangesProvider = new ExchangesProvider(managementAPI);
+  const queueEditor = new QueueEditor(context);
+  const queuesProvider = new QueuesProvider(managementAPI);
+
+  // Connections
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -30,6 +37,8 @@ export function activate(context: vscode.ExtensionContext) {
         const connection =
           context.workspaceState.get<Connection>(connectionName);
 
+        connectionsProvider.connect(connectionName);
+
         managementAPI.defaults.baseURL = `${connection?.mapiURL}/api`;
         managementAPI.defaults.auth = connection
           ? {
@@ -37,13 +46,12 @@ export function activate(context: vscode.ExtensionContext) {
               password: connection.mapiPassword,
             }
           : undefined;
+
+        exchangesProvider.refresh();
+        queuesProvider.refresh();
       }
     )
   );
-
-  // Connections
-
-  const connectionsProvider = new ConnectionsProvider(context);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.connections.new", () =>
@@ -73,8 +81,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Exchanges
 
-  const exchangeEditor = new ExchangeEditor(context);
-  const exchangesProvider = new ExchangesProvider(managementAPI);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.exchanges.new", () => {
@@ -115,9 +121,6 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(exchangesProvider);
 
   // Queues
-
-  const queueEditor = new QueueEditor(context);
-  const queuesProvider = new QueuesProvider(managementAPI);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.queues.new", () => {

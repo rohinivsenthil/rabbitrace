@@ -13,7 +13,7 @@ export default class ConnectionsProvider
   > = this._onDidChangeTreeData.event;
 
   context: vscode.ExtensionContext;
-  selected?: string;
+  connected?: string;
 
   constructor(context: vscode.ExtensionContext) {
     this.context = context;
@@ -35,7 +35,7 @@ export default class ConnectionsProvider
     item.description = connection.amqpURL;
 
     item.iconPath =
-      connection.name == this.selected ? CONNECTED_CONNECTION : IDLE_CONNECTION;
+      connection.name == this.connected ? CONNECTED_CONNECTION : IDLE_CONNECTION;
 
     item.command = {
       arguments: [connection.name],
@@ -48,5 +48,10 @@ export default class ConnectionsProvider
 
   refresh() {
     this._onDidChangeTreeData.fire();
+  }
+
+  connect(connectionName: string) {
+    this.connected = connectionName;
+    this.refresh();
   }
 }

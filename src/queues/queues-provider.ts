@@ -21,7 +21,10 @@ export default class QueuesProvider
   }
 
   async getChildren(): Promise<Queue[]> {
-    return (await this.managementAPI.get(LIST_QUEUES)).data.items;
+    if (this.managementAPI.defaults.baseURL) {
+      return (await this.managementAPI.get(LIST_QUEUES)).data.items;
+    }
+    return [];
   }
 
   getTreeItem(queue: Queue): vscode.TreeItem {
