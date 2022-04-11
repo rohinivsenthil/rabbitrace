@@ -1,12 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import {
-  EXCHANGES,
-  LIST_BINDINGS_EXCHANGE,
-  LIST_BINDINGS_QUEUE,
-  REFRESH_TIME,
-  VHOST,
-} from "../constants";
+import { REFRESH_TIME } from "../constants";
 
 export default class ExchangeEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -44,12 +38,12 @@ export default class ExchangeEditor
 
       const { data: overview } = await this.managementAPI.request({
         method: "get",
-        url: `${EXCHANGES}/${path}`,
+        url: `/exchanges/%2F/${path}`,
       });
 
       const { data: bindings } = await this.managementAPI.request({
         method: "get",
-        url: `${EXCHANGES}/${path}${LIST_BINDINGS_EXCHANGE}`,
+        url: `/exchanges/%2F/${path}/bindings/source`,
       });
 
       webviewPanel.webview.postMessage({ name: path, bindings, overview });
@@ -65,7 +59,7 @@ export default class ExchangeEditor
       if (message.type === "add-binding") {
         await this.managementAPI.request({
           method: "post",
-          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
+          url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
           data: { ...message.data, vhost: "/" },
         });
       }
@@ -73,7 +67,7 @@ export default class ExchangeEditor
       if (message.type === "remove-binding") {
         await this.managementAPI.request({
           method: "delete",
-          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
+          url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
           data: message.data,
         });
       }

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { QUEUES, LIST_BINDINGS_QUEUE, REFRESH_TIME, VHOST } from "../constants";
+import { REFRESH_TIME } from "../constants";
 
 export default class QueueEditor
   implements vscode.CustomReadonlyEditorProvider
@@ -35,12 +35,12 @@ export default class QueueEditor
 
       const { data: overview } = await this.managementAPI.request({
         method: "get",
-        url: `${QUEUES}/${name}`,
+        url: `/queues/%2F/${name}`,
       });
 
       const { data: bindings } = await this.managementAPI.request({
         method: "get",
-        url: `${QUEUES}/${name}${LIST_BINDINGS_QUEUE}`,
+        url: `/queues/%2F/${name}/bindings`,
       });
 
       webviewPanel.webview.postMessage({ name, bindings, overview });
@@ -60,7 +60,7 @@ export default class QueueEditor
       if (message.type === "add-binding") {
         await this.managementAPI.request({
           method: "post",
-          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}`,
+          url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}`,
           data: { ...message.data, vhost: "/" },
         });
 
@@ -70,7 +70,7 @@ export default class QueueEditor
       if (message.type === "remove-binding") {
         await this.managementAPI.request({
           method: "delete",
-          url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
+          url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
           data: message.data,
         });
 
