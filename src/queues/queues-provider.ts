@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { BASE_URL, LIST_QUEUES, QUEUE } from "../constants";
+import { LIST_QUEUES, QUEUE } from "../constants";
 import type Queue from "./queue";
 
 export default class QueuesProvider
@@ -36,7 +36,6 @@ export default class QueuesProvider
       arguments: [
         vscode.Uri.from({
           scheme: "rabbitmq-queue",
-          fragment: BASE_URL,
           path: queue.name,
         }),
         "rabbitmq.queue",

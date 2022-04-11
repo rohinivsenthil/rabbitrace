@@ -1,21 +1,16 @@
 import * as vscode from "vscode";
-import axios from "axios";
-import {
-  BASE_URL,
-  QUEUES,
-  LIST_BINDINGS_QUEUE,
-  AUTH,
-  REFRESH_TIME,
-  VHOST,
-} from "../constants";
+import { Axios } from "axios";
+import { QUEUES, LIST_BINDINGS_QUEUE, REFRESH_TIME, VHOST } from "../constants";
 
 export default class QueueEditor
   implements vscode.CustomReadonlyEditorProvider
 {
   context: vscode.ExtensionContext;
+  managementAPI: Axios;
 
-  constructor(context: vscode.ExtensionContext) {
+  constructor(context: vscode.ExtensionContext, managementAPI: Axios) {
     this.context = context;
+    this.managementAPI = managementAPI;
   }
 
   openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
@@ -31,40 +26,31 @@ export default class QueueEditor
     document: vscode.CustomDocument,
     webviewPanel: vscode.WebviewPanel
   ): Promise<void> {
-    webviewPanel.title = document.uri.fragment;
-
-    webviewPanel.webview.options = {
-      enableScripts: true,
-    };
+    webviewPanel.title = document.uri.path;
+    webviewPanel.webview.options = { enableScripts: true };
 
     // TODO: use single interval for queries to all webviews
-    async function updateFunction() {
-      const path = document.uri.path;
+    const updateFunction = async () => {
+      const name = document.uri.path;
 
-      const { data: overview } = await axios({
+      const { data: overview } = await this.managementAPI.request({
         method: "get",
-        baseURL: BASE_URL,
-        url: `${QUEUES}/${path}`,
-        auth: AUTH,
+        url: `${QUEUES}/${name}`,
       });
 
-      const { data: bindings } = await axios({
+      const { data: bindings } = await this.managementAPI.request({
         method: "get",
-        baseURL: BASE_URL,
-        url: `${QUEUES}/${path}${LIST_BINDINGS_QUEUE}`,
-        auth: AUTH,
+        url: `${QUEUES}/${name}${LIST_BINDINGS_QUEUE}`,
       });
 
-      webviewPanel.webview.postMessage({ name: path, bindings, overview });
-    }
+      webviewPanel.webview.postMessage({ name, bindings, overview });
+    };
 
     await updateFunction();
-    webviewPanel.onDidChangeViewState(async () => {
-      if (webviewPanel.visible) {
-        await updateFunction();
-      }
-    });
     const interval = setInterval(updateFunction, REFRESH_TIME);
+    webviewPanel.onDidChangeViewState(
+      async () => webviewPanel.visible && (await updateFunction())
+    );
 
     webviewPanel.onDidDispose(() => {
       clearInterval(interval);
@@ -72,11 +58,9 @@ export default class QueueEditor
 
     webviewPanel.webview.onDidReceiveMessage(async (message) => {
       if (message.type === "add-binding") {
-        await axios({
+        await this.managementAPI.request({
           method: "post",
-          baseURL: BASE_URL,
           url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}`,
-          auth: AUTH,
           data: { ...message.data, vhost: "/" },
         });
 
@@ -84,11 +68,9 @@ export default class QueueEditor
       }
 
       if (message.type === "remove-binding") {
-        await axios({
+        await this.managementAPI.request({
           method: "delete",
-          baseURL: BASE_URL,
           url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
-          auth: AUTH,
           data: message.data,
         });
 

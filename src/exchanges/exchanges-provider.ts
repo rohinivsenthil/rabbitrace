@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { BASE_URL, LIST_EXCHANEGS, EXCHANGE } from "../constants";
+import { LIST_EXCHANEGS, EXCHANGE } from "../constants";
 import type Exchange from "./exchange";
 
 export default class ExchangesProvider
@@ -37,7 +37,6 @@ export default class ExchangesProvider
       arguments: [
         vscode.Uri.from({
           scheme: "rabbitmq-exchange",
-          fragment: BASE_URL,
           path: exchange.name,
         }),
         "rabbitmq.exchange",

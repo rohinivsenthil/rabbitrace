@@ -31,23 +31,48 @@
     </div>
     <div class="connection-entry">
       <label for="connection-name">Connection name:</label>
-      <input bind:value={connection.name} type="text" id="connection-name" class="connection-input" />
+      <input
+        bind:value={connection.name}
+        type="text"
+        id="connection-name"
+        class="connection-input"
+      />
     </div>
     <div class="connection-entry">
       <label for="amqp-url">AMQP URL:</label>
-      <input bind:value={connection.amqpURL} type="text" id="amqp-url" class="connection-input" />
+      <input
+        bind:value={connection.amqpURL}
+        type="text"
+        id="amqp-url"
+        class="connection-input"
+      />
     </div>
     <div class="connection-entry">
       <label for="mapi-url">Management API URL:</label>
-      <input bind:value={connection.mapiURL} type="text" id="mapi-url" class="connection-input" />
+      <input
+        bind:value={connection.mapiURL}
+        type="text"
+        id="mapi-url"
+        class="connection-input"
+      />
     </div>
     <div class="connection-entry">
       <label for="mapi-username">Management API Username:</label>
-      <input bind:value={connection.mapiUsername} type="text" id="mapi-username" class="connection-input" />
+      <input
+        bind:value={connection.mapiUsername}
+        type="text"
+        id="mapi-username"
+        class="connection-input"
+      />
     </div>
     <div class="connection-entry">
       <label for="mapi-password">Management API Password:</label>
-      <input bind:value={connection.mapiPassword} type="text" id="mapi-password" class="connection-input" />
+      <input
+        bind:value={connection.mapiPassword}
+        type="text"
+        id="mapi-password"
+        class="connection-input"
+      />
     </div>
     <div class="connection-action-btns">
       <button type="button" class="connection-btn" on:click={testConnection}>

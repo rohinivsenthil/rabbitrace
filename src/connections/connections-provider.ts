@@ -35,7 +35,9 @@ export default class ConnectionsProvider
     item.description = connection.amqpURL;
 
     item.iconPath =
-      connection.name == this.connected ? CONNECTED_CONNECTION : IDLE_CONNECTION;
+      connection.name == this.connected
+        ? CONNECTED_CONNECTION
+        : IDLE_CONNECTION;
 
     item.command = {
       arguments: [connection.name],

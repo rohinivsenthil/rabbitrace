@@ -1,11 +1,9 @@
 import * as vscode from "vscode";
-import axios from "axios";
+import { Axios } from "axios";
 import {
-  BASE_URL,
   EXCHANGES,
   LIST_BINDINGS_EXCHANGE,
   LIST_BINDINGS_QUEUE,
-  AUTH,
   REFRESH_TIME,
   VHOST,
 } from "../constants";
@@ -14,9 +12,11 @@ export default class ExchangeEditor
   implements vscode.CustomReadonlyEditorProvider
 {
   context: vscode.ExtensionContext;
+  managementAPI: Axios;
 
-  constructor(context: vscode.ExtensionContext) {
+  constructor(context: vscode.ExtensionContext, managementAPI: Axios) {
     this.context = context;
+    this.managementAPI = managementAPI;
   }
 
   openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
@@ -32,58 +32,48 @@ export default class ExchangeEditor
     document: vscode.CustomDocument,
     webviewPanel: vscode.WebviewPanel
   ): Promise<void> {
-    webviewPanel.title = document.uri.fragment;
+    webviewPanel.title = document.uri.path;
 
     webviewPanel.webview.options = {
       enableScripts: true,
     };
 
     // TODO: use single interval for queries to all webviews
-    async function updateFunction() {
+    const updateFunction = async () => {
       const path = document.uri.path;
 
-      const { data: overview } = await axios({
+      const { data: overview } = await this.managementAPI.request({
         method: "get",
-        baseURL: document.uri.fragment,
         url: `${EXCHANGES}/${path}`,
-        auth: AUTH,
       });
 
-      const { data: bindings } = await axios({
+      const { data: bindings } = await this.managementAPI.request({
         method: "get",
-        baseURL: BASE_URL,
         url: `${EXCHANGES}/${path}${LIST_BINDINGS_EXCHANGE}`,
-        auth: AUTH,
       });
 
       webviewPanel.webview.postMessage({ name: path, bindings, overview });
-    }
+    };
 
     await updateFunction();
     const interval = setInterval(updateFunction, REFRESH_TIME);
-    webviewPanel.onDidChangeViewState(async () => {
-      if (webviewPanel.visible) {
-        await updateFunction();
-      }
-    });
+    webviewPanel.onDidChangeViewState(
+      async () => webviewPanel.visible && (await updateFunction())
+    );
 
     webviewPanel.webview.onDidReceiveMessage(async (message) => {
       if (message.type === "add-binding") {
-        await axios({
+        await this.managementAPI.request({
           method: "post",
-          baseURL: BASE_URL,
           url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
-          auth: AUTH,
           data: { ...message.data, vhost: "/" },
         });
       }
 
       if (message.type === "remove-binding") {
-        await axios({
+        await this.managementAPI.request({
           method: "delete",
-          baseURL: BASE_URL,
           url: `${LIST_BINDINGS_QUEUE}${VHOST}/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
-          auth: AUTH,
           data: message.data,
         });
       }

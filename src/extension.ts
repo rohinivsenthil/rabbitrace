@@ -23,9 +23,9 @@ import type Queue from "./queues/queue";
 export function activate(context: vscode.ExtensionContext) {
   const managementAPI = axios.create();
   const connectionsProvider = new ConnectionsProvider(context);
-  const exchangeEditor = new ExchangeEditor(context);
+  const exchangeEditor = new ExchangeEditor(context, managementAPI);
   const exchangesProvider = new ExchangesProvider(managementAPI);
-  const queueEditor = new QueueEditor(context);
+  const queueEditor = new QueueEditor(context, managementAPI);
   const queuesProvider = new QueuesProvider(managementAPI);
 
   // Connections
@@ -80,7 +80,6 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // Exchanges
-
 
   context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.exchanges.new", () => {
