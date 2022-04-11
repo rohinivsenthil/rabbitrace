@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { QUEUES } from "../constants";
 import type Queue from "./queue";
 
 export default async function deleteQueue(queue: Queue, managementAPI: Axios) {
   await managementAPI.request({
     method: "delete",
-    url: `${QUEUES}/${queue.name}`,
+    url: `/queues/%2F"/${queue.name}`,
     data: { name: queue.name, vhost: "/", mode: "delete" },
   });
 

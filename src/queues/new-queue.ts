@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { QUEUES } from "../constants";
 
 export default async function newQueue(
   context: vscode.ExtensionContext,
@@ -18,7 +17,7 @@ export default async function newQueue(
       console.log(message.name);
       await managementAPI.request({
         method: "put",
-        url: `${QUEUES}/${message.data.name}`,
+        url: `/queues/%2F/${message.data.name}`,
         data: { ...message.data, vhost: "/" },
       });
 

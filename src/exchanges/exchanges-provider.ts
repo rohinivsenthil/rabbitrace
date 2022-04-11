@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { LIST_EXCHANEGS, EXCHANGE } from "../constants";
+import { EXCHANGE } from "../constants";
 import type Exchange from "./exchange";
 
 export default class ExchangesProvider
@@ -23,7 +23,8 @@ export default class ExchangesProvider
 
   async getChildren(): Promise<Exchange[]> {
     if (this.managementAPI.defaults.baseURL) {
-      return (await this.managementAPI.get(LIST_EXCHANEGS)).data.items;
+      return (await this.managementAPI.get("/exchanges?page=1&page_size=50"))
+        .data.items;
     }
     return [];
   }

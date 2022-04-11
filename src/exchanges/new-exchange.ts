@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { EXCHANGES } from "../constants";
 
 export default async function newExchange(
   context: vscode.ExtensionContext,
@@ -17,7 +16,7 @@ export default async function newExchange(
     if (message.type === "new-exchange") {
       await managementAPI.request({
         method: "put",
-        url: `${EXCHANGES}/${message.data.name}`,
+        url: `/exchanges/%2F/${message.data.name}`,
         data: { ...message.data, vhost: "/" },
       });
 

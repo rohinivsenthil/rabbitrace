@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { EXCHANGES } from "../constants";
 import type Exchange from "./exchange";
 
 export default async function deleteExchange(
@@ -9,7 +8,7 @@ export default async function deleteExchange(
 ) {
   await managementAPI.request({
     method: "delete",
-    url: `${EXCHANGES}/${exchange.name}`,
+    url: `/exchanges/%2F/${exchange.name}`,
     data: { name: exchange.name, vhost: "/" },
   });
 

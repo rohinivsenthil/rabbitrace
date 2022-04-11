@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Axios } from "axios";
-import { LIST_QUEUES, QUEUE } from "../constants";
+import { QUEUE } from "../constants";
 import type Queue from "./queue";
 
 export default class QueuesProvider
@@ -22,7 +22,8 @@ export default class QueuesProvider
 
   async getChildren(): Promise<Queue[]> {
     if (this.managementAPI.defaults.baseURL) {
-      return (await this.managementAPI.get(LIST_QUEUES)).data.items;
+      return (await this.managementAPI.get("/queues?page=1&page_size=50")).data
+        .items;
     }
     return [];
   }
