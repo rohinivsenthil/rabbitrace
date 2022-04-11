@@ -1,8 +1,11 @@
 import * as vscode from "vscode";
-import axios from "axios";
-import { BASE_URL, QUEUES, AUTH } from "../constants";
+import { Axios } from "axios";
+import { QUEUES } from "../constants";
 
-export default async function newQueue(context: vscode.ExtensionContext) {
+export default async function newQueue(
+  context: vscode.ExtensionContext,
+  managementAPI: Axios
+) {
   const webviewPanel = vscode.window.createWebviewPanel(
     "rabbitmq.queues.new",
     "New Queue",
@@ -13,11 +16,9 @@ export default async function newQueue(context: vscode.ExtensionContext) {
   webviewPanel.webview.onDidReceiveMessage(async (message) => {
     if (message.type === "new-queue") {
       console.log(message.name);
-      await axios({
+      await managementAPI.request({
         method: "put",
-        baseURL: BASE_URL,
         url: `${QUEUES}/${message.data.name}`,
-        auth: AUTH,
         data: { ...message.data, vhost: "/" },
       });
 

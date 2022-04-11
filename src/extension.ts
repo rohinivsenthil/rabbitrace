@@ -82,9 +82,9 @@ export function activate(context: vscode.ExtensionContext) {
   // Exchanges
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("rabbitmq.exchanges.new", () => {
-      newExchange(context);
-    })
+    vscode.commands.registerCommand("rabbitmq.exchanges.new", () =>
+      newExchange(context, managementAPI)
+    )
   );
 
   context.subscriptions.push(
@@ -96,9 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "rabbitmq.exchanges.delete",
-      (exchange: Exchange) => {
-        deleteExchange(exchange);
-      }
+      (exchange: Exchange) => deleteExchange(exchange, managementAPI)
     )
   );
 
@@ -122,9 +120,9 @@ export function activate(context: vscode.ExtensionContext) {
   // Queues
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("rabbitmq.queues.new", () => {
-      newQueue(context);
-    })
+    vscode.commands.registerCommand("rabbitmq.queues.new", () =>
+      newQueue(context, managementAPI)
+    )
   );
 
   context.subscriptions.push(
@@ -134,11 +132,8 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "rabbitmq.queues.delete",
-      (queue: Queue) => {
-        deleteQueue(queue);
-      }
+    vscode.commands.registerCommand("rabbitmq.queues.delete", (queue: Queue) =>
+      deleteQueue(queue, managementAPI)
     )
   );
 
