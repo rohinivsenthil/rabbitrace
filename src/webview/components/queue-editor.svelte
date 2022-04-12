@@ -13,6 +13,16 @@
     arguments: {},
   };
 
+  let publishMessageData = {
+    name: "amq.default",
+    routing_key: "",
+    delivery_mode: 1,
+    payload: "",
+    headers: {},
+    props: {},
+    payload_encoding: "string",
+  };
+
   function addBinding() {
     vscode.postMessage({
       type: "add-binding",
@@ -33,11 +43,26 @@
     });
   }
 
+  function publishData() {
+    const data = {
+      ...publishMessageData,
+      properties: {
+        delivery_mode: publishMessageData.delivery_mode,
+        headers: publishMessageData.headers,
+      },
+    };
+    vscode.postMessage({
+      type: "publish-message",
+      data: data,
+    });
+  }
+
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
     name = event.data.name;
     addBindingData.destination = event.data.name;
+    publishMessageData.routing_key = event.data.name;
 
     const formattedArguments = Object.entries(overview.arguments)
       .map(([key, value]) => `${key} = ${value}`)
@@ -176,9 +201,10 @@
           name="msg-delivery-type"
           id="msg-delivery-type"
           class="add-binding-input"
+          bind:value={publishMessageData.delivery_mode}
         >
-          <option value="string">Non-Persistent</option>
-          <option value="number">Persistent</option>
+          <option value={1}>Non-Persistent</option>
+          <option value={2}>Persistent</option>
         </select>
         <div class="add-binding-args">
           <input type="text" id="msg-headers-key" class="add-binding-input" />
@@ -200,10 +226,17 @@
           <div>=</div>
           <input type="text" id="msg-props-value" class="add-binding-input" />
         </div>
-        <input type="text" id="msg-payload" class="add-binding-input" />
+        <input
+          type="text"
+          id="msg-payload"
+          class="add-binding-input"
+          bind:value={publishMessageData.payload}
+        />
       </div>
     </div>
-    <button type="button" class="bind-btn">Publish</button>
+    <button type="button" class="bind-btn" on:click={publishData}
+      >Publish</button
+    >
   </div>
 </main>
 

@@ -76,6 +76,16 @@ export default class QueueEditor
 
         await updateFunction();
       }
+
+      if (message.type === "publish-message") {
+        await this.managementAPI.request({
+          method: "post",
+          url: `/exchanges/%2F/amq.default/publish`,
+          data: { ...message.data, vhost: "/" },
+        });
+
+        await updateFunction();
+      }
     });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
