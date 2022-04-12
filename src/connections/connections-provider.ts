@@ -35,13 +35,16 @@ export default class ConnectionsProvider
     item.description = connection.amqpURL;
 
     item.iconPath =
-      connection.name == this.connected
+      connection.name === this.connected
         ? CONNECTED_CONNECTION
         : IDLE_CONNECTION;
 
+    item.contextValue =
+      connection.name === this.connected ? "connected" : "not-connected";
+
     item.command = {
-      arguments: [connection.name],
-      command: "rabbitmq.connect",
+      arguments: [connection],
+      command: "rabbitmq.connections.connect",
       title: "Connect",
     };
 
@@ -52,7 +55,7 @@ export default class ConnectionsProvider
     this._onDidChangeTreeData.fire();
   }
 
-  connect(connectionName: string) {
+  connect(connectionName?: string) {
     this.connected = connectionName;
     this.refresh();
   }

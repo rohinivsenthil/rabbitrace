@@ -1,6 +1,10 @@
 <script>
   const vscode = acquireVsCodeApi();
 
+  $: window.addEventListener("message", (event) => {
+    connection = event.data;
+  });
+
   let connection = {
     name: "",
     amqpURL: "",

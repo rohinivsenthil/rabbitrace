@@ -64,15 +64,15 @@
     },
     "commands": [
       {
-        "command": "rabbitmq.connect",
-        "title": "Connect",
-        "icon": "$(connect)",
-        "category": "RabbitMQ"
-      },
-      {
         "command": "rabbitmq.connections.new",
         "title": "New Connection",
         "icon": "$(plus)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.connections.edit",
+        "title": "Edit Connection",
+        "icon": "$(edit)",
         "category": "RabbitMQ"
       },
       {
@@ -84,7 +84,13 @@
       {
         "command": "rabbitmq.connections.connect",
         "title": "Connect",
-        "icon": "$(debug-disconnect)",
+        "icon": "$(debug-start)",
+        "category": "RabbitMQ"
+      },
+      {
+        "command": "rabbitmq.connections.disconnect",
+        "title": "Disconnect",
+        "icon": "$(debug-stop)",
         "category": "RabbitMQ"
       },
       {
@@ -167,6 +173,16 @@
       "view/item/context": [
         {
           "command": "rabbitmq.connections.connect",
+          "when": "view == rabbitmq.connections && viewItem == not-connected",
+          "group": "inline"
+        },
+        {
+          "command": "rabbitmq.connections.disconnect",
+          "when": "view == rabbitmq.connections && viewItem == connected",
+          "group": "inline"
+        },
+        {
+          "command": "rabbitmq.connections.edit",
           "when": "view == rabbitmq.connections",
           "group": "inline"
         },

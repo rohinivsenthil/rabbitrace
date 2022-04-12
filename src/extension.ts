@@ -5,6 +5,7 @@ import axios from "axios";
 import {
   ConnectionsProvider,
   newConnection,
+  editConnection,
   removeConnection,
 } from "./connections";
 import {
@@ -32,12 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "rabbitmq.connect",
-      (connectionName: string) => {
-        const connection =
-          context.workspaceState.get<Connection>(connectionName);
-
-        connectionsProvider.connect(connectionName);
+      "rabbitmq.connections.connect",
+      (connection: Connection) => {
+        connectionsProvider.connect(connection.name);
 
         managementAPI.defaults.baseURL = `${connection?.mapiURL}/api`;
         managementAPI.defaults.auth = connection
@@ -54,8 +52,27 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
+    vscode.commands.registerCommand("rabbitmq.connections.disconnect", () => {
+      connectionsProvider.connect(undefined);
+
+      managementAPI.defaults.baseURL = undefined;
+      managementAPI.defaults.auth = undefined;
+
+      exchangesProvider.refresh();
+      queuesProvider.refresh();
+    })
+  );
+
+  context.subscriptions.push(
     vscode.commands.registerCommand("rabbitmq.connections.new", () =>
       newConnection(context)
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rabbitmq.connections.edit",
+      (connection: Connection) => editConnection(context, connection)
     )
   );
 
