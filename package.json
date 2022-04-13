@@ -1,13 +1,21 @@
 {
-  "name": "rabbitmq",
-  "displayName": "RabbitMQ",
+  "name": "rabbitrace",
+  "displayName": "Rabbitrace",
   "description": "A developer/management tool to help monitor RabbitMQ queues and exchanges",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.65.0"
   },
   "categories": [
-    "Other"
+    "Visualization", "Other"
+  ],
+  "keywords": [
+    "rabbitmq",
+    "amqp",
+    "management",
+    "messages",
+    "queues",
+    "publish"
   ],
   "activationEvents": [
     "onView:rabbitmq.connections",

@@ -1,6 +1,6 @@
 <h1 align="center">Rabbitrace</h1>
 <div align="center">
-  <strong> Management tool to monitor RabbitMQ queues and exchanges 📨</strong>  
+  <strong> Manage RabbitMQ queues and exchanges</strong>  
   <br/> <br/>
   <a href="https://marketplace.visualstudio.com/items?itemName=rohinivsenthil.rabbitrace&ssr=false#overview"><img src="https://img.shields.io/visual-studio-marketplace/i/rohinivsenthil.rabbitrace" /></a>
   <a href="https://marketplace.visualstudio.com/items?itemName=rohinivsenthil.rabbitrace&ssr=false#version-history"><img src="https://img.shields.io/visual-studio-marketplace/v/rohinivsenthil.rabbitrace" /></a>
