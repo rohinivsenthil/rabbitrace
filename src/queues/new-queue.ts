@@ -14,12 +14,15 @@ export default async function newQueue(
 
   webviewPanel.webview.onDidReceiveMessage(async (message) => {
     if (message.type === "new-queue") {
-      console.log(message.name);
-      await managementAPI.request({
-        method: "put",
-        url: `/queues/%2F/${message.data.name}`,
-        data: { ...message.data, vhost: "/" },
-      });
+      try {
+        await managementAPI.request({
+          method: "put",
+          url: `/queues/%2F/${message.data.name}`,
+          data: { ...message.data, vhost: "/" },
+        });
+      } catch (e) {
+        vscode.window.showErrorMessage("Failed to create new queue");
+      }
 
       webviewPanel.dispose();
       await vscode.commands.executeCommand("rabbitmq.queues.refresh");

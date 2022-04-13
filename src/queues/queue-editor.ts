@@ -33,17 +33,21 @@ export default class QueueEditor
     const updateFunction = async () => {
       const name = document.uri.path;
 
-      const { data: overview } = await this.managementAPI.request({
-        method: "get",
-        url: `/queues/%2F/${name}`,
-      });
+      try {
+        const { data: overview } = await this.managementAPI.request({
+          method: "get",
+          url: `/queues/%2F/${name}`,
+        });
 
-      const { data: bindings } = await this.managementAPI.request({
-        method: "get",
-        url: `/queues/%2F/${name}/bindings`,
-      });
+        const { data: bindings } = await this.managementAPI.request({
+          method: "get",
+          url: `/queues/%2F/${name}/bindings`,
+        });
 
-      webviewPanel.webview.postMessage({ name, bindings, overview });
+        webviewPanel.webview.postMessage({ name, bindings, overview });
+      } catch (e) {
+        vscode.window.showErrorMessage("Failed to get queue information");
+      }
     };
 
     await updateFunction();
@@ -55,37 +59,44 @@ export default class QueueEditor
     webviewPanel.onDidDispose(() => {
       clearInterval(interval);
     });
-
     webviewPanel.webview.onDidReceiveMessage(async (message) => {
       if (message.type === "add-binding") {
-        await this.managementAPI.request({
-          method: "post",
-          url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}`,
-          data: { ...message.data, vhost: "/" },
-        });
-
-        await updateFunction();
+        try {
+          await this.managementAPI.request({
+            method: "post",
+            url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}`,
+            data: { ...message.data, vhost: "/" },
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to add binding");
+        }
       }
 
       if (message.type === "remove-binding") {
-        await this.managementAPI.request({
-          method: "delete",
-          url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
-          data: message.data,
-        });
-
-        await updateFunction();
+        try {
+          await this.managementAPI.request({
+            method: "delete",
+            url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
+            data: message.data,
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to remove binding");
+        }
       }
 
       if (message.type === "publish-message") {
-        await this.managementAPI.request({
-          method: "post",
-          url: `/exchanges/%2F/amq.default/publish`,
-          data: { ...message.data, vhost: "/" },
-        });
-
-        await updateFunction();
+        try {
+          await this.managementAPI.request({
+            method: "post",
+            url: `/exchanges/%2F/amq.default/publish`,
+            data: { ...message.data, vhost: "/" },
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to publish message");
+        }
       }
+
+      await updateFunction();
     });
 
     const stylesheetPath = webviewPanel.webview.asWebviewUri(
