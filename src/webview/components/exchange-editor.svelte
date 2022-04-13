@@ -137,7 +137,7 @@
           <td class="bindings-td">
             <button
               type="button"
-              class="vscode-button"
+              class="trash-btn"
               on:click={() => removeBinding(binding)}
               ><i class="codicon codicon-trash" /></button
             >
@@ -363,6 +363,19 @@
   .bind-btn {
     margin-top: 10px;
   }
+
+  .trash-btn {
+    background-color: transparent;
+    color: var(--vscode-button-foreground);
+    border: transparent;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .trash-btn:hover {
+    background-color: transparent;
+  }
+
   th,
   td {
     padding: 5px;

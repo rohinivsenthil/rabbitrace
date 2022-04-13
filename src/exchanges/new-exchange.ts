@@ -20,8 +20,11 @@ export default async function newExchange(
           url: `/exchanges/%2F/${message.data.name}`,
           data: { ...message.data, vhost: "/" },
         });
+        vscode.window.showInformationMessage(
+          `Successfully created new exchange: ${message.data.name}`
+        );
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to create new queue");
+        vscode.window.showErrorMessage("Failed to create new exchange");
       }
 
       webviewPanel.dispose();

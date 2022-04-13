@@ -6,11 +6,20 @@ export default async function deleteExchange(
   exchange: Exchange,
   managementAPI: Axios
 ) {
-  await managementAPI.request({
-    method: "delete",
-    url: `/exchanges/%2F/${exchange.name}`,
-    data: { name: exchange.name, vhost: "/" },
-  });
+  try {
+    await managementAPI.request({
+      method: "delete",
+      url: `/exchanges/%2F/${exchange.name}`,
+      data: { name: exchange.name, vhost: "/" },
+    });
+    vscode.window.showInformationMessage(
+      `Successfully deleted exchange: ${exchange.name}`
+    );
+  } catch (e) {
+    vscode.window.showErrorMessage(
+      `Failed to delete exchange: ${exchange.name}`
+    );
+  }
 
   await vscode.commands.executeCommand("rabbitmq.exchanges.refresh");
 }

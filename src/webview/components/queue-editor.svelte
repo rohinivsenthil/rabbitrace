@@ -135,7 +135,7 @@
             <td class="bindings-td">
               <button
                 type="button"
-                class="vscode-button unbind-btn"
+                class="trash-btn"
                 on:click={() => removeBinding(binding)}
                 ><i class="codicon codicon-trash" /></button
               >
@@ -320,9 +320,7 @@
   .icon {
     margin: 0 5px 0 0;
   }
-  .unbind-btn {
-    cursor: pointer;
-  }
+
   .add-binding-title {
     padding: 0 0 5px 0;
     /* border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground); */
@@ -352,6 +350,19 @@
     cursor: pointer;
     margin-top: 10px;
   }
+
+  .trash-btn {
+    background-color: transparent;
+    color: var(--vscode-button-foreground);
+    border: transparent;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .trash-btn:hover {
+    background-color: transparent;
+  }
+
   th,
   td {
     padding: 5px;

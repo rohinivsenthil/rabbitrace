@@ -48,7 +48,7 @@ export default class ExchangeEditor
 
         webviewPanel.webview.postMessage({ name: path, bindings, overview });
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to get queue information");
+        vscode.window.showErrorMessage("Failed to get exchange information");
       }
     };
 
@@ -66,8 +66,13 @@ export default class ExchangeEditor
             url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
             data: { ...message.data, vhost: "/" },
           });
+          vscode.window.showInformationMessage(
+            `Added new binding with ${message.data.destination}`
+          );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to add binding");
+          vscode.window.showErrorMessage(
+            `Failed to add binding with ${message.data.destination}`
+          );
         }
       }
 
@@ -78,8 +83,13 @@ export default class ExchangeEditor
             url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
             data: message.data,
           });
+          vscode.window.showInformationMessage(
+            `Removed binding with ${message.data.destination}`
+          );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to remove binding");
+          vscode.window.showErrorMessage(
+            `Failed to remove binding with ${message.data.destination}`
+          );
         }
       }
 
@@ -90,6 +100,9 @@ export default class ExchangeEditor
             url: `/exchanges/%2F/${message.data.name}/publish`,
             data: { ...message.data, vhost: "/" },
           });
+          vscode.window.showInformationMessage(
+            "Successfully published message"
+          );
         } catch (e) {
           vscode.window.showErrorMessage("Failed to publish message");
         }
