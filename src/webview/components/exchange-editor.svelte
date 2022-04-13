@@ -202,7 +202,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="bind-btn vscode-button" on:click={addBinding}
+    <button type="button" class="vscode-button" on:click={addBinding}
       >Bind</button
     >
     <div class="exchange-section">
@@ -266,7 +266,7 @@
         />
       </div>
     </div>
-    <button type="button" class="bind-btn vscode-button" on:click={publishData}
+    <button type="button" class="vscode-button" on:click={publishData}
       >Publish</button
     >
   </div>
@@ -359,9 +359,6 @@
   .add-binding-args {
     display: flex;
     align-items: center;
-  }
-  .bind-btn {
-    margin-top: 10px;
   }
 
   .trash-btn {

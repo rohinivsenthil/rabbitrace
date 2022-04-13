@@ -159,20 +159,32 @@
         <input
           type="text"
           id="queue-queue-name"
-          class="add-binding-input"
+          class="vscode-input add-binding-input"
           bind:value={addBindingData.source}
         />
         <input
           type="text"
           id="routing-key"
-          class="add-binding-input"
+          class="vscode-input add-binding-input"
           bind:value={addBindingData.routing_key}
         />
         <div class="add-binding-args">
-          <input type="text" id="arguments-key" class="add-binding-input" />
+          <input
+            type="text"
+            id="arguments-key"
+            class="vscode-input add-binding-input"
+          />
           <div>=</div>
-          <input type="text" id="arguments-value" class="add-binding-input" />
-          <select name="arg-type" id="arg-type" class="add-binding-input">
+          <input
+            type="text"
+            id="arguments-value"
+            class="vscode-input add-binding-input"
+          />
+          <select
+            name="arg-type"
+            id="arg-type"
+            class="vscode-dropdown add-binding-input"
+          >
             <option value="string">String</option>
             <option value="number">Number</option>
             <option value="boolean">Boolean</option>
@@ -181,7 +193,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="bind-btn" on:click={addBinding}>Bind</button>
+    <button type="button" class="vscode-button" on:click={addBinding}
+      >Bind</button
+    >
     <div class="queue-section">
       <div class="queue-section-title">‣ Publish message</div>
     </div>
@@ -200,20 +214,28 @@
         <select
           name="msg-delivery-type"
           id="msg-delivery-type"
-          class="add-binding-input"
+          class="vscode-dropdown add-binding-input"
           bind:value={publishMessageData.delivery_mode}
         >
           <option value={1}>Non-Persistent</option>
           <option value={2}>Persistent</option>
         </select>
         <div class="add-binding-args">
-          <input type="text" id="msg-headers-key" class="add-binding-input" />
+          <input
+            type="text"
+            id="msg-headers-key"
+            class="vscode-input add-binding-input"
+          />
           <div>=</div>
-          <input type="text" id="msg-headers-value" class="add-binding-input" />
+          <input
+            type="text"
+            id="msg-headers-value"
+            class="vscode-input add-binding-input"
+          />
           <select
             name="msg-header-type"
             id="msg-header-type"
-            class="add-binding-input"
+            class="vscode-dropdown add-binding-input"
           >
             <option value="string">String</option>
             <option value="number">Number</option>
@@ -222,19 +244,27 @@
           </select>
         </div>
         <div class="add-binding-args">
-          <input type="text" id="msg-props-key" class="add-binding-input" />
+          <input
+            type="text"
+            id="msg-props-key"
+            class="vscode-input add-binding-input"
+          />
           <div>=</div>
-          <input type="text" id="msg-props-value" class="add-binding-input" />
+          <input
+            type="text"
+            id="msg-props-value"
+            class="vscode-input add-binding-input"
+          />
         </div>
         <input
           type="text"
           id="msg-payload"
-          class="add-binding-input"
+          class="vscode-input add-binding-input"
           bind:value={publishMessageData.payload}
         />
       </div>
     </div>
-    <button type="button" class="bind-btn" on:click={publishData}
+    <button type="button" class="vscode-button" on:click={publishData}
       >Publish</button
     >
   </div>
@@ -242,24 +272,8 @@
 
 <style>
   @import "@vscode/codicons/dist/codicon.css";
-  input {
-    color: var(--vscode-input-foreground);
-    background-color: var(--vscode-input-background);
-    border: 1px solid var(--vscode-input-border);
-  }
-  select {
-    color: var(--vscode-dropdown-foreground);
-    background-color: var(--vscode-dropdown-background);
-    border-color: var(--vscode-dropdown-border);
-  }
-  button {
-    color: var(--vscode-button-secondaryForeground);
-    background-color: var(--vscode-button-secondaryBackground);
-    border: none;
-  }
-  button:hover {
-    background-color: var(--vscode-button-secondaryHoverBackground);
-  }
+  @import "./vscode.css";
+
   .queue-container {
     margin: 50px;
   }
@@ -346,11 +360,6 @@
     display: flex;
     align-items: center;
   }
-  .bind-btn {
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
   .trash-btn {
     background-color: transparent;
     color: var(--vscode-button-foreground);

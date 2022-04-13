@@ -20,6 +20,9 @@ export default async function newQueue(
           url: `/queues/%2F/${message.data.name}`,
           data: { ...message.data, vhost: "/" },
         });
+        vscode.window.showInformationMessage(
+          `Successfully created new queue: ${message.data.name}`
+        );
       } catch (e) {
         vscode.window.showErrorMessage("Failed to create new queue");
       }

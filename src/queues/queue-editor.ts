@@ -67,8 +67,13 @@ export default class QueueEditor
             url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}`,
             data: { ...message.data, vhost: "/" },
           });
+          vscode.window.showInformationMessage(
+            `Added new binding with ${message.data.source}`
+          );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to add binding");
+          vscode.window.showErrorMessage(
+            `Failed to add binding with ${message.data.source}`
+          );
         }
       }
 
@@ -79,8 +84,13 @@ export default class QueueEditor
             url: `/bindings/%2F/e/${message.data.source}/q/${message.data.destination}/${message.data.properties_key}`,
             data: message.data,
           });
+          vscode.window.showInformationMessage(
+            `Removed binding with ${message.data.source}`
+          );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to remove binding");
+          vscode.window.showErrorMessage(
+            `Failed to remove binding with ${message.data.source}`
+          );
         }
       }
 
@@ -91,6 +101,9 @@ export default class QueueEditor
             url: `/exchanges/%2F/amq.default/publish`,
             data: { ...message.data, vhost: "/" },
           });
+          vscode.window.showInformationMessage(
+            "Successfully published message"
+          );
         } catch (e) {
           vscode.window.showErrorMessage("Failed to publish message");
         }
