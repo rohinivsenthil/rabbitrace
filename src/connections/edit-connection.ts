@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import type Connection from "./connection";
+import axios from "axios";
 
 interface NewConnectionMessage {
   action: string;
@@ -32,6 +33,22 @@ export default async function editConnection(
           await vscode.commands.executeCommand("rabbitmq.connections.refresh");
           break;
         case "test-connection":
+          try {
+            await axios.request({
+              baseURL: message.connection.mapiURL,
+              method: "get",
+              url: `/api/overview`,
+              auth: {
+                username: message.connection.mapiUsername,
+                password: message.connection.mapiPassword,
+              },
+            });
+            vscode.window.showInformationMessage(`Successful test connection`);
+          } catch (e) {
+            vscode.window.showErrorMessage(
+              `Failed to establish test connection`
+            );
+          }
           break;
       }
     }

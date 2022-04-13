@@ -4,7 +4,6 @@ import type Queue from "./queue";
 
 export default async function deleteQueue(queue: Queue, managementAPI: Axios) {
   try {
-    console.log(queue.name);
     await managementAPI.request({
       method: "delete",
       url: `/queues/%2F/${queue.name}`,
