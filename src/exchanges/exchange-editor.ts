@@ -72,6 +72,15 @@ export default class ExchangeEditor
         });
       }
 
+      if (message.type === "publish-message") {
+        console.log(message.data);
+        await this.managementAPI.request({
+          method: "post",
+          url: `/exchanges/%2F/${message.data.name}/publish`,
+          data: { ...message.data, vhost: "/" },
+        });
+      }
+
       await updateFunction();
     });
 

@@ -13,6 +13,16 @@
     arguments: {},
   };
 
+  let publishMessageData = {
+    name: "",
+    routing_key: "",
+    delivery_mode: 1,
+    payload: "",
+    headers: {},
+    props: {},
+    payload_encoding: "string",
+  };
+
   function addBinding() {
     vscode.postMessage({
       type: "add-binding",
@@ -20,7 +30,6 @@
     });
   }
   function removeBinding(binding) {
-    console.log();
     vscode.postMessage({
       type: "remove-binding",
       data: {
@@ -33,11 +42,26 @@
     });
   }
 
+  function publishData() {
+    const data = {
+      ...publishMessageData,
+      properties: {
+        delivery_mode: publishMessageData.delivery_mode,
+        headers: publishMessageData.headers,
+      },
+    };
+    vscode.postMessage({
+      type: "publish-message",
+      data: data,
+    });
+  }
+
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
     name = event.data.name;
     addBindingData.source = event.data.name;
+    publishMessageData.name = event.data.name;
 
     const formattedArguments = Object.entries(overview.arguments)
       .map(([key, value]) => `${key} = ${value}`)
@@ -196,6 +220,7 @@
           type="text"
           id="msg-routing-key"
           class="vscode-input add-binding-input"
+          bind:value={publishMessageData.routing_key}
         />
         <div class="add-binding-args">
           <input
@@ -237,10 +262,13 @@
           type="text"
           id="msg-payload"
           class="vscode-input add-binding-input"
+          bind:value={publishMessageData.payload}
         />
       </div>
     </div>
-    <button type="button" class="bind-btn vscode-button">Publish</button>
+    <button type="button" class="bind-btn vscode-button" on:click={publishData}
+      >Publish</button
+    >
   </div>
 </main>
 
