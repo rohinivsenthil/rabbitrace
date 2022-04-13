@@ -14,11 +14,15 @@ export default async function newExchange(
 
   webviewPanel.webview.onDidReceiveMessage(async (message) => {
     if (message.type === "new-exchange") {
-      await managementAPI.request({
-        method: "put",
-        url: `/exchanges/%2F/${message.data.name}`,
-        data: { ...message.data, vhost: "/" },
-      });
+      try {
+        await managementAPI.request({
+          method: "put",
+          url: `/exchanges/%2F/${message.data.name}`,
+          data: { ...message.data, vhost: "/" },
+        });
+      } catch (e) {
+        vscode.window.showErrorMessage("Failed to create new queue");
+      }
 
       webviewPanel.dispose();
       await vscode.commands.executeCommand("rabbitmq.exchanges.refresh");

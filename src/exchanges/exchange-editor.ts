@@ -35,18 +35,21 @@ export default class ExchangeEditor
     // TODO: use single interval for queries to all webviews
     const updateFunction = async () => {
       const path = document.uri.path;
+      try {
+        const { data: overview } = await this.managementAPI.request({
+          method: "get",
+          url: `/exchanges/%2F/${path}`,
+        });
 
-      const { data: overview } = await this.managementAPI.request({
-        method: "get",
-        url: `/exchanges/%2F/${path}`,
-      });
+        const { data: bindings } = await this.managementAPI.request({
+          method: "get",
+          url: `/exchanges/%2F/${path}/bindings/source`,
+        });
 
-      const { data: bindings } = await this.managementAPI.request({
-        method: "get",
-        url: `/exchanges/%2F/${path}/bindings/source`,
-      });
-
-      webviewPanel.webview.postMessage({ name: path, bindings, overview });
+        webviewPanel.webview.postMessage({ name: path, bindings, overview });
+      } catch (e) {
+        vscode.window.showErrorMessage("Failed to get queue information");
+      }
     };
 
     await updateFunction();
@@ -57,28 +60,39 @@ export default class ExchangeEditor
 
     webviewPanel.webview.onDidReceiveMessage(async (message) => {
       if (message.type === "add-binding") {
-        await this.managementAPI.request({
-          method: "post",
-          url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
-          data: { ...message.data, vhost: "/" },
-        });
+        try {
+          await this.managementAPI.request({
+            method: "post",
+            url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}`,
+            data: { ...message.data, vhost: "/" },
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to add binding");
+        }
       }
 
       if (message.type === "remove-binding") {
-        await this.managementAPI.request({
-          method: "delete",
-          url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
-          data: message.data,
-        });
+        try {
+          await this.managementAPI.request({
+            method: "delete",
+            url: `/bindings/%2F/e/${message.data.source}/${message.data.destination_type}/${message.data.destination}/${message.data.properties_key}`,
+            data: message.data,
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to remove binding");
+        }
       }
 
       if (message.type === "publish-message") {
-        console.log(message.data);
-        await this.managementAPI.request({
-          method: "post",
-          url: `/exchanges/%2F/${message.data.name}/publish`,
-          data: { ...message.data, vhost: "/" },
-        });
+        try {
+          await this.managementAPI.request({
+            method: "post",
+            url: `/exchanges/%2F/${message.data.name}/publish`,
+            data: { ...message.data, vhost: "/" },
+          });
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to publish message");
+        }
       }
 
       await updateFunction();
