@@ -3,6 +3,8 @@
   border: 1px solid var(--vscode-button-border);
   color: var(--vscode-button-foreground);
   cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .vscode-button:hover {
