@@ -23,6 +23,11 @@
     payload_encoding: "string",
   };
 
+  let purgeMessagesData = {
+    name: "",
+    mode: "purge",
+  };
+
   function addBinding() {
     vscode.postMessage({
       type: "add-binding",
@@ -57,12 +62,20 @@
     });
   }
 
+  function purgeMessages() {
+    vscode.postMessage({
+      type: "purge-messages",
+      data: purgeMessagesData,
+    });
+  }
+
   $: window.addEventListener("message", (event) => {
     bindings = event.data.bindings;
     const overview = event.data.overview;
     name = event.data.name;
     addBindingData.destination = event.data.name;
     publishMessageData.routing_key = event.data.name;
+    purgeMessagesData.name = event.data.name;
 
     const formattedArguments = Object.entries(overview.arguments)
       .map(([key, value]) => `${key} = ${value}`)
@@ -266,6 +279,12 @@
     </div>
     <button type="button" class="vscode-button" on:click={publishData}
       >Publish</button
+    >
+    <div class="queue-section">
+      <div class="queue-section-title">‣ Purge</div>
+    </div>
+    <button type="button" class="vscode-button" on:click={purgeMessages}
+      >Purge Messages</button
     >
   </div>
 </main>

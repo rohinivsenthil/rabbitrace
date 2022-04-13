@@ -109,6 +109,19 @@ export default class QueueEditor
         }
       }
 
+      if (message.type === "purge-messages") {
+        try {
+          await this.managementAPI.request({
+            method: "delete",
+            url: `/queues/%2F/${message.data.name}/contents`,
+            data: { ...message.data, vhost: "/" },
+          });
+          vscode.window.showInformationMessage("Successfully purged messages");
+        } catch (e) {
+          vscode.window.showErrorMessage("Failed to purge messages");
+        }
+      }
+
       await updateFunction();
     });
 
