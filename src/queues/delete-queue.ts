@@ -7,7 +7,7 @@ export default async function deleteQueue(queue: Queue, managementAPI: Axios) {
     console.log(queue.name);
     await managementAPI.request({
       method: "delete",
-      url: `/queues/%2F"/${queue.name}`,
+      url: `/queues/%2F/${queue.name}`,
       data: { name: queue.name, vhost: "/", mode: "delete" },
     });
     vscode.window.showInformationMessage(
