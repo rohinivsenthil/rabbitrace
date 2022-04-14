@@ -8,11 +8,31 @@
     arguments: {},
   };
 
+  let argumentsData = [{ idx: 1, key: "", value: "" }];
+
+  function addArgument() {
+    argumentsData = [
+      ...argumentsData,
+      { idx: argumentsData.length + 1, key: "", value: "" },
+    ];
+  }
+
+  function removeArgument(idx) {
+    argumentsData = argumentsData.filter(function (arg) {
+      return arg.idx !== idx;
+    });
+  }
+
   function newExchange() {
+    const args = argumentsData.reduce(
+      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
+      {}
+    );
+
     const vscode = acquireVsCodeApi();
     vscode.postMessage({
       type: "new-exchange",
-      data,
+      data: { ...data, arguments: args },
     });
   }
 </script>
@@ -77,28 +97,44 @@
           <option value="false">No</option>
           <option value="true">Yes</option>
         </select>
-        <div class="add-exchange-args">
-          <input
-            type="text"
-            id="arguments-key"
-            class="vscode-input add-exchange-input"
-          />
-          <div>=</div>
-          <input
-            type="text"
-            id="arguments-value"
-            class="vscode-input add-exchange-input"
-          />
-          <select
-            name="arg-type"
-            id="arg-type"
-            class="vscode-dropdown add-exchange-input"
+        {#each argumentsData as argument}
+          <div class="add-exchange-args">
+            <input
+              type="text"
+              id="arguments-key"
+              class="vscode-input add-exchange-input"
+              bind:value={argument.key}
+            />
+            <div>=</div>
+            <input
+              type="text"
+              id="arguments-value"
+              class="vscode-input add-exchange-input"
+              bind:value={argument.value}
+            />
+            <select
+              name="arg-type"
+              id="arg-type"
+              class="vscode-dropdown add-exchange-input"
+            >
+              <option value="string">String</option>
+              <option value="number">Number</option>
+              <option value="boolean">Boolean</option>
+              <option value="number">Number</option>
+            </select>
+            <button
+              type="button"
+              class="add-args-btn vscode-button"
+              on:click={() => removeArgument(argument.idx)}>–</button
+            >
+          </div>
+        {/each}
+        <div class="add-args">
+          <button
+            type="button"
+            class="add-args-btn vscode-button"
+            on:click={addArgument}>+ Add argument</button
           >
-            <option value="string">String</option>
-            <option value="number">Number</option>
-            <option value="boolean">Boolean</option>
-            <option value="number">Number</option>
-          </select>
         </div>
       </div>
     </div>
@@ -131,7 +167,6 @@
   }
   .add-exchange {
     display: flex;
-    align-items: center;
   }
   .add-exchange-fields {
     display: flex;
@@ -139,7 +174,7 @@
   }
   .add-exchange-key {
     padding: 5px;
-    margin: 5px 10px 5px 0;
+    margin: 6.5px;
   }
   .add-exchange-input {
     padding: 5px;
@@ -151,5 +186,17 @@
   }
   .add-btn {
     margin-top: 10px;
+  }
+
+  .add-args {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .add-args-btn {
+    width: fit-content;
+    color: #aab2c0;
+    background-color: transparent;
   }
 </style>
