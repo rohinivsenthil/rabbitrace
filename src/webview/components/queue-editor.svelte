@@ -28,10 +28,30 @@
     mode: "purge",
   };
 
+  let argumentsData = [{ idx: 1, key: "", value: "" }];
+
+  function addArgument() {
+    argumentsData = [
+      ...argumentsData,
+      { idx: argumentsData.length + 1, key: "", value: "" },
+    ];
+  }
+
+  function removeArgument(idx) {
+    argumentsData = argumentsData.filter(function (arg) {
+      return arg.idx !== idx;
+    });
+  }
+
   function addBinding() {
+    const args = argumentsData.reduce(
+      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
+      {}
+    );
+
     vscode.postMessage({
       type: "add-binding",
-      data: addBindingData,
+      data: { ...addBindingData, arguments: args },
     });
   }
 
@@ -130,7 +150,7 @@
       <tr>
         <th class="bindings-th">From</th>
         <th class="bindings-th">Routing Key</th>
-        <th class="bindings-th">Arguements</th>
+        <th class="bindings-th">Arguments</th>
         <th class="bindings-th" />
       </tr>
       {#each bindings as binding}
@@ -166,7 +186,7 @@
       <div class="add-binding-fields">
         <div class="add-binding-key">From exchange</div>
         <div class="add-binding-key">Routing Key</div>
-        <div class="add-binding-key">Arguements</div>
+        <div class="add-binding-key">Arguments</div>
       </div>
       <div class="add-binding-fields">
         <input
@@ -181,28 +201,44 @@
           class="vscode-input add-binding-input"
           bind:value={addBindingData.routing_key}
         />
-        <div class="add-binding-args">
-          <input
-            type="text"
-            id="arguments-key"
-            class="vscode-input add-binding-input"
-          />
-          <div>=</div>
-          <input
-            type="text"
-            id="arguments-value"
-            class="vscode-input add-binding-input"
-          />
-          <select
-            name="arg-type"
-            id="arg-type"
-            class="vscode-dropdown add-binding-input"
+        {#each argumentsData as argument}
+          <div class="add-binding-args">
+            <input
+              type="text"
+              id="arguments-key"
+              class="vscode-input add-binding-input"
+              bind:value={argument.key}
+            />
+            <div>=</div>
+            <input
+              type="text"
+              id="arguments-value"
+              class="vscode-input add-binding-input"
+              bind:value={argument.value}
+            />
+            <select
+              name="arg-type"
+              id="arg-type"
+              class="vscode-dropdown add-binding-input"
+            >
+              <option value="string">String</option>
+              <option value="number">Number</option>
+              <option value="boolean">Boolean</option>
+              <option value="number">Number</option>
+            </select>
+            <button
+              type="button"
+              class="add-args-btn vscode-button"
+              on:click={() => removeArgument(argument.idx)}>–</button
+            >
+          </div>
+        {/each}
+        <div class="add-args">
+          <button
+            type="button"
+            class="add-args-btn vscode-button"
+            on:click={addArgument}>+ Add argument</button
           >
-            <option value="string">String</option>
-            <option value="number">Number</option>
-            <option value="boolean">Boolean</option>
-            <option value="number">Number</option>
-          </select>
         </div>
       </div>
     </div>
@@ -361,7 +397,6 @@
   }
   .add-binding {
     display: flex;
-    align-items: center;
   }
   .add-binding-fields {
     display: flex;
@@ -388,6 +423,18 @@
   }
 
   .trash-btn:hover {
+    background-color: transparent;
+  }
+
+  .add-args {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .add-args-btn {
+    width: fit-content;
+    color: #aab2c0;
     background-color: transparent;
   }
 
