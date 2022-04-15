@@ -1,8 +1,22 @@
 {
   "name": "rabbitrace",
+  "publisher": "rohinivsenthil",
   "displayName": "Rabbitrace",
+  "icon": "media/icon.png",
   "description": "Manage RabbitMQ queues and exchanges",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rohinivsenthil/rabbitrace/issues"
+  },
+  "author": {
+    "name": "Rohini Senthil",
+    "email": "rohinivsenthil@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rohinivsenthil/rabbitrace"
+  },
   "engines": {
     "vscode": "^1.65.0"
   },
