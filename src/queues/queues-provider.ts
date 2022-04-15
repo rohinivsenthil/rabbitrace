@@ -4,7 +4,7 @@ import { QUEUE } from "../constants";
 import type Queue from "./queue";
 
 export default class QueuesProvider
-  implements vscode.TreeDataProvider<Queue>, vscode.Disposable
+  implements vscode.TreeDataProvider<Queue | Error>, vscode.Disposable
 {
   private _onDidChangeTreeData: vscode.EventEmitter<
     Queue | undefined | null | void
@@ -20,15 +20,27 @@ export default class QueuesProvider
     this.managementAPI = managementAPI;
   }
 
-  async getChildren(): Promise<Queue[]> {
-    if (this.managementAPI.defaults.baseURL) {
-      return (await this.managementAPI.get("/queues?page=1&page_size=50")).data
-        .items;
+  async getChildren(): Promise<(Queue | Error)[]> {
+    try {
+      if (this.managementAPI.defaults.baseURL) {
+        return (await this.managementAPI.get("/queues?page=1&page_size=50"))
+          .data.items;
+      }
+    } catch (e) {
+      return [new Error("Failed to get queues")];
     }
+
     return [];
   }
 
-  getTreeItem(queue: Queue): vscode.TreeItem {
+  getTreeItem(queue: Queue | Error): vscode.TreeItem {
+    if (queue instanceof Error) {
+      const item = new vscode.TreeItem("");
+      item.description = queue.message;
+      item.contextValue = "error";
+      return item;
+    }
+
     const item = new vscode.TreeItem(queue.name);
 
     item.iconPath = QUEUE;

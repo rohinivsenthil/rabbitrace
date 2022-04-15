@@ -4,7 +4,7 @@ import { EXCHANGE } from "../constants";
 import type Exchange from "./exchange";
 
 export default class ExchangesProvider
-  implements vscode.TreeDataProvider<Exchange>, vscode.Disposable
+  implements vscode.TreeDataProvider<Exchange | Error>, vscode.Disposable
 {
   private _onDidChangeTreeData: vscode.EventEmitter<
     Exchange | undefined | null | void
@@ -21,15 +21,27 @@ export default class ExchangesProvider
     this.managementAPI = managementAPI;
   }
 
-  async getChildren(): Promise<Exchange[]> {
-    if (this.managementAPI.defaults.baseURL) {
-      return (await this.managementAPI.get("/exchanges?page=1&page_size=50"))
-        .data.items;
+  async getChildren(): Promise<(Exchange | Error)[]> {
+    try {
+      if (this.managementAPI.defaults.baseURL) {
+        return (await this.managementAPI.get("/exchanges?page=1&page_size=50"))
+          .data.items;
+      }
+    } catch (e) {
+      return [new Error("Failed to get exchanges")];
     }
+
     return [];
   }
 
-  getTreeItem(exchange: Exchange): vscode.TreeItem {
+  getTreeItem(exchange: Exchange | Error): vscode.TreeItem {
+    if (exchange instanceof Error) {
+      const item = new vscode.TreeItem("");
+      item.description = exchange.message;
+      item.contextValue = "error";
+      return item;
+    }
+
     const item = new vscode.TreeItem(exchange.name || "(AMQP default)");
 
     item.iconPath = EXCHANGE;

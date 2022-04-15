@@ -7,7 +7,8 @@
     "vscode": "^1.65.0"
   },
   "categories": [
-    "Visualization", "Other"
+    "Visualization",
+    "Other"
   ],
   "keywords": [
     "rabbitmq",
@@ -201,12 +202,12 @@
         },
         {
           "command": "rabbitmq.exchanges.delete",
-          "when": "view == rabbitmq.exchanges",
+          "when": "view == rabbitmq.exchanges && viewItem != error",
           "group": "inline"
         },
         {
           "command": "rabbitmq.queues.delete",
-          "when": "view == rabbitmq.queues",
+          "when": "view == rabbitmq.queues && viewItem != error",
           "group": "inline"
         }
       ]
