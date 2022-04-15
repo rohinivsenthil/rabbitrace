@@ -46,7 +46,9 @@ export default class QueueEditor
 
         webviewPanel.webview.postMessage({ name, bindings, overview });
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to get queue information");
+        vscode.window.showErrorMessage(
+          "Rabbitrace: Failed to get queue information"
+        );
       }
     };
 
@@ -68,11 +70,11 @@ export default class QueueEditor
             data: { ...message.data, vhost: "/" },
           });
           vscode.window.showInformationMessage(
-            `Added new binding with ${message.data.source}`
+            `Rabbitrace: Added new binding with ${message.data.source}`
           );
         } catch (e) {
           vscode.window.showErrorMessage(
-            `Failed to add binding with ${message.data.source}`
+            `Rabbitrace: Failed to add binding with ${message.data.source}`
           );
         }
       }
@@ -85,11 +87,11 @@ export default class QueueEditor
             data: message.data,
           });
           vscode.window.showInformationMessage(
-            `Removed binding with ${message.data.source}`
+            `Rabbitrace: Removed binding with ${message.data.source}`
           );
         } catch (e) {
           vscode.window.showErrorMessage(
-            `Failed to remove binding with ${message.data.source}`
+            `Rabbitrace: Failed to remove binding with ${message.data.source}`
           );
         }
       }
@@ -102,10 +104,12 @@ export default class QueueEditor
             data: { ...message.data, vhost: "/" },
           });
           vscode.window.showInformationMessage(
-            "Successfully published message"
+            "Rabbitrace: Successfully published message"
           );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to publish message");
+          vscode.window.showErrorMessage(
+            "Rabbitrace: Failed to publish message"
+          );
         }
       }
 
@@ -116,9 +120,13 @@ export default class QueueEditor
             url: `/queues/%2F/${message.data.name}/contents`,
             data: { ...message.data, vhost: "/" },
           });
-          vscode.window.showInformationMessage("Successfully purged messages");
+          vscode.window.showInformationMessage(
+            "Rabbitrace: Successfully purged messages"
+          );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to purge messages");
+          vscode.window.showErrorMessage(
+            "Rabbitrace: Failed to purge messages"
+          );
         }
       }
 

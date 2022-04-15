@@ -37,10 +37,12 @@ export default async function newConnection(context: vscode.ExtensionContext) {
                 password: message.connection.mapiPassword,
               },
             });
-            vscode.window.showInformationMessage(`Successful test connection`);
+            vscode.window.showInformationMessage(
+              `Rabbitrace: Successfully tested connection`
+            );
           } catch (e) {
             vscode.window.showErrorMessage(
-              `Failed to establish test connection`
+              `Rabbitrace: Failed to establish connection`
             );
           }
           break;

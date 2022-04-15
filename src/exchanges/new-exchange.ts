@@ -21,10 +21,12 @@ export default async function newExchange(
           data: { ...message.data, vhost: "/" },
         });
         vscode.window.showInformationMessage(
-          `Successfully created new exchange: ${message.data.name}`
+          `Rabbitrace: Successfully created new exchange: ${message.data.name}`
         );
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to create new exchange");
+        vscode.window.showErrorMessage(
+          "Rabbitrace: Failed to create new exchange"
+        );
       }
 
       webviewPanel.dispose();

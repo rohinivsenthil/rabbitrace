@@ -21,10 +21,12 @@ export default async function newQueue(
           data: { ...message.data, vhost: "/" },
         });
         vscode.window.showInformationMessage(
-          `Successfully created new queue: ${message.data.name}`
+          `Rabbitrace: Successfully created new queue: ${message.data.name}`
         );
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to create new queue");
+        vscode.window.showErrorMessage(
+          "Rabbitrace: Failed to create new queue"
+        );
       }
 
       webviewPanel.dispose();

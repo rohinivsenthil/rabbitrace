@@ -13,11 +13,11 @@ export default async function deleteExchange(
       data: { name: exchange.name, vhost: "/" },
     });
     vscode.window.showInformationMessage(
-      `Successfully deleted exchange: ${exchange.name}`
+      `Rabbitrace: Successfully deleted exchange: ${exchange.name}`
     );
   } catch (e) {
     vscode.window.showErrorMessage(
-      `Failed to delete exchange: ${exchange.name}`
+      `Rabbitrace: Failed to delete exchange: ${exchange.name}`
     );
   }
 

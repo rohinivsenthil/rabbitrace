@@ -48,7 +48,9 @@ export default class ExchangeEditor
 
         webviewPanel.webview.postMessage({ name: path, bindings, overview });
       } catch (e) {
-        vscode.window.showErrorMessage("Failed to get exchange information");
+        vscode.window.showErrorMessage(
+          "Rabbitrace: Failed to get exchange information"
+        );
       }
     };
 
@@ -67,11 +69,11 @@ export default class ExchangeEditor
             data: { ...message.data, vhost: "/" },
           });
           vscode.window.showInformationMessage(
-            `Added new binding with ${message.data.destination}`
+            `Rabbitrace: Added new binding with ${message.data.destination}`
           );
         } catch (e) {
           vscode.window.showErrorMessage(
-            `Failed to add binding with ${message.data.destination}`
+            `Rabbitrace: Failed to add binding with ${message.data.destination}`
           );
         }
       }
@@ -84,11 +86,11 @@ export default class ExchangeEditor
             data: message.data,
           });
           vscode.window.showInformationMessage(
-            `Removed binding with ${message.data.destination}`
+            `Rabbitrace: Removed binding with ${message.data.destination}`
           );
         } catch (e) {
           vscode.window.showErrorMessage(
-            `Failed to remove binding with ${message.data.destination}`
+            `Rabbitrace: Failed to remove binding with ${message.data.destination}`
           );
         }
       }
@@ -101,10 +103,12 @@ export default class ExchangeEditor
             data: { ...message.data, vhost: "/" },
           });
           vscode.window.showInformationMessage(
-            "Successfully published message"
+            "Rabbitrace: Successfully published message"
           );
         } catch (e) {
-          vscode.window.showErrorMessage("Failed to publish message");
+          vscode.window.showErrorMessage(
+            "Rabbitrace: Failed to publish message"
+          );
         }
       }
 

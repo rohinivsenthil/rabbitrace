@@ -10,10 +10,12 @@ export default async function deleteQueue(queue: Queue, managementAPI: Axios) {
       data: { name: queue.name, vhost: "/", mode: "delete" },
     });
     vscode.window.showInformationMessage(
-      `Successfully deleted queue: ${queue.name}`
+      `Rabbitrace: Successfully deleted queue: ${queue.name}`
     );
   } catch (e) {
-    `Failed to delete queue: ${queue.name}`;
+    vscode.window.showInformationMessage(
+      `Rabbitrace: Failed to delete queue: ${queue.name}`
+    );
   }
 
   await vscode.commands.executeCommand("rabbitmq.queues.refresh");
