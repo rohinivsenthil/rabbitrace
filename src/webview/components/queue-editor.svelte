@@ -269,8 +269,9 @@
             </select>
             <button
               type="button"
-              class="add-args-btn vscode-button"
-              on:click={() => removeArgument(argument.idx)}>–</button
+              class="trash-btn"
+              on:click={() => removeArgument(argument.idx)}
+              ><i class="codicon codicon-trash" /></button
             >
           </div>
         {/each}
@@ -343,8 +344,9 @@
             </select>
             <button
               type="button"
-              class="add-args-btn vscode-button"
-              on:click={() => removeHeader(header.idx)}>–</button
+              class="trash-btn"
+              on:click={() => removeHeader(header.idx)}
+              ><i class="codicon codicon-trash" /></button
             >
           </div>
         {/each}
@@ -372,8 +374,9 @@
             />
             <button
               type="button"
-              class="add-args-btn vscode-button"
-              on:click={() => removeProps(prop.idx)}>–</button
+              class="trash-btn"
+              on:click={() => removeProps(prop.idx)}
+              ><i class="codicon codicon-trash" /></button
             >
           </div>
         {/each}
@@ -392,8 +395,10 @@
         />
       </div>
     </div>
-    <button type="button" class="vscode-button" on:click={publishData}
-      >Publish</button
+    <button
+      type="button"
+      class="publish-btn vscode-button"
+      on:click={publishData}>Publish</button
     >
     <div class="queue-section">
       <div class="queue-section-title">‣ Purge</div>
@@ -471,7 +476,6 @@
 
   .add-binding-title {
     padding: 0 0 5px 0;
-    /* border-bottom: 0.1px solid var(--vscode-button-secondaryHoverBackground); */
     margin-bottom: 20px;
   }
   .add-binding {
@@ -495,7 +499,7 @@
   }
   .trash-btn {
     background-color: transparent;
-    color: var(--vscode-button-foreground);
+    color: #aab2c0;
     border: transparent;
     cursor: pointer;
     padding: 5px 10px;
@@ -503,6 +507,7 @@
 
   .trash-btn:hover {
     background-color: transparent;
+    color: var(--vscode-button-foreground);
   }
 
   .add-args {
@@ -515,6 +520,10 @@
     width: fit-content;
     color: #aab2c0;
     background-color: transparent;
+  }
+
+  .publish-btn {
+    margin-top: 10px;
   }
 
   th,

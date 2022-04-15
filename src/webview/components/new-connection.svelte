@@ -42,8 +42,6 @@
         <div class="add-connection-key">Management API URL</div>
         <div class="add-connection-key">Management API Username</div>
         <div class="add-connection-key">Management API Password</div>
-        <div class="add-connection-key">AMQP URL</div>
-        <div class="add-connection-key">VHOST</div>
       </div>
       <div class="add-connection-fields">
         <input
@@ -68,17 +66,6 @@
           bind:value={connection.mapiPassword}
           type="text"
           id="mapi-password"
-          class="vscode-input add-connection-input"
-        />
-        <input
-          bind:value={connection.amqpURL}
-          type="text"
-          id="amqp-url"
-          class="vscode-input add-connection-input"
-        />
-        <input
-          type="text"
-          id="vhost"
           class="vscode-input add-connection-input"
         />
       </div>

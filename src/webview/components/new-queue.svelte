@@ -114,8 +114,9 @@
             </select>
             <button
               type="button"
-              class="add-args-btn vscode-button"
-              on:click={() => removeArgument(argument.idx)}>–</button
+              class="trash-btn"
+              on:click={() => removeArgument(argument.idx)}
+              ><i class="codicon codicon-trash" /></button
             >
           </div>
         {/each}
@@ -188,5 +189,18 @@
     width: fit-content;
     color: #aab2c0;
     background-color: transparent;
+  }
+
+  .trash-btn {
+    background-color: transparent;
+    color: #aab2c0;
+    border: transparent;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .trash-btn:hover {
+    background-color: transparent;
+    color: var(--vscode-button-foreground);
   }
 </style>
