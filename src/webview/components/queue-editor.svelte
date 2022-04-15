@@ -29,6 +29,8 @@
   };
 
   let argumentsData = [{ idx: 1, key: "", value: "" }];
+  let headersData = [{ idx: 1, key: "", value: "" }];
+  let propsData = [{ idx: 1, key: "", value: "" }];
 
   function addArgument() {
     argumentsData = [
@@ -39,6 +41,32 @@
 
   function removeArgument(idx) {
     argumentsData = argumentsData.filter(function (arg) {
+      return arg.idx !== idx;
+    });
+  }
+
+  function addHeader() {
+    headersData = [
+      ...headersData,
+      { idx: headersData.length + 1, key: "", value: "" },
+    ];
+  }
+
+  function removeHeader(idx) {
+    headersData = headersData.filter(function (arg) {
+      return arg.idx !== idx;
+    });
+  }
+
+  function addProps() {
+    propsData = [
+      ...propsData,
+      { idx: propsData.length + 1, key: "", value: "" },
+    ];
+  }
+
+  function removeProps(idx) {
+    propsData = propsData.filter(function (arg) {
       return arg.idx !== idx;
     });
   }
@@ -69,11 +97,24 @@
   }
 
   function publishData() {
+    const headers = headersData.reduce(
+      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
+      {}
+    );
+
+    const props = propsData.reduce(
+      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
+      {}
+    );
+
     const data = {
       ...publishMessageData,
+      props,
+      headers,
       properties: {
         delivery_mode: publishMessageData.delivery_mode,
-        headers: publishMessageData.headers,
+        headers,
+        ...props,
       },
     };
     vscode.postMessage({
@@ -255,8 +296,14 @@
     <div class="add-binding">
       <div class="add-binding-fields">
         <div class="add-binding-key">Delivery mode</div>
-        <div class="add-binding-key">Headers</div>
-        <div class="add-binding-key">Properties</div>
+        {#each headersData as header}
+          <div class="add-binding-key">Headers</div>
+        {/each}
+        {#each propsData as prop}
+          <div class="add-binding-key" />
+          <div class="add-binding-key">Properties</div>
+        {/each}
+        <div class="add-binding-key" />
         <div class="add-binding-key">Payload</div>
       </div>
       <div class="add-binding-fields">
@@ -269,41 +316,73 @@
           <option value={1}>Non-Persistent</option>
           <option value={2}>Persistent</option>
         </select>
-        <div class="add-binding-args">
-          <input
-            type="text"
-            id="msg-headers-key"
-            class="vscode-input add-binding-input"
-          />
-          <div>=</div>
-          <input
-            type="text"
-            id="msg-headers-value"
-            class="vscode-input add-binding-input"
-          />
-          <select
-            name="msg-header-type"
-            id="msg-header-type"
-            class="vscode-dropdown add-binding-input"
+        {#each headersData as header}
+          <div class="add-binding-args">
+            <input
+              type="text"
+              id="msg-headers-key"
+              class="vscode-input add-binding-input"
+              bind:value={header.key}
+            />
+            <div>=</div>
+            <input
+              type="text"
+              id="msg-headers-value"
+              class="vscode-input add-binding-input"
+              bind:value={header.value}
+            />
+            <select
+              name="msg-header-type"
+              id="msg-header-type"
+              class="vscode-dropdown add-binding-input"
+            >
+              <option value="string">String</option>
+              <option value="number">Number</option>
+              <option value="boolean">Boolean</option>
+              <option value="number">Number</option>
+            </select>
+            <button
+              type="button"
+              class="add-args-btn vscode-button"
+              on:click={() => removeHeader(header.idx)}>–</button
+            >
+          </div>
+        {/each}
+        <div class="add-args">
+          <button
+            type="button"
+            class="add-args-btn vscode-button"
+            on:click={addHeader}>+ Add header</button
           >
-            <option value="string">String</option>
-            <option value="number">Number</option>
-            <option value="boolean">Boolean</option>
-            <option value="number">Number</option>
-          </select>
         </div>
-        <div class="add-binding-args">
-          <input
-            type="text"
-            id="msg-props-key"
-            class="vscode-input add-binding-input"
-          />
-          <div>=</div>
-          <input
-            type="text"
-            id="msg-props-value"
-            class="vscode-input add-binding-input"
-          />
+        {#each propsData as prop}
+          <div class="add-binding-args">
+            <input
+              type="text"
+              id="msg-props-key"
+              class="vscode-input add-binding-input"
+              bind:value={prop.key}
+            />
+            <div>=</div>
+            <input
+              type="text"
+              id="msg-props-value"
+              class="vscode-input add-binding-input"
+              bind:value={prop.value}
+            />
+            <button
+              type="button"
+              class="add-args-btn vscode-button"
+              on:click={() => removeProps(prop.idx)}>–</button
+            >
+          </div>
+        {/each}
+        <div class="add-args">
+          <button
+            type="button"
+            class="add-args-btn vscode-button"
+            on:click={addProps}>+ Add props</button
+          >
         </div>
         <input
           type="text"
@@ -403,8 +482,8 @@
     flex-direction: column;
   }
   .add-binding-key {
-    padding: 5px;
-    margin: 5px 10px 5px 0;
+    padding: 6px;
+    margin: 6px;
   }
   .add-binding-input {
     padding: 5px;
