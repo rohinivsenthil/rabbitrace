@@ -24,9 +24,10 @@
   }
 
   function newExchange() {
-    const args = argumentsData.reduce(
-      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
-      {}
+    const args = Object.fromEntries(
+      argumentsData
+        .filter(({ key }) => key !== "")
+        .map(({ key, value }) => [key, value])
     );
 
     const vscode = acquireVsCodeApi();

@@ -67,9 +67,10 @@
   }
 
   function addBinding() {
-    const args = argumentsData.reduce(
-      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
-      {}
+    const args = Object.fromEntries(
+      argumentsData
+        .filter(({ key }) => key !== "")
+        .map(({ key, value }) => [key, value])
     );
 
     vscode.postMessage({
@@ -101,14 +102,16 @@
   }
 
   function publishData() {
-    const headers = headersData.reduce(
-      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
-      {}
+    const headers = Object.fromEntries(
+      headersData
+        .filter(({ key }) => key !== "")
+        .map(({ key, value }) => [key, value])
     );
 
-    const props = propsData.reduce(
-      (obj, item) => Object.assign(obj, { [item.key]: item.value }),
-      {}
+    const props = Object.fromEntries(
+      propsData
+        .filter(({ key }) => key !== "")
+        .map(({ key, value }) => [key, value])
     );
 
     const data = {
