@@ -1,7 +1,7 @@
 {
   "name": "rabbitrace",
   "displayName": "Rabbitrace",
-  "description": "A developer/management tool to help monitor RabbitMQ queues and exchanges",
+  "description": "A developer/management tool to help monitor Rabbitrace queues and exchanges",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.65.0"
@@ -29,7 +29,7 @@
     "customEditors": [
       {
         "viewType": "rabbitmq.exchange",
-        "displayName": "RabbitMQ Exchange",
+        "displayName": "Rabbitrace Exchange",
         "selector": [
           {
             "filenamePattern": "rabbitmq-exchange:**"
@@ -38,7 +38,7 @@
       },
       {
         "viewType": "rabbitmq.queue",
-        "displayName": "RabbitMQ Queue",
+        "displayName": "Rabbitrace Queue",
         "selector": [
           {
             "filenamePattern": "rabbitmq-queue:**"
@@ -66,7 +66,7 @@
       "activitybar": [
         {
           "id": "rabbitmq",
-          "title": "RabbitMQ",
+          "title": "Rabbitrace",
           "icon": "media/icon.png"
         }
       ]
@@ -76,79 +76,79 @@
         "command": "rabbitmq.connections.new",
         "title": "New Connection",
         "icon": "$(plus)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.connections.edit",
         "title": "Edit Connection",
         "icon": "$(edit)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.connections.remove",
         "title": "Remove Connection",
         "icon": "$(trash)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.connections.connect",
         "title": "Connect",
         "icon": "$(debug-start)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.connections.disconnect",
         "title": "Disconnect",
         "icon": "$(debug-stop)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.connections.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.exchanges.new",
         "title": "New Exchange",
         "icon": "$(plus)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.exchanges.delete",
         "title": "Delete",
         "icon": "$(trash)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.exchanges.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.queues.new",
         "title": "New Queue",
         "icon": "$(plus)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.queues.delete",
         "title": "Delete",
         "icon": "$(trash)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.queues.details",
         "title": "Details",
         "icon": "$(debug-disconnect)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       },
       {
         "command": "rabbitmq.queues.refresh",
         "title": "Refresh",
         "icon": "$(refresh)",
-        "category": "RabbitMQ"
+        "category": "Rabbitrace"
       }
     ],
     "menus": {
