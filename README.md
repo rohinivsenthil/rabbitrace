@@ -21,9 +21,9 @@ Rabbitrace is a [Visual Studio Code](https://code.visualstudio.com/) [extension]
 
 ## Highlighted Features
 
-- **Intuitive UI/UX** similar to Postman fitting seamlessly with any VSCode theme
-- Supports **GraphQL** requests
-- Supports **code snippet generation** from requests
+- Minimalist UI/UX to manage RabbitMQ exchanges and queues
+- Supports creating new exchanges, queues, bindings, and publishing messages between them
+- Single click toggle between different RabbitMQ connections
 
 ## Quick start
 
@@ -72,3 +72,5 @@ Contributions are always welcome!
 - You can also reload (`Ctrl+R` or `Cmd+R` on Mac) the VS Code window with your extension to load your changes.
 
 ## Related
+
+- [MIT License](https://github.com/rohinivsenthil/rabbitrace/blob/main/LICENSE)
