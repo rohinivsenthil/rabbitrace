@@ -1,3 +1,6 @@
+<div align="center">   
+  <img src="media/icon.png" height="130"/>
+ </div>
 <h1 align="center">Rabbitrace</h1>
 <div align="center">
   <strong> Manage RabbitMQ queues and exchanges</strong>  
