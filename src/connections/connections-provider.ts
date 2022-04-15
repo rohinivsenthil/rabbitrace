@@ -32,7 +32,7 @@ export default class ConnectionsProvider
   getTreeItem(connection: Connection): vscode.TreeItem {
     const item = new vscode.TreeItem(connection.name);
 
-    item.description = connection.amqpURL;
+    item.description = connection.mapiURL;
 
     item.iconPath =
       connection.name === this.connected
