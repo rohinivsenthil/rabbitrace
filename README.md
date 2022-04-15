@@ -14,7 +14,7 @@
 Rabbitrace is a [Visual Studio Code](https://code.visualstudio.com/) [extension](https://marketplace.visualstudio.com/VSCode) to help developers manage and monitor RabbitMQ queues and exchanges. You can find the extension available [here](https://marketplace.visualstudio.com/items?itemName=rohinivsenthil.rabbitrace).
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/42040329/120920378-0c83c880-c6dc-11eb-814a-e667563eed95.gif"/>
+  <img src="https://user-images.githubusercontent.com/42040329/163556688-d7547255-d90f-4e76-862c-dcacbec5db3d.gif"/>
   <br/>
   <sup>Release: 1.0.0</sup>
 </div>
