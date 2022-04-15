@@ -1,7 +1,7 @@
 {
   "name": "rabbitrace",
   "displayName": "Rabbitrace",
-  "description": "A developer/management tool to help monitor Rabbitrace queues and exchanges",
+  "description": "A developer/management tool to help monitor RabbitMQ queues and exchanges",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.65.0"
