@@ -76,7 +76,17 @@
       type: "add-binding",
       data: { ...addBindingData, arguments: args },
     });
+
+    addBindingData = {
+      destination: "",
+      destination_type: "q",
+      source: "",
+      routing_key: "",
+      arguments: {},
+    };
+    argumentsData = [{ idx: 1, key: "", value: "" }];
   }
+
   function removeBinding(binding) {
     vscode.postMessage({
       type: "remove-binding",
