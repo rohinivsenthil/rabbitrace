@@ -55,6 +55,7 @@
           type="text"
           id="mapi-url"
           class="vscode-input add-connection-input"
+          placeholder="http://localhost:15672"
         />
         <input
           bind:value={connection.mapiUsername}
