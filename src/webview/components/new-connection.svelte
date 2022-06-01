@@ -65,7 +65,7 @@
         />
         <input
           bind:value={connection.mapiPassword}
-          type="text"
+          type="password"
           id="mapi-password"
           class="vscode-input add-connection-input"
         />
